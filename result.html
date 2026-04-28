@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おもいのパレット-結果</title>
+    <!-- Kosugi Maru フォントを追加 -->
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 全体 -->
+    <div class="page-container">
+      <!-- 結果表示 -->
+      <div>
+        <h2 style="text-align: center">
+          あなたが<ruby>選<rt>えら</rt></ruby
+          >んだ<br />「おもい」はこんなことば
+        </h2>
+      </div>
+      <div id="slideshow">
+        <span class="arrow leftArrow"></span>
+        <div id="photo">
+          <img id="main" />
+        </div>
+        <span class="arrow rightArrow"></span>
+      </div>
+
+      <br />
+      <!-- 戻る -->
+      <a href="AreaSelect.html"
+        ><button class="custom-btn">
+          <span class="btn-text"
+            >エリア<ruby>選択<rt>せんたく</rt></ruby
+            >にもどる</span
+          >
+        </button></a
+      >
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

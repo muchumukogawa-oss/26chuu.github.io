@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おもいのパレット-第1象限の色選択</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- 全体 -->
+    <div class="page-container">
+      <!-- 色選択 -->
+      <div>
+        <h2 class="h2_color" style="text-align: center">
+          あなたの<ruby>思<rt>おも</rt></ruby
+          >う「おもい」の<ruby>色<rt>いろ</rt></ruby
+          >を<br /><ruby>選<rt>えら</rt></ruby
+          >んでタップしてね
+        </h2>
+      </div>
+
+      <div class="button-16grid" id="area1">
+        <!-- エリア別軸ラベル -->
+        <p class="upper_left">ポジティブ</p>
+        <p class="lower_right">動的</p>
+        <!-- 色ボタン -->
+        <button id="#92d050"><!-- 1 --></button>
+        <button id="#ffee00"><!-- 2 --></button>
+        <button id="#ffd500"><!-- 3 --></button>
+        <button id="#ff0000"><!-- 4 --></button>
+        <button id="#f7ff40"><!-- 5 --></button>
+        <button id="#ff9900"><!-- 6 --></button>
+        <button id="#fc6204"><!-- 7 --></button>
+        <button id="#ff4343"><!-- 8 --></button>
+        <button id="#fff354"><!-- 9 --></button>
+        <button id="#ffba45"><!-- 10 --></button>
+        <button id="#ff92e0"><!-- 11 --></button>
+        <button id="#ff8989"><!-- 12 --></button>
+        <button id="#f0ea00"><!-- 13 --></button>
+        <button id="#f1a983"><!-- 14 --></button>
+        <button id="#ffcc99"><!-- 15 --></button>
+        <button id="#ff8db4"><!-- 16 --></button>
+      </div>
+
+      <!-- 戻る -->
+      <a href="AreaSelect.html">
+        <button id="backBtn" class="custom-btn back-btn">
+          <span class="btn-text"><ruby>戻<rt>もど</rt>る</ruby></span>
+        </button>
+      </a>
+    </div>
+    <!-- 確認ポップアップ -->
+    <div id="confirmPopup" class="confirm-popup" style="display: none">
+      <div class="popup-content">
+        <p class="popup-text">これでいいですか？</p>
+        <div class="color-circle" id="selectedColor"></div>
+        <div class="confirm-buttons">
+          <button id="yesBtn" class="custom-btn yes-btn">
+            <span class="btn-text">はい</span>
+          </button>
+          <button id="noBtn" class="no-btn">
+            <span class="btn-text">いいえ</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,676 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #eee;
+  font-family: 'Kosugi Maru', sans-serif;
+}
+
+ruby {
+  ruby-position: over; /* 上に表示（デフォルト） */
+}
+
+rt {
+  font-size: 0.5em; /* 小さめに */
+}
+
+/* ページ全体 */
+.page-container {
+  font-family: 'Kosugi Maru', sans-serif;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: white;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* image */
+#main {
+  width: 384px;
+  height: 294px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:any-link {
+  color: #fff;
+}
+
+/* 共通ボタンスタイル */
+.btn-text {
+  position: relative;
+  overflow: visible;
+  z-index: 3; /* 擬似要素より前面 */
+}
+
+.custom-btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12.5px 36.5px;
+  border: none;
+  border-radius: 100px;
+  font-family: 'Kosugi Maru';
+  font-size: 26px;
+  line-height: 160%;
+  color: #fff; /* 文字色 */
+  cursor: pointer;
+  overflow: visible;
+  z-index: 2;
+}
+
+/* 背景用擬似要素（文字より下に配置） */
+.custom-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: #232323; /* 黒背景 */
+  z-index: 1; /* 文字より下 */
+}
+
+/* 斜線影用擬似要素（最背面に配置） */
+.custom-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: repeating-linear-gradient(45deg, #fff 0 4px, #000 4px 9px);
+  transform: translate(6px, 6px);
+  z-index: 0; /* 背景のさらに下 */
+}
+
+/* ホバー時のアニメーション */
+.custom-btn:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+/* 押したとき */
+.custom-btn:active {
+  transform: scale(0.95);
+}
+
+/* ==========================
+  index.html
+  ========================== */
+
+/* ロゴ */
+.logo img {
+  margin-bottom: 69px; /* ロゴと「はじめる」の間隔 */
+}
+
+/* 感情キャラたちの位置指定 */
+.emotion {
+  position: absolute;
+  width: 12vw; /* 画面幅に応じて変化 */
+  max-width: 140px;
+  min-width: 80px;
+}
+
+/* 怒りくん：左上 */
+.anger {
+  top: 2vw;
+  left: 2vw;
+  width: 235.51px;
+  height: auto;
+  transform: rotate(38.25deg); /* 38.25度傾ける */
+}
+
+/* 信頼くん：右上 */
+.trust {
+  top: 2vw;
+  right: 2vw;
+  width: 210.855px;
+  height: auto;
+  transform: rotate(-32.776deg); /* -32.776度傾ける */
+}
+
+/* 快適くん：左下 */
+.comfortable {
+  bottom: 2vw;
+  left: 2vw;
+  width: 225.711px;
+  height: auto;
+  transform: rotate(12.781deg); /* 12.781度傾ける */
+}
+
+/* 悲しみくん：右下 */
+.sad {
+  bottom: 2vw;
+  right: 2vw;
+  width: 244.419px;
+  height: auto;
+  transform: rotate(-37.173deg);
+}
+
+/* ポップアップ全体 */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ポップアップ内容 */
+.popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 600px;
+  height: 80%;
+  overflow-y: auto;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 閉じるボタン */
+.close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* ボタン配置 */
+.popup-buttons {
+  text-align: center;
+  position: sticky;
+  bottom: 0; /* 下端に固定 */
+}
+
+/* 同意する*/
+.agree-btn {
+  font-size: 16px;
+  padding: 6px 14px;
+}
+
+.agree-btn::after {
+  background: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+  transform: translate(4px, 4px);
+}
+
+/* ==========================
+  play.html
+  ========================== */
+
+.card {
+  position: relative;
+  background-color: #fff;
+  border: 3px solid #000;
+  border-radius: 12px;
+  width: 354px;
+  padding: 16px;
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+/* 点線の影部分 */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 100%;
+  height: 100%;
+  border-right: 4px dotted #000;
+  border-bottom: 4px dotted #000;
+  border-radius: 12px;
+  z-index: 0;
+}
+.title {
+  font-size: 32px;
+  margin: 8px;
+  position: relative;
+  line-height: 160%;
+}
+
+.title ruby rt {
+  font-size: 12px;
+}
+
+hr {
+  border: none;
+  border-top: 3px solid #000;
+  margin: 8px 0 16px;
+}
+.steps {
+  text-align: left;
+  font-size: 18px;
+  line-height: 180%;
+}
+
+.steps ruby rt {
+  font-size: 10px;
+}
+
+ol {
+  margin: 0;
+  padding: 0;
+}
+ol li {
+  list-style: none;
+  padding-left: 1.3em;
+  text-indent: -1.3em;
+}
+
+/* 快適くん */
+.comfortable-in-howto {
+  margin-top: 28px;
+  margin-right: 22px;
+  position: absolute;
+  bottom: -65%; /* 少し下に出す感じ */
+  right: -8%;
+  width: 50%;
+  height: auto;
+}
+
+/* 次へボタン */
+.next {
+  margin-top: 177px;
+  padding-top: 29px;
+}
+
+/* ==========================
+  AreaSelect.html
+  ========================== */
+
+#h2 {
+  position: relative;
+  bottom: 90px;
+}
+
+/* ボタン4象限 */
+.button-4grid {
+  position: relative;
+  bottom: 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 180px); /* 横2列 */
+  grid-template-rows: repeat(2, 180px); /* 縦2行 */
+  /* gap: 10px; ボタンの間隔 */
+  /* 背景画像 */
+  background-image: url('img/色全体_線あり修正版.png');
+  background-size: cover; /*枠に合わせて拡大縮小*/
+  background-position: center;
+}
+
+.button-4grid button {
+  width: 180px;
+  height: 180px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 0;
+  border: 0.5px solid #ccc;
+  background: transparent;
+}
+
+/* ボタン配置 */
+.confirm-buttons {
+  margin-top: 20px;
+}
+.confirm-buttons button {
+  margin: 0 10px;
+}
+
+/* 軸ラベル */
+/* 軸ラベル共通 */
+.positive-label,
+.negative-label,
+.dynamic-label,
+.static-label {
+  position: absolute;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none; /* クリック操作を邪魔しない */
+}
+
+.positive-label,
+.negative-label {
+  left: 50%; /* 横の中央 */
+  transform: translateX(-50%);
+}
+
+.dynamic-label,
+.static-label {
+  top: 176px;
+  transform: translateY(-50%);
+  background-color: #ffffff;
+  writing-mode: vertical-rl; /* 縦書き */
+  text-orientation: upright; /* 文字を正立表示 */
+}
+
+/* ポジティブ：#2_area と #1_area の真ん中上部 */
+.positive-label {
+  top: -50px; /* ボタン上の位置（上下調整用） */
+}
+
+/* ネガティブ：#3_area と #4_area の真ん中下部 */
+.negative-label {
+  bottom: -50px;
+}
+
+/* 動的：#1_area と #4_area の真ん中右部 */
+.dynamic-label {
+  right: -35px;
+}
+/* 静的：#2_area と #3_area の真ん中左部 */
+.static-label {
+  left: -35px;
+}
+
+/* ==========================
+  num_area.html
+  ========================== */
+/* 確認ポップアップ全体 */
+.confirm-popup {
+  display: none; /* 最初は非表示 */
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+/* ポップアップの内容 */
+.confirm-popup .popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: 20px;
+  line-height: 160%; /* 32px */
+  width: auto; /* 内容に合わせる */
+  height: auto; /* 内容に合わせる */
+  padding: 24px 32px; /* 余白を付ける */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.confirm-popup .popup-content ruby rt {
+  font-size: 12px;
+  line-height: 160%; /* 19.2px */
+}
+
+.yes-btn {
+  padding: 6px 14px;
+  font-size: 16px;
+}
+
+.yes-btn::after {
+  background: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+  transform: translate(3px, 3px);
+}
+
+.no-btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 14px;
+  border: 2px solid var(--gray100, #616161);
+  border-radius: 100px;
+  font-family: 'Kosugi Maru';
+  font-size: 16px;
+  line-height: 160%;
+  color: #000; /* 文字色 */
+  cursor: pointer;
+  overflow: visible;
+  z-index: 2;
+}
+.no-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: #fff; /* 白背景 */
+  z-index: 1; /* 文字より下 */
+}
+.no-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: radial-gradient(circle, #000 30%, transparent 30%) 0 0 / 3px 3px;
+  transform: translate(6px, 5px);
+  z-index: 0; /* 背景のさらに下 */
+}
+
+.color-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  /* border: 4px solid #aaa; */
+  margin: 16px auto;
+  background: transparent;
+}
+
+/* 16色選択 */
+.button-16grid {
+  position: relative; /* 追加：子要素の絶対位置基準 */
+  display: grid;
+  grid-template-columns: repeat(4, 90px); /* 横2列 */
+  grid-template-rows: repeat(4, 90px); /* 縦2行 */
+  /* 背景透明 */
+  background: transparent;
+}
+
+.button-16grid button {
+  width: 90px;
+  height: 90px;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 0;
+  border: 0.5px solid #ccc;
+  /* 背景透明 */
+  background: transparent;
+}
+
+#area1 {
+  background-image: url('img/ポジティブ動的.png');
+  background-size: cover; /*枠に合わせて拡大縮小 */
+  background-position: center;
+}
+
+#area2 {
+  background-image: url('img/ポジティブ静的.png');
+  background-size: cover; /*枠に合わせて拡大縮小 */
+  background-position: center;
+}
+
+#area3 {
+  background-image: url('img/ネガティブ静的.png');
+  background-size: cover; /*枠に合わせて拡大縮小 */
+  background-position: center;
+}
+
+#area4 {
+  background-image: url('img/ネガティブ動的.png');
+  background-size: cover; /*枠に合わせて拡大縮小 */
+  background-position: center;
+}
+
+.h2_color {
+  position: relative;
+  bottom: 30px;
+}
+
+#backBtn {
+  margin-top: 30px;
+}
+
+.back-btn {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12.5px 36.5px;
+  border: 2px solid var(--gray100, #616161);
+  border-radius: 100px;
+  font-family: 'Kosugi Maru';
+  font-size: 26px;
+  line-height: 160%;
+  color: #000; /* 文字色 */
+  cursor: pointer;
+  overflow: visible;
+  z-index: 2;
+}
+
+.back-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: #fff; /* 白背景 */
+  z-index: 1; /* 文字より下 */
+}
+
+.back-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: radial-gradient(circle, #000 30%, transparent 30%) 0 0 / 4px 4px;
+  transform: translate(6px, 5px);
+  z-index: 0; /* 背景のさらに下 */
+}
+
+/* エリア別軸ラベル */
+.upper_left,
+.upper_right,
+.lower_left,
+.lower_right {
+  position: absolute;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none; /* クリック操作を邪魔しない */
+}
+
+.upper_left,
+.upper_right {
+  top: -50px;
+}
+
+.lower_right,
+.lower_left {
+  top: 350px;
+}
+
+.upper_left {
+  left: 0;
+}
+
+.upper_right {
+  right: 0;
+}
+
+.lower_left {
+  left: 0;
+}
+
+.lower_right {
+  right: 0;
+}
+
+/* ==========================
+  result.html
+  ========================== */
+/* 参考 https://www.pressmantech.com/tech/design/2738#arrow-sample4-6 */
+
+:root {
+  --color: lightgray; /* 矢印の色 */
+  --size: 4; /* 矢印の大きさ */
+  --weight: 2.5px;
+  /* 枠の太さ */
+}
+
+#slideshow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 320px; /* 画像の高さに合わせて調整 */
+}
+.arrow {
+  position: absolute;
+  top: 50%; /* 画像の高さの半分 */
+  transform: translateY(-50%);
+  z-index: 2;
+}
+.leftArrow {
+  left: 0; /* 左端 */
+}
+
+.rightArrow {
+  /* 右端 */
+  right: 33px;
+}
+
+.arrow::before,
+.arrow::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  content: '';
+  vertical-align: middle;
+}
+
+.arrow::before {
+  box-sizing: border-box;
+  width: calc(12px * var(--size));
+  height: calc(12px * var(--size));
+  border: var(--weight) solid var(--color);
+  border-radius: 25%;
+}
+
+.arrow::after {
+  box-sizing: border-box;
+  width: calc(3px * var(--size));
+  height: calc(3px * var(--size));
+  border: calc(3px * var(--size)) solid transparent;
+}
+
+.rightArrow {
+  padding: 0 0 0 calc(4px * var(--size));
+}
+
+.leftArrow {
+  padding: 0 calc(12px * var(--size)) 0 0;
+}
+
+.rightArrow::after {
+  left: calc(5px * var(--size));
+  border-left: calc(3px * var(--size)) solid var(--color);
+}
+
+.leftArrow::after {
+  left: calc(3px * var(--size) / 2);
+  border-right: calc(3px * var(--size)) solid var(--color);
+}
