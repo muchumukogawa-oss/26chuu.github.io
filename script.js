@@ -15,7 +15,7 @@ if (startBtn && popup && closeBtn && agreeBtn) {
   closeBtn.addEventListener('click', () => (popup.style.display = 'none'));
 
   agreeBtn.addEventListener('click', () => {
-    window.location.href = 'play.html';
+    window.location.href = 'test.html';
   });
 }
 

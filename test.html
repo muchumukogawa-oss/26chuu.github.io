@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おもいのパレット-ニックネーム入力</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .input-box {
+        width: 100%;
+        max-width: 300px;
+        padding: 12px 14px;
+        font-size: 18px;
+        border: 2px solid #000;
+        border-radius: 12px;
+        box-sizing: border-box;
+        margin: 12px auto;
+        display: block;
+        position: relative;
+        z-index: 5;
+        background: #fff;
+        pointer-events: auto;
+      }
+      .button-group {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .action-button {
+        min-height: 70px;
+      }
+      .status-text {
+        margin-top: 16px;
+        font-size: 16px;
+        color: #444;
+      }
+      .card p {
+        margin: 0 0 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="card">
+        <p class="title">ニックネーム入力</p>
+        <hr />
+        <p>ニックネームを入力して「確定」ボタンを押し、その後に下のいずれかのボタンを押してください。</p>
+        <input id="nicknameInput" class="input-box" type="text" placeholder="ニックネームを入力" maxlength="20" />
+        <button id="confirmNickname" class="custom-btn agree-btn"><span class="btn-text">確定</span></button>
+        <div class="button-group">
+          <button class="custom-btn action-button" data-button="ボタン1"><span class="btn-text">ボタン1</span></button>
+          <button class="custom-btn action-button" data-button="ボタン2"><span class="btn-text">ボタン2</span></button>
+          <button class="custom-btn action-button" data-button="ボタン3"><span class="btn-text">ボタン3</span></button>
+        </div>
+        <p id="status" class="status-text">ニックネームを確定すると、ボタンが有効になります。</p>
+      </div>
+    </div>
+    <script>
+      const nicknameInput = document.getElementById('nicknameInput');
+      const confirmBtn = document.getElementById('confirmNickname');
+      const actionButtons = Array.from(document.querySelectorAll('.action-button'));
+      const status = document.getElementById('status');
+      let nickname = '';
+
+      const logEndpoint = ''; // GitHubサーバー等の受信APIがある場合はURLをここに入れてください
+
+      const setStatus = (text) => {
+        status.textContent = text;
+      };
+
+      const enableButtons = (enabled) => {
+        actionButtons.forEach((btn) => {
+          btn.disabled = !enabled;
+          btn.style.opacity = enabled ? '1' : '0.5';
+          btn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+        });
+      };
+
+      const createLog = (buttonName) => {
+        return {
+          nickname,
+          button: buttonName,
+          timestamp: new Date().toISOString(),
+        };
+      };
+
+      const saveLogLocally = (log) => {
+        const stored = JSON.parse(localStorage.getItem('nicknameLogs') || '[]');
+        stored.push(log);
+        localStorage.setItem('nicknameLogs', JSON.stringify(stored));
+      };
+
+      const sendLogToServer = async (log) => {
+        if (!logEndpoint) {
+          return;
+        }
+        try {
+          await fetch(logEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(log),
+          });
+        } catch (error) {
+          console.error('ログ送信に失敗しました:', error);
+        }
+      };
+
+      confirmBtn.addEventListener('click', () => {
+        const value = nicknameInput.value.trim();
+        if (!value) {
+          setStatus('ニックネームを入力してください。');
+          return;
+        }
+        nickname = value;
+        localStorage.setItem('nickname', nickname);
+        setStatus(`「${nickname}」で確定しました。ボタンを押して次へ進んでください。`);
+        enableButtons(true);
+      });
+
+      actionButtons.forEach((button) => {
+        button.disabled = true;
+        button.style.opacity = '0.5';
+        button.addEventListener('click', async () => {
+          if (!nickname) {
+            setStatus('先にニックネームを確定してください。');
+            return;
+          }
+          const log = createLog(button.dataset.button);
+          console.log('クリックログ:', log);
+          saveLogLocally(log);
+          await sendLogToServer(log);
+          setStatus('ログを記録しました。play.html に移動します...');
+          setTimeout(() => {
+            window.location.href = 'play.html';
+          }, 700);
+        });
+      });
+    </script>
+  </body>
+</html>
