@@ -80,6 +80,10 @@ a:any-link {
   z-index: 1; /* 文字より下 */
 }
 
+.custom-btn.is-played::before {
+  background: #444; /* クリック後のグレー背景 */
+}
+
 /* 斜線影用擬似要素（最背面に配置） */
 .custom-btn::after {
   content: '';
@@ -91,15 +95,14 @@ a:any-link {
   z-index: 0; /* 背景のさらに下 */
 }
 
-/* ホバー時のアニメーション */
-.custom-btn:hover {
-  transform: scale(1.05);
-  filter: brightness(1.2);
+.custom-btn.is-played::after {
+  background: repeating-linear-gradient(45deg, #fff 0 4px, #444 4px 9px);
 }
 
-/* 押したとき */
+.custom-btn:hover,
 .custom-btn:active {
-  transform: scale(0.95);
+  transform: none;
+  filter: none;
 }
 
 /* ==========================
@@ -291,6 +294,10 @@ ol li {
   margin-top: 177px;
   padding-top: 29px;
 }
+
+/* ==========================
+  movie.html
+  ========================== */
 
 /* ==========================
   AreaSelect.html

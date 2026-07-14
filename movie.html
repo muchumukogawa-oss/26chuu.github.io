@@ -13,13 +13,18 @@
       <!-- 動画 -->
       <div>
         <h2 id="h2" style="text-align: center">
-        このシチュエーションに合う色を<br>イメージしてください
+          このシチュエーションに合う色を<br />イメージしてください
         </h2>
-        <video src="movie/sample.mp4" autoplay muted playsinline width="400px"></video>
-        <!-- <button  class="custom-btn next-btn">
+        <video id="movieVideo" src="movie/sample.mp4" playsinline width="400px" preload="metadata" muted></video>
+
+        <!-- <div class="next"> -->
+          <br/>
+          <button id="playMovieBtn" class="custom-btn next-btn">
             <span class="btn-text">動画再生</span>
           </button>
-      </div> -->
+        <!-- </div> -->
+      </div>
+
       <!-- 次へ -->
       <div class="next">
         <a href="AreaSelect.html">

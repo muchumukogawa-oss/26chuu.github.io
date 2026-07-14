@@ -23,6 +23,33 @@ if (startBtn) {
   // });
 }
 
+// movie.html 用
+const movieVideo = document.getElementById('movieVideo');
+const playMovieBtn = document.getElementById('playMovieBtn');
+let hasPlayedMovie = false;
+
+if (movieVideo && playMovieBtn) {
+  playMovieBtn.addEventListener('click', async () => {
+    if (hasPlayedMovie) return;
+
+    hasPlayedMovie = true;
+    playMovieBtn.classList.add('is-played');
+    movieVideo.currentTime = 0;
+
+    try {
+      await movieVideo.play();
+    } catch (error) {
+      console.error('動画再生に失敗しました:', error);
+      hasPlayedMovie = false;
+      playMovieBtn.classList.remove('is-played');
+    }
+  });
+
+  movieVideo.addEventListener('ended', () => {
+    hasPlayedMovie = true;
+  });
+}
+
 // num_area.html 用
 const buttons = document.querySelectorAll('.button-16grid button');
 const confirmPopup = document.getElementById('confirmPopup');
