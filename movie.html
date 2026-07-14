@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おもいのパレット-動画問題</title>
+    <!-- Kosugi Maru フォントを追加 -->
+    <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- 動画 -->
+      <div>
+        <h2 id="h2" style="text-align: center">
+        このシチュエーションに合う色を<br>イメージしてください
+        </h2>
+        <video src="movie/sample.mp4" autoplay muted playsinline width="400px"></video>
+        <!-- <button  class="custom-btn next-btn">
+            <span class="btn-text">動画再生</span>
+          </button>
+      </div> -->
+      <!-- 次へ -->
+      <div class="next">
+        <a href="AreaSelect.html">
+          <button id="nextBtn" class="custom-btn next-btn">
+            <span class="btn-text">色選択へ</span>
+          </button>
+        </a>
+      </div>
+    <script src="script.js"></script>
+  </body>
+</html>
