@@ -1,5 +1,45 @@
 'use strict';
 
+const NICKNAME_STORAGE_KEY = 'nickname';
+const ANSWER_START_TIME_KEY = 'answerStartTime';
+
+function getNickname() {
+  return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
+}
+
+async function appendLogEntry(entry) {
+  try {
+    await fetch('/api/logs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry)
+    });
+  } catch (error) {
+    console.error('ログ送信に失敗しました:', error);
+  }
+}
+
+function setAnswerStartTime(time) {
+  sessionStorage.setItem(ANSWER_START_TIME_KEY, String(time));
+}
+
+function getAnswerStartTime() {
+  const storedValue = sessionStorage.getItem(ANSWER_START_TIME_KEY);
+  if (!storedValue) return null;
+  const parsedValue = Number(storedValue);
+  return Number.isNaN(parsedValue) ? null : parsedValue;
+}
+
+function clearAnswerStartTime() {
+  sessionStorage.removeItem(ANSWER_START_TIME_KEY);
+}
+
+function getElapsedTimeSeconds() {
+  const startTime = getAnswerStartTime();
+  if (!startTime) return '0.00';
+  return ((Date.now() - startTime) / 1000).toFixed(2);
+}
+
 // index.html 用
 const startBtn = document.querySelector('.start-btn');
 // const popup = document.getElementById('popup');
@@ -33,6 +73,7 @@ if (movieVideo && playMovieBtn) {
     if (hasPlayedMovie) return;
 
     hasPlayedMovie = true;
+    setAnswerStartTime(Date.now());
     playMovieBtn.classList.add('is-played');
     movieVideo.currentTime = 0;
 
@@ -41,6 +82,7 @@ if (movieVideo && playMovieBtn) {
     } catch (error) {
       console.error('動画再生に失敗しました:', error);
       hasPlayedMovie = false;
+      clearAnswerStartTime();
       playMovieBtn.classList.remove('is-played');
     }
   });
@@ -66,6 +108,18 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
       selectedId = btn.id;
       selectedColorCircle.style.background = selectedId; // idがカラーコード
       confirmPopup.style.display = 'flex';
+
+      const areaDiv = document.querySelector('.button-16grid');
+      const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
+      appendLogEntry({
+        ニックネーム: getNickname(),
+        タイムスタンプ: new Date().toISOString(),
+        問題番号: areaNum,
+        選択した色: selectedId,
+        'クリックY/N': '未確定',
+        解答時間: getElapsedTimeSeconds(),
+        評価: '選択済み'
+      });
     });
   });
 
@@ -73,11 +127,32 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
   yesBtn.addEventListener('click', () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
+    appendLogEntry({
+      ニックネーム: getNickname(),
+      タイムスタンプ: new Date().toISOString(),
+      問題番号: areaNum,
+      選択した色: selectedId,
+      'クリックY/N': 'Yes',
+      解答時間: getElapsedTimeSeconds(),
+      評価: '確定'
+    });
+    clearAnswerStartTime();
     window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(selectedId)}`;
   });
 
   // 「いいえ」押下時
   noBtn.addEventListener('click', () => {
+    const areaDiv = document.querySelector('.button-16grid');
+    const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
+    appendLogEntry({
+      ニックネーム: getNickname(),
+      タイムスタンプ: new Date().toISOString(),
+      問題番号: areaNum,
+      選択した色: selectedId,
+      'クリックY/N': 'No',
+      解答時間: getElapsedTimeSeconds(),
+      評価: '再選択'
+    });
     confirmPopup.style.display = 'none';
   });
 }
