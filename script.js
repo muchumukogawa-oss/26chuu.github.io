@@ -2,11 +2,58 @@
 
 const NICKNAME_STORAGE_KEY = 'nickname';
 const ANSWER_START_TIME_KEY = 'answerStartTime';
+const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
+const SELECTED_COLOR_KEY = 'selectedColor';
 
 function getNickname() {
   return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
 }
 
+// 解答開始時間を保存する
+function setAnswerStartTime(time) {
+  sessionStorage.setItem(ANSWER_START_TIME_KEY, String(time));
+}
+
+// 解答開始時間を取得する
+function getAnswerStartTime() {
+  const storedValue = sessionStorage.getItem(ANSWER_START_TIME_KEY);
+  if (!storedValue) return null;
+  const parsedValue = Number(storedValue);
+  return Number.isNaN(parsedValue) ? null : parsedValue;
+}
+
+// 解答開始時間をクリア
+function clearAnswerStartTime() {
+  sessionStorage.removeItem(ANSWER_START_TIME_KEY);
+}
+
+// 現在の問題番号を保存する
+function setCurrentProblemNumber(value) {
+  sessionStorage.setItem(CURRENT_PROBLEM_KEY, String(value));
+}
+
+// 現在の問題番号を取得する
+function getCurrentProblemNumber() {
+  return sessionStorage.getItem(CURRENT_PROBLEM_KEY) || '';
+}
+
+// 選択した色を保存する
+function setSelectedColor(value) {
+  sessionStorage.setItem(SELECTED_COLOR_KEY, String(value));
+}
+
+// 選択した色を取得する
+function getSelectedColor() {
+  return sessionStorage.getItem(SELECTED_COLOR_KEY) || '';
+}
+
+function getElapsedTimeSeconds() {
+  const startTime = getAnswerStartTime();
+  if (!startTime) return '0.00';
+  return ((Date.now() - startTime) / 1000).toFixed(2);
+}
+
+// ログをサーバーに送信する関数
 async function appendLogEntry(entry) {
   try {
     await fetch('/api/logs', {
@@ -19,25 +66,18 @@ async function appendLogEntry(entry) {
   }
 }
 
-function setAnswerStartTime(time) {
-  sessionStorage.setItem(ANSWER_START_TIME_KEY, String(time));
-}
-
-function getAnswerStartTime() {
-  const storedValue = sessionStorage.getItem(ANSWER_START_TIME_KEY);
-  if (!storedValue) return null;
-  const parsedValue = Number(storedValue);
-  return Number.isNaN(parsedValue) ? null : parsedValue;
-}
-
-function clearAnswerStartTime() {
-  sessionStorage.removeItem(ANSWER_START_TIME_KEY);
-}
-
-function getElapsedTimeSeconds() {
-  const startTime = getAnswerStartTime();
-  if (!startTime) return '0.00';
-  return ((Date.now() - startTime) / 1000).toFixed(2);
+// ログイベントを記録する関数
+async function logAnswerEvent(clickYn, extra = {}) {
+  const entry = {
+    ニックネーム: getNickname(),
+    タイムスタンプ: new Date().toISOString(),
+    問題番号: getCurrentProblemNumber(),
+    選択した色: getSelectedColor(),
+    'クリックY/N': clickYn,
+    解答時間: getElapsedTimeSeconds(),
+    評価: extra.evaluation ?? ''
+  };
+  await appendLogEntry(entry);
 }
 
 // index.html 用
@@ -75,6 +115,7 @@ if (movieVideo && playMovieBtn) {
     if (!isCorrectPage) {
       playMovieBtn.dataset.played = 'true';
       playMovieBtn.disabled = true;
+      setAnswerStartTime(Date.now()); // 解答開始時間を保存
     }
 
     try {
@@ -107,58 +148,46 @@ const noBtn = document.getElementById('noBtn');
 let selectedId = null;
 
 if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn) {
-  // ボタン押下時
   buttons.forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       selectedId = btn.id;
-      selectedColorCircle.style.background = selectedId; // idがカラーコード
+      selectedColorCircle.style.background = selectedId;
       confirmPopup.style.display = 'flex';
 
       const areaDiv = document.querySelector('.button-16grid');
       const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-      appendLogEntry({
-        ニックネーム: getNickname(),
-        タイムスタンプ: new Date().toISOString(),
-        問題番号: areaNum,
-        選択した色: selectedId,
-        'クリックY/N': '未確定',
-        解答時間: getElapsedTimeSeconds(),
-        評価: '選択済み'
-      });
+      setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
+      setSelectedColor(selectedId); // 選択した色を保存
+      await logAnswerEvent('色選択');
     });
   });
 
-  // 「はい」押下時
-  yesBtn.addEventListener('click', () => {
+  yesBtn.addEventListener('click', async () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    appendLogEntry({
-      ニックネーム: getNickname(),
-      タイムスタンプ: new Date().toISOString(),
-      問題番号: areaNum,
-      選択した色: selectedId,
-      'クリックY/N': 'Yes',
-      解答時間: getElapsedTimeSeconds(),
-      評価: '確定'
-    });
-    clearAnswerStartTime();
-    window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(selectedId)}`;
+    setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
+    setSelectedColor(selectedId || ''); // 選択した色を保存
+    await logAnswerEvent('Yes'); // ログに「Yes」を記録
+    window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(selectedId || '')}`;
   });
 
-  // 「いいえ」押下時
-  noBtn.addEventListener('click', () => {
+  noBtn.addEventListener('click', async () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    appendLogEntry({
-      ニックネーム: getNickname(),
-      タイムスタンプ: new Date().toISOString(),
-      問題番号: areaNum,
-      選択した色: selectedId,
-      'クリックY/N': 'No',
-      解答時間: getElapsedTimeSeconds(),
-      評価: '再選択'
-    });
+    setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
+    setSelectedColor(selectedId || ''); // 選択した色を保存
+    await logAnswerEvent('No'); // ログに「No」を記録
     confirmPopup.style.display = 'none';
+  });
+}
+
+const reviewNextBtn = document.getElementById('reviewNextBtn');
+if (reviewNextBtn) {
+  reviewNextBtn.addEventListener('click', async (event) => {
+    event.preventDefault();
+    await logAnswerEvent('review-next', { evaluation: '' }); // ログに「review-next」を記録
+    clearAnswerStartTime(); // 解答時間をクリア
+    window.location.href = 'correct.html';
   });
 }
 

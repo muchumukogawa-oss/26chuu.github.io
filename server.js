@@ -38,7 +38,8 @@ function buildCsvRow(entry) {
 function appendLogEntry(entry) {
   ensureCsvFile();
   const row = buildCsvRow(entry);
-  Deno.appendTextFileSync(csvPath, `${row}\n`, { encoding: 'utf-8' });
+  const existing = Deno.readTextFileSync(csvPath, { encoding: 'utf-8' });
+  Deno.writeTextFileSync(csvPath, `${existing}${row}\n`, { encoding: 'utf-8' });
 }
 
 function getContentType(filePath) {
