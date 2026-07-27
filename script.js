@@ -63,32 +63,37 @@ if (startBtn) {
   // });
 }
 
-// movie.html 用
+// movie.html / correct.html 用
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
-let hasPlayedMovie = false;
+const isCorrectPage = window.location.pathname.endsWith('correct.html');
 
 if (movieVideo && playMovieBtn) {
   playMovieBtn.addEventListener('click', async () => {
-    if (hasPlayedMovie) return;
+    if (!isCorrectPage && playMovieBtn.dataset.played === 'true') return;
 
-    hasPlayedMovie = true;
-    setAnswerStartTime(Date.now());
-    playMovieBtn.classList.add('is-played');
-    movieVideo.currentTime = 0;
+    if (!isCorrectPage) {
+      playMovieBtn.dataset.played = 'true';
+      playMovieBtn.disabled = true;
+    }
 
     try {
+      playMovieBtn.classList.add('is-played');
+      movieVideo.pause();
+      movieVideo.currentTime = 0;
       await movieVideo.play();
     } catch (error) {
       console.error('動画再生に失敗しました:', error);
-      hasPlayedMovie = false;
-      clearAnswerStartTime();
       playMovieBtn.classList.remove('is-played');
+      if (!isCorrectPage) {
+        playMovieBtn.dataset.played = 'false';
+        playMovieBtn.disabled = false;
+      }
     }
   });
 
   movieVideo.addEventListener('ended', () => {
-    hasPlayedMovie = true;
+    playMovieBtn.classList.remove('is-played');
   });
 }
 
