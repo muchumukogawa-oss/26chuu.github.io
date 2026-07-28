@@ -11,6 +11,28 @@
   <body>
     <div class="page-container">
       <h2>色の印象と対応する言葉、使用例の印象について<br />自身と一致しているか評価をお願いします</h2>
+      <div class="rating-group" role="radiogroup" aria-label="評価の選択">
+        <h2 style="text-align: center; margin: 0; width: 100%">評価</h2>
+        <p style="margin: 0 0 8px; text-align: center; width: 100%">
+          この言葉は動画もしくは文章のシチュエーションに合っていましたか？
+        </p>
+        <label class="rating-option">
+          <input type="radio" name="situation-rating" value="1" />
+          <span class="rating-label">1<br />合っていない</span>
+        </label>
+        <label class="rating-option">
+          <input type="radio" name="situation-rating" value="2" />
+          <span class="rating-label">2</span>
+        </label>
+        <label class="rating-option">
+          <input type="radio" name="situation-rating" value="3" />
+          <span class="rating-label">3</span>
+        </label>
+        <label class="rating-option">
+          <input type="radio" name="situation-rating" value="4" />
+          <span class="rating-label">4<br />合っている</span>
+        </label>
+      </div>
       <a href="correct.html"
         ><button id="reviewNextBtn" class="custom-btn">
           <span class="btn-text">次へ</span>
