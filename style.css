@@ -80,10 +80,6 @@ a:any-link {
   z-index: 1; /* 文字より下 */
 }
 
-.custom-btn.is-played::before {
-  background: #444; /* クリック後のグレー背景 */
-}
-
 /* 斜線影用擬似要素（最背面に配置） */
 .custom-btn::after {
   content: '';
@@ -298,6 +294,10 @@ ol li {
 /* ==========================
   movie.html
   ========================== */
+
+.custom-btn.is-played::before {
+  background: #444; /* クリック後のグレー背景 */
+}
 
 /* ==========================
   AreaSelect.html
