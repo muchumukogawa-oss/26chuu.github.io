@@ -107,6 +107,18 @@ if (startBtn) {
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
+const isMoviePage = window.location.pathname.endsWith('movie.html');
+
+const Q_movie = ['Q_movies/sample_1.mp4', 'Q_movies/sample_2.mp4', 'Q_movies/sample_3.mp4'];
+
+function getRandomQMovieFile() {
+  return Q_movie[Math.floor(Math.random() * Q_movie.length)];
+}
+
+if (isMoviePage && movieVideo) {
+  movieVideo.src = getRandomQMovieFile();
+  movieVideo.load();
+}
 
 if (movieVideo && playMovieBtn) {
   playMovieBtn.addEventListener('click', async () => {
