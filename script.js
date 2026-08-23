@@ -109,7 +109,7 @@ const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
 const isMoviePage = window.location.pathname.endsWith('movie.html');
 
-const Q_movie = ['Q_movies/sample_1.mp4', 'Q_movies/sample_2.mp4', 'Q_movies/sample_3.mp4'];
+const Q_movie = ['Q_movies/100.mp4', 'Q_movies/101.mp4', 'Q_movies/102.mp4'];
 
 function getRandomQMovieFile() {
   return Q_movie[Math.floor(Math.random() * Q_movie.length)];
