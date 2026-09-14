@@ -32,6 +32,18 @@ rt {
   text-align: center;
 }
 
+#movieVideo {
+  display: block;
+  max-width: calc(100% - 32px);
+  height: auto;
+  border: 4px solid #232323;
+  box-sizing: border-box;
+}
+
+.movie-page #movieVideo {
+  width: min(400px, calc(100% - 32px));
+}
+
 /* image */
 #main {
   width: 384px;
