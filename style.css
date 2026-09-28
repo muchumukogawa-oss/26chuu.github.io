@@ -41,7 +41,8 @@ rt {
 }
 
 .movie-page #questionImageFrame {
-  width: min(400px, calc(100% - 32px));
+  width: min(400px, calc(100vw - 32px));
+  aspect-ratio: 16 / 9;
   border: 3px solid #232323;
   box-sizing: border-box;
   display: flex;
@@ -52,7 +53,7 @@ rt {
 .movie-page #questionImage {
   display: block;
   width: 100%;
-  max-height: 50vh;
+  height: 100%;
   object-fit: contain;
   visibility: hidden;
 }
@@ -338,6 +339,21 @@ ol li {
 
 .movie-page #playMovieBtn {
   margin-top: 24px;
+}
+
+.movie-page .page-container {
+  box-sizing: border-box;
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  justify-content: flex-start;
+  padding: 12px 16px;
+}
+
+.movie-page .next {
+  margin-top: 12px;
+  padding-top: 0;
 }
 
 /* ==========================
