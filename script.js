@@ -109,41 +109,21 @@ const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
 const isMoviePage = window.location.pathname.endsWith('movie.html');
 
-const Q_movie = [
-  'Q_movies/100.mp4',
-  'Q_movies/101.mp4',
-  'Q_movies/102.mp4',
-  'Q_movies/103.mp4',
-  'Q_movies/104.mp4',
-  'Q_movies/105.mp4',
-  'Q_movies/106.mp4',
-  'Q_movies/107.mp4',
-  'Q_movies/108.mp4',
-  'Q_movies/109.mp4',
-  'Q_movies/110.mp4',
-  'Q_movies/111.mp4',
-  'Q_movies/112.mp4',
-  'Q_movies/113.mp4',
-  'Q_movies/114.mp4',
-  'Q_movies/115.mp4',
-  'Q_movies/116.mp4',
-  'Q_movies/117.mp4',
-  'Q_movies/118.mp4',
-  'Q_movies/119.mp4',
-  'Q_movies/120.mp4',
-  'Q_movies/121.mp4',
-  'Q_movies/122.mp4',
-  'Q_movies/123.mp4',
-  'Q_movies/124.mp4'
-];
+const questionImage = document.getElementById('questionImage');
 
-function getRandomQMovieFile() {
-  return Q_movie[Math.floor(Math.random() * Q_movie.length)];
-}
+if (isMoviePage && questionImage && playMovieBtn) {
+  playMovieBtn.addEventListener('click', () => {
+    if (playMovieBtn.dataset.played === 'true') return;
 
-if (isMoviePage && movieVideo) {
-  movieVideo.src = getRandomQMovieFile();
-  movieVideo.load();
+    playMovieBtn.dataset.played = 'true';
+    playMovieBtn.disabled = true;
+    setAnswerStartTime(Date.now());
+    questionImage.classList.add('is-visible');
+
+    window.setTimeout(() => {
+      questionImage.classList.remove('is-visible');
+    }, 8000);
+  });
 }
 
 if (movieVideo && playMovieBtn) {
