@@ -122,7 +122,7 @@ if (isMoviePage && questionImage && playMovieBtn) {
 
     window.setTimeout(() => {
       questionImage.classList.remove('is-visible');
-    }, 8000);
+    }, 10000);
   });
 }
 
