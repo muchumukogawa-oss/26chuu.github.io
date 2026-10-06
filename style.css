@@ -756,7 +756,15 @@ ol li {
 
 .rating-options {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: space-around;
+  width: 100%;
+}
+
+.rating-scale-labels {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
