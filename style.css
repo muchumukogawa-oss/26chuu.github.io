@@ -32,6 +32,18 @@ rt {
   text-align: center;
 }
 
+.result-page {
+  height: auto;
+  min-height: 100vh;
+}
+
+.result-page .page-container {
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
+  justify-content: flex-start;
+}
+
 #movieVideo {
   display: block;
   max-width: calc(100% - 32px);
