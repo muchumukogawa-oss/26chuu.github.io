@@ -741,23 +741,35 @@ ol li {
 
 .rating-group {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
-  gap: 24px;
+  align-items: center;
+  gap: 8px;
   margin: 16px 0 24px;
-  flex-wrap: wrap;
   background-color: #e0e0e0;
   padding: 16px 24px;
   border-radius: 12px;
+  width: calc(100% - 32px);
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+.rating-options {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
 }
 
 .rating-option {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   gap: 8px;
   cursor: pointer;
-  padding: 8px 12px;
+  flex: 1;
+  min-width: 0;
+  padding: 8px 0;
   border-radius: 8px;
 }
 
