@@ -4,6 +4,7 @@ const NICKNAME_STORAGE_KEY = 'nickname';
 const ANSWER_START_TIME_KEY = 'answerStartTime';
 const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
 const SELECTED_COLOR_KEY = 'selectedColor';
+const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 
 function getNickname() {
   return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
@@ -111,6 +112,7 @@ const isCorrectPage = window.location.pathname.endsWith('correct.html');
 const isMoviePage = window.location.pathname.endsWith('movie.html');
 
 const questionImage = document.getElementById('questionImage');
+const answerImage = document.getElementById('answerImage');
 
 if (isMoviePage && questionImage && playMovieBtn) {
   const questionImageFiles = [
@@ -118,7 +120,20 @@ if (isMoviePage && questionImage && playMovieBtn) {
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.JPG`)
   ];
-  const randomImage = questionImageFiles[Math.floor(Math.random() * questionImageFiles.length)];
+  const answerImageNumbers = new Set(['100', '122']);
+  const matchingQuestionImages = questionImageFiles.filter((filename) => {
+    const number = filename.match(/\d+/)?.[0];
+    return number && answerImageNumbers.has(number);
+  });
+  if (matchingQuestionImages.length === 0) {
+    throw new Error('対応する問題画像が見つかりません');
+  }
+  const randomImage = matchingQuestionImages[Math.floor(Math.random() * matchingQuestionImages.length)];
+  const questionImageNumber = randomImage.match(/\d+/)?.[0];
+  if (!questionImageNumber) {
+    throw new Error('対応する問題画像が見つかりません');
+  }
+  sessionStorage.setItem(QUESTION_IMAGE_NUMBER_KEY, questionImageNumber);
   questionImage.src = `Q_movies/${randomImage}`;
 
   playMovieBtn.addEventListener('click', () => {
@@ -132,6 +147,22 @@ if (isMoviePage && questionImage && playMovieBtn) {
     window.setTimeout(() => {
       questionImage.classList.remove('is-visible');
     }, 10000);
+  });
+}
+
+if (isCorrectPage && answerImage && playMovieBtn) {
+  const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY);
+  if (!questionImageNumber) {
+    throw new Error('問題画像の番号が保存されていません');
+  }
+
+  answerImage.src = `A_movies/A${questionImageNumber}.jpg`;
+  answerImage.addEventListener('error', () => {
+    console.error(`正解画像を読み込めませんでした: ${answerImage.src}`);
+  });
+
+  playMovieBtn.addEventListener('click', () => {
+    answerImage.classList.add('is-visible');
   });
 }
 

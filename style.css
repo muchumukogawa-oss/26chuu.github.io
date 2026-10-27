@@ -52,6 +52,19 @@ rt {
   box-sizing: border-box;
 }
 
+#answerImage {
+  display: block;
+  width: min(500px, calc(100% - 32px));
+  height: auto;
+  border: 3px solid #232323;
+  box-sizing: border-box;
+  visibility: hidden;
+}
+
+#answerImage.is-visible {
+  visibility: visible;
+}
+
 .movie-page #questionImageFrame {
   width: min(400px, calc(100vw - 32px));
   aspect-ratio: 16 / 9;
