@@ -325,7 +325,7 @@ if (window.location.pathname.endsWith('result.html')) {
       '#460000': ['img/area4/013.PNG', 'img/area4/113.PNG'],
       '#782170': ['img/area4/014.PNG', 'img/area4/114.PNG'],
       '#b02163': ['img/area4/015.PNG', 'img/area4/115.PNG'],
-      '#7c0000': ['img/area4/016.PNG', 'img/area4/116.PNG']
+      '#7c0000': ['img/area4/016.PNG', 'img/area4/A122.jpg']
       // ... 4エリアの16色分
     }
   };
