@@ -107,32 +107,6 @@ if (startBtn) {
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
-const isMoviePage = window.location.pathname.endsWith('movie.html');
-
-const questionImage = document.getElementById('questionImage');
-
-if (isMoviePage && questionImage && playMovieBtn) {
-  const questionImageFiles = [
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.JPG`)
-  ];
-  const randomImage = questionImageFiles[Math.floor(Math.random() * questionImageFiles.length)];
-  questionImage.src = `Q_movies/${randomImage}`;
-
-  playMovieBtn.addEventListener('click', () => {
-    if (playMovieBtn.dataset.played === 'true') return;
-
-    playMovieBtn.dataset.played = 'true';
-    playMovieBtn.disabled = true;
-    setAnswerStartTime(Date.now());
-    questionImage.classList.add('is-visible');
-
-    window.setTimeout(() => {
-      questionImage.classList.remove('is-visible');
-    }, 10000);
-  });
-}
 
 if (movieVideo && playMovieBtn) {
   playMovieBtn.addEventListener('click', async () => {
