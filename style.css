@@ -703,7 +703,7 @@ ol li {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 320px; /* 画像の高さに合わせて調整 */
+  /* height: 320px; 画像の高さに合わせて調整 */
 }
 .arrow {
   position: absolute;
