@@ -84,18 +84,21 @@ function cancelColor(color) {
   saveQuestionLogState(state);
 }
 
+function getSelectedRatingValue() {
+  return document.querySelector('input[name="situation-rating"]:checked')?.value ?? '';
+}
+
 function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
   const finalSelectedColor = getSelectedColor() || state.selected_color || '';
   const candidateColors = Array.isArray(state.candidate_colors) ? state.candidate_colors : [];
   const cancelledColors = Array.isArray(state.cancelled_colors) ? state.cancelled_colors : [];
-  const evaluationValue =
-    extra.evaluation ?? state.evaluation ?? document.querySelector('input[name="rating"]:checked')?.value ?? '';
+  const evaluationValue = extra.evaluation ?? state.evaluation ?? getSelectedRatingValue();
 
   return {
     nickname: getNickname(),
-    problem_no: getCurrentProblemNumber(),
-    area_no: getCurrentProblemNumber(),
+    problem_no: getCurrentProblemNumber() || state.problem_no || '',
+    area_no: getCurrentProblemNumber() || state.problem_no || '',
     selected_color: finalSelectedColor,
     candidate_colors: candidateColors,
     cancelled_colors: cancelledColors,
@@ -310,35 +313,37 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
 
       const areaDiv = document.querySelector('.button-16grid');
       const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-      setCurrentProblemNumber(areaNum);
+      if (!getCurrentProblemNumber()) {
+        setCurrentProblemNumber(areaNum);
+      }
       setSelectedColor(selectedId);
       addCandidateColor(selectedId);
       addQuestionEvent('color_select', { color: selectedId });
     });
   });
 
-  yesBtn.addEventListener('click', async () => {
+  yesBtn.addEventListener('click', () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    setCurrentProblemNumber(areaNum);
-    setSelectedColor(selectedId || '');
-    addQuestionEvent('click_yes', { color: selectedId || '' });
+    const confirmedColor = selectedId || '';
+    setSelectedColor(confirmedColor);
+    addQuestionEvent('click_yes', { color: confirmedColor });
     confirmPopup.style.display = 'none';
-    await flushQuestionLog({ evaluation: '' });
-    window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(selectedId || '')}`;
+    selectedId = null;
+    window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(confirmedColor)}`;
   });
 
-  noBtn.addEventListener('click', async () => {
-    const areaDiv = document.querySelector('.button-16grid');
-    const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    setCurrentProblemNumber(areaNum);
+  noBtn.addEventListener('click', () => {
     const cancelledColor = selectedId || '';
     if (cancelledColor) {
       cancelColor(cancelledColor);
       addQuestionEvent('click_no', { color: cancelledColor });
     }
     confirmPopup.style.display = 'none';
-    await flushQuestionLog({ evaluation: '' });
+    selectedId = null;
+    if (selectedColorCircle) {
+      selectedColorCircle.style.background = 'transparent';
+    }
   });
 }
 
@@ -347,7 +352,8 @@ if (reviewNextBtn) {
   reviewNextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     addQuestionEvent('review_next', { color: getSelectedColor() || '' });
-    await flushQuestionLog({ evaluation: '' });
+    const evaluation = getSelectedRatingValue();
+    await flushQuestionLog({ evaluation });
     clearAnswerStartTime();
     window.location.href = 'correct.html';
   });
