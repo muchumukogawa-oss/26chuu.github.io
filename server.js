@@ -1,7 +1,7 @@
 const port = Number(Deno.env.get('PORT') || '3000');
 const rootDir = Deno.cwd();
 const csvPath = `${rootDir}/demo.csv`;
-const csvHeader = 'ニックネーム,タイムスタンプ,問題番号,選択した色,クリックY/N,解答時間,評価\n';
+const csvHeader = 'ニックネーム,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
 
 function ensureCsvFile() {
   try {
@@ -17,6 +17,34 @@ function ensureCsvFile() {
   }
 }
 
+function normalizeEntry(entry) {
+  const personName = entry.nickname ?? entry['ニックネーム'] ?? '未入力';
+  const problemNo = entry.problem_no ?? entry['問題番号'] ?? '';
+  const selectedColor = entry.selected_color ?? entry['選択した色'] ?? '';
+  const candidateColors = Array.isArray(entry.candidate_colors)
+    ? JSON.stringify(entry.candidate_colors)
+    : (entry.candidate_colors ?? '[]');
+  const cancelledColors = Array.isArray(entry.cancelled_colors)
+    ? JSON.stringify(entry.cancelled_colors)
+    : (entry.cancelled_colors ?? '[]');
+  const answerTime = entry.answer_time_sec ?? entry['解答時間'] ?? '0.00';
+  const eventHistory = Array.isArray(entry.event_history)
+    ? JSON.stringify(entry.event_history)
+    : (entry.event_history ?? '[]');
+  const evaluation = entry.evaluation ?? entry['評価'] ?? '';
+
+  return {
+    ニックネーム: personName,
+    問題番号: problemNo,
+    選択した色: selectedColor,
+    候補色: candidateColors,
+    キャンセル色: cancelledColors,
+    解答時間: answerTime,
+    イベント履歴: eventHistory,
+    評価: evaluation
+  };
+}
+
 function escapeCsvValue(value) {
   const normalized = String(value ?? '');
   return `"${normalized.replace(/"/g, '""')}"`;
@@ -25,11 +53,12 @@ function escapeCsvValue(value) {
 function buildCsvRow(entry) {
   const values = [
     entry['ニックネーム'],
-    entry['タイムスタンプ'],
     entry['問題番号'],
     entry['選択した色'],
-    entry['クリックY/N'],
+    entry['候補色'],
+    entry['キャンセル色'],
     entry['解答時間'],
+    entry['イベント履歴'],
     entry['評価']
   ];
   return values.map((value) => escapeCsvValue(value)).join(',');
@@ -37,7 +66,8 @@ function buildCsvRow(entry) {
 
 function appendLogEntry(entry) {
   ensureCsvFile();
-  const row = buildCsvRow(entry);
+  const normalizedEntry = normalizeEntry(entry);
+  const row = buildCsvRow(normalizedEntry);
   const existing = Deno.readTextFileSync(csvPath, { encoding: 'utf-8' });
   Deno.writeTextFileSync(csvPath, `${existing}${row}\n`, { encoding: 'utf-8' });
 }

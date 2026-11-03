@@ -5,9 +5,123 @@ const ANSWER_START_TIME_KEY = 'answerStartTime';
 const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
 const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
+const QUESTION_LOG_STATE_KEY = 'questionLogState';
 
 function getNickname() {
   return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
+}
+
+function getQuestionLogState() {
+  const raw = sessionStorage.getItem(QUESTION_LOG_STATE_KEY);
+  if (!raw) {
+    return {
+      nickname: getNickname(),
+      problem_no: getCurrentProblemNumber(),
+      selected_color: getSelectedColor(),
+      candidate_colors: [],
+      cancelled_colors: [],
+      event_history: [],
+      evaluation: ''
+    };
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return {
+      nickname: getNickname(),
+      problem_no: getCurrentProblemNumber(),
+      selected_color: getSelectedColor(),
+      candidate_colors: [],
+      cancelled_colors: [],
+      event_history: [],
+      evaluation: ''
+    };
+  }
+}
+
+function saveQuestionLogState(state) {
+  sessionStorage.setItem(QUESTION_LOG_STATE_KEY, JSON.stringify(state));
+}
+
+function resetQuestionLogState() {
+  sessionStorage.removeItem(QUESTION_LOG_STATE_KEY);
+}
+
+function addQuestionEvent(eventName, payload = {}) {
+  const state = getQuestionLogState();
+  state.nickname = getNickname();
+  state.problem_no = getCurrentProblemNumber() || state.problem_no || '';
+  state.selected_color = getSelectedColor() || state.selected_color || '';
+  state.event_history.push({
+    event: eventName,
+    timestamp: new Date().toISOString(),
+    ...payload
+  });
+
+  saveQuestionLogState(state);
+}
+
+function addCandidateColor(color) {
+  if (!color) return;
+  const state = getQuestionLogState();
+  if (!state.candidate_colors.includes(color)) {
+    state.candidate_colors.push(color);
+  }
+  state.selected_color = color;
+  state.nickname = getNickname();
+  saveQuestionLogState(state);
+}
+
+function cancelColor(color) {
+  if (!color) return;
+  const state = getQuestionLogState();
+  if (!state.cancelled_colors.includes(color)) {
+    state.cancelled_colors.push(color);
+  }
+  state.selected_color = '';
+  state.nickname = getNickname();
+  saveQuestionLogState(state);
+}
+
+function buildQuestionLogEntry(extra = {}) {
+  const state = getQuestionLogState();
+  const finalSelectedColor = getSelectedColor() || state.selected_color || '';
+  const candidateColors = Array.isArray(state.candidate_colors) ? state.candidate_colors : [];
+  const cancelledColors = Array.isArray(state.cancelled_colors) ? state.cancelled_colors : [];
+  const evaluationValue =
+    extra.evaluation ?? state.evaluation ?? document.querySelector('input[name="rating"]:checked')?.value ?? '';
+
+  return {
+    nickname: getNickname(),
+    problem_no: getCurrentProblemNumber(),
+    area_no: getCurrentProblemNumber(),
+    selected_color: finalSelectedColor,
+    candidate_colors: candidateColors,
+    cancelled_colors: cancelledColors,
+    answer_time_sec: getElapsedTimeSeconds(),
+    event_history: state.event_history || [],
+    timestamp: new Date().toISOString(),
+    evaluation: evaluationValue
+  };
+}
+
+async function appendLogEntry(entry) {
+  try {
+    await fetch('/api/logs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(entry)
+    });
+  } catch (error) {
+    console.error('ログ送信に失敗しました:', error);
+  }
+}
+
+async function flushQuestionLog(extra = {}) {
+  const entry = buildQuestionLogEntry(extra);
+  await appendLogEntry(entry);
+  resetQuestionLogState();
 }
 
 // 解答開始時間を保存する
@@ -52,33 +166,6 @@ function getElapsedTimeSeconds() {
   const startTime = getAnswerStartTime();
   if (!startTime) return '0.00';
   return ((Date.now() - startTime) / 1000).toFixed(2);
-}
-
-// ログをサーバーに送信する関数
-async function appendLogEntry(entry) {
-  try {
-    await fetch('/api/logs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(entry)
-    });
-  } catch (error) {
-    console.error('ログ送信に失敗しました:', error);
-  }
-}
-
-// ログイベントを記録する関数
-async function logAnswerEvent(clickYn, extra = {}) {
-  const entry = {
-    ニックネーム: getNickname(),
-    タイムスタンプ: new Date().toISOString(),
-    問題番号: getCurrentProblemNumber(),
-    選択した色: getSelectedColor(),
-    'クリックY/N': clickYn,
-    解答時間: getElapsedTimeSeconds(),
-    評価: extra.evaluation ?? ''
-  };
-  await appendLogEntry(entry);
 }
 
 // index.html 用
@@ -134,6 +221,7 @@ if (isMoviePage && questionImage && playMovieBtn) {
     throw new Error('対応する問題画像が見つかりません');
   }
   sessionStorage.setItem(QUESTION_IMAGE_NUMBER_KEY, questionImageNumber);
+  setCurrentProblemNumber(questionImageNumber);
   questionImage.src = `Q_movies/${randomImage}`;
 
   playMovieBtn.addEventListener('click', () => {
@@ -208,34 +296,49 @@ let selectedId = null;
 if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn) {
   buttons.forEach((btn) => {
     btn.addEventListener('click', async () => {
-      selectedId = btn.id;
+      const nextColor = btn.id;
+
+      if (selectedId && selectedId !== nextColor && !getQuestionLogState().cancelled_colors.includes(selectedId)) {
+        const currentState = getQuestionLogState();
+        currentState.cancelled_colors = Array.from(new Set([...currentState.cancelled_colors, selectedId]));
+        saveQuestionLogState(currentState);
+      }
+
+      selectedId = nextColor;
       selectedColorCircle.style.background = selectedId;
       confirmPopup.style.display = 'flex';
 
       const areaDiv = document.querySelector('.button-16grid');
       const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-      setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
-      setSelectedColor(selectedId); // 選択した色を保存
-      await logAnswerEvent('色選択');
+      setCurrentProblemNumber(areaNum);
+      setSelectedColor(selectedId);
+      addCandidateColor(selectedId);
+      addQuestionEvent('color_select', { color: selectedId });
     });
   });
 
   yesBtn.addEventListener('click', async () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
-    setSelectedColor(selectedId || ''); // 選択した色を保存
-    await logAnswerEvent('Yes'); // ログに「Yes」を記録
+    setCurrentProblemNumber(areaNum);
+    setSelectedColor(selectedId || '');
+    addQuestionEvent('click_yes', { color: selectedId || '' });
+    confirmPopup.style.display = 'none';
+    await flushQuestionLog({ evaluation: '' });
     window.location.href = `result.html?area=${areaNum}&color=${encodeURIComponent(selectedId || '')}`;
   });
 
   noBtn.addEventListener('click', async () => {
     const areaDiv = document.querySelector('.button-16grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
-    setCurrentProblemNumber(areaNum); // 現在の問題番号を保存するはずがエリア番号を保存している（要修正）
-    setSelectedColor(selectedId || ''); // 選択した色を保存
-    await logAnswerEvent('No'); // ログに「No」を記録
+    setCurrentProblemNumber(areaNum);
+    const cancelledColor = selectedId || '';
+    if (cancelledColor) {
+      cancelColor(cancelledColor);
+      addQuestionEvent('click_no', { color: cancelledColor });
+    }
     confirmPopup.style.display = 'none';
+    await flushQuestionLog({ evaluation: '' });
   });
 }
 
@@ -243,8 +346,9 @@ const reviewNextBtn = document.getElementById('reviewNextBtn');
 if (reviewNextBtn) {
   reviewNextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
-    await logAnswerEvent('review-next', { evaluation: '' }); // ログに「review-next」を記録
-    clearAnswerStartTime(); // 解答時間をクリア
+    addQuestionEvent('review_next', { color: getSelectedColor() || '' });
+    await flushQuestionLog({ evaluation: '' });
+    clearAnswerStartTime();
     window.location.href = 'correct.html';
   });
 }
