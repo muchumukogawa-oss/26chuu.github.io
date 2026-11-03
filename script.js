@@ -55,7 +55,7 @@ function addQuestionEvent(eventName, payload = {}) {
   state.selected_color = getSelectedColor() || state.selected_color || '';
   state.event_history.push({
     event: eventName,
-    timestamp: new Date().toISOString(),
+    timestamp: toJstIsoString(),
     ...payload
   });
 
@@ -88,6 +88,13 @@ function getSelectedRatingValue() {
   return document.querySelector('input[name="situation-rating"]:checked')?.value ?? '';
 }
 
+function toJstIsoString(date = new Date()) {
+  const offsetMinutes = 9 * 60;
+  const utcMs = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
+  const jstMs = utcMs + offsetMinutes * 60 * 1000;
+  return new Date(jstMs).toISOString().replace('Z', '+09:00');
+}
+
 function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
   const finalSelectedColor = getSelectedColor() || state.selected_color || '';
@@ -104,7 +111,7 @@ function buildQuestionLogEntry(extra = {}) {
     cancelled_colors: cancelledColors,
     answer_time_sec: getElapsedTimeSeconds(),
     event_history: state.event_history || [],
-    timestamp: new Date().toISOString(),
+    timestamp: toJstIsoString(),
     evaluation: evaluationValue
   };
 }
