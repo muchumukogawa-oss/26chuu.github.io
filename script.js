@@ -89,10 +89,8 @@ function getSelectedRatingValue() {
 }
 
 function toJstIsoString(date = new Date()) {
-  const offsetMinutes = 9 * 60;
-  const utcMs = date.getTime() + date.getTimezoneOffset() * 60 * 1000;
-  const jstMs = utcMs + offsetMinutes * 60 * 1000;
-  return new Date(jstMs).toISOString().replace('Z', '+09:00');
+  const jstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+  return jstDate.toISOString().replace('Z', '+09:00');
 }
 
 function buildQuestionLogEntry(extra = {}) {
