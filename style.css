@@ -425,7 +425,7 @@ ol li {
 .axis-label {
   position: absolute;
   z-index: 2;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: bold;
   color: #333;
   pointer-events: none;
@@ -439,11 +439,11 @@ ol li {
 }
 
 .high-label {
-  top: -42px;
+  top: -30px;
 }
 
 .low-label {
-  bottom: -42px;
+  bottom: -30px;
 }
 
 .pleasant-label,
@@ -455,11 +455,11 @@ ol li {
 }
 
 .pleasant-label {
-  right: -50px;
+  right: -20px;
 }
 
 .unpleasant-label {
-  left: -50px;
+  left: -20px;
 }
 
 /* ボタン配置 */
