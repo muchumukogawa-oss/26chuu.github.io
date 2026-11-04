@@ -293,7 +293,7 @@ if (movieVideo && playMovieBtn) {
 }
 
 // num_area.html 用
-const buttons = document.querySelectorAll('.button-16grid button');
+const buttons = document.querySelectorAll('.button-16grid button, .area-image-button');
 const confirmPopup = document.getElementById('confirmPopup');
 const selectedColorCircle = document.getElementById('selectedColor');
 const yesBtn = document.getElementById('yesBtn');
@@ -301,10 +301,29 @@ const noBtn = document.getElementById('noBtn');
 
 let selectedId = null;
 
+function setSelectedPreview(value) {
+  if (!selectedColorCircle) return;
+
+  const isImagePath = /\.(png|jpe?g|gif|webp|bmp|svg)(\?.*)?$/i.test(value || '') || (value || '').startsWith('img/');
+
+  if (isImagePath) {
+    selectedColorCircle.style.background = 'transparent';
+    selectedColorCircle.style.backgroundImage = `url("${value}")`;
+    selectedColorCircle.style.backgroundSize = 'cover';
+    selectedColorCircle.style.backgroundPosition = 'center';
+    selectedColorCircle.style.borderRadius = '0';
+    return;
+  }
+
+  selectedColorCircle.style.backgroundImage = 'none';
+  selectedColorCircle.style.background = value || 'transparent';
+  selectedColorCircle.style.borderRadius = '50%';
+}
+
 if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn) {
   buttons.forEach((btn) => {
     btn.addEventListener('click', async () => {
-      const nextColor = btn.id;
+      const nextColor = btn.id || btn.dataset.image || '';
 
       if (selectedId && selectedId !== nextColor && !getQuestionLogState().cancelled_colors.includes(selectedId)) {
         const currentState = getQuestionLogState();
@@ -313,10 +332,10 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
       }
 
       selectedId = nextColor;
-      selectedColorCircle.style.background = selectedId;
+      setSelectedPreview(selectedId);
       confirmPopup.style.display = 'flex';
 
-      const areaDiv = document.querySelector('.button-16grid');
+      const areaDiv = document.querySelector('.button-16grid, .area-image-grid');
       const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
       if (!getCurrentProblemNumber()) {
         setCurrentProblemNumber(areaNum);
@@ -328,7 +347,7 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
   });
 
   yesBtn.addEventListener('click', () => {
-    const areaDiv = document.querySelector('.button-16grid');
+    const areaDiv = document.querySelector('.button-16grid, .area-image-grid');
     const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
     const confirmedColor = selectedId || '';
     setSelectedColor(confirmedColor);
@@ -348,6 +367,8 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
     selectedId = null;
     if (selectedColorCircle) {
       selectedColorCircle.style.background = 'transparent';
+      selectedColorCircle.style.backgroundImage = 'none';
+      selectedColorCircle.style.borderRadius = '0';
     }
   });
 }
