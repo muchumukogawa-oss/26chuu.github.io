@@ -679,11 +679,6 @@ ol li {
   top: -50px;
 }
 
-.lower_right,
-.lower_left {
-  top: 490px;
-}
-
 .upper_left {
   left: 0;
 }
@@ -694,10 +689,13 @@ ol li {
 
 .lower_left {
   left: 0;
+  top: 490px;
 }
 
 .lower_right {
   right: 0;
+  bottom: -50px;
+  top: auto;
 }
 
 /* ==========================
