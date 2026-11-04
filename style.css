@@ -390,28 +390,76 @@ ol li {
   bottom: 90px;
 }
 
-/* ボタン4象限 */
-.button-4grid {
+/* 2x2エリア選択 */
+.area-selection-grid {
   position: relative;
-  bottom: 50px;
   display: grid;
-  grid-template-columns: repeat(2, 180px); /* 横2列 */
-  grid-template-rows: repeat(2, 180px); /* 縦2行 */
-  /* gap: 10px; ボタンの間隔 */
-  /* 背景画像 */
-  background-image: url('img/色全体_線あり修正版.png');
-  background-size: cover; /*枠に合わせて拡大縮小*/
-  background-position: center;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  width: min(90vw, 420px);
+  aspect-ratio: 1 / 1;
+  gap: 0;
+  background: #000;
+  box-shadow: none;
 }
 
-.button-4grid button {
-  width: 180px;
-  height: 180px;
-  font-size: 20px;
-  cursor: pointer;
-  border-radius: 0;
-  border: 0.5px solid #ccc;
-  background: transparent;
+.area-tile {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.area-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 軸ラベル */
+.axis-label {
+  position: absolute;
+  z-index: 2;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.positive-label,
+.negative-label {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.positive-label {
+  top: -42px;
+}
+
+.negative-label {
+  bottom: -42px;
+}
+
+.dynamic-label,
+.static-label {
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+.dynamic-label {
+  right: -50px;
+}
+
+.static-label {
+  left: -50px;
 }
 
 /* ボタン配置 */
@@ -420,53 +468,6 @@ ol li {
 }
 .confirm-buttons button {
   margin: 0 10px;
-}
-
-/* 軸ラベル */
-/* 軸ラベル共通 */
-.positive-label,
-.negative-label,
-.dynamic-label,
-.static-label {
-  position: absolute;
-  font-size: 22px;
-  font-weight: bold;
-  color: #333;
-  pointer-events: none; /* クリック操作を邪魔しない */
-}
-
-.positive-label,
-.negative-label {
-  left: 50%; /* 横の中央 */
-  transform: translateX(-50%);
-}
-
-.dynamic-label,
-.static-label {
-  top: 176px;
-  transform: translateY(-50%);
-  background-color: #ffffff;
-  writing-mode: vertical-rl; /* 縦書き */
-  text-orientation: upright; /* 文字を正立表示 */
-}
-
-/* ポジティブ：#2_area と #1_area の真ん中上部 */
-.positive-label {
-  top: -50px; /* ボタン上の位置（上下調整用） */
-}
-
-/* ネガティブ：#3_area と #4_area の真ん中下部 */
-.negative-label {
-  bottom: -50px;
-}
-
-/* 動的：#1_area と #4_area の真ん中右部 */
-.dynamic-label {
-  right: -35px;
-}
-/* 静的：#2_area と #3_area の真ん中左部 */
-.static-label {
-  left: -35px;
 }
 
 /* ==========================
@@ -580,25 +581,25 @@ ol li {
 }
 
 #area1 {
-  background-image: url('img/ポジティブ動的.png');
+  background-image: url('img/area1.jpg');
   background-size: cover; /*枠に合わせて拡大縮小 */
   background-position: center;
 }
 
 #area2 {
-  background-image: url('img/ポジティブ静的.png');
+  background-image: url('img/area2.jpg');
   background-size: cover; /*枠に合わせて拡大縮小 */
   background-position: center;
 }
 
 #area3 {
-  background-image: url('img/ネガティブ静的.png');
+  background-image: url('img/area3.jpg');
   background-size: cover; /*枠に合わせて拡大縮小 */
   background-position: center;
 }
 
 #area4 {
-  background-image: url('img/ネガティブ動的.png');
+  background-image: url('img/area4.jpg');
   background-size: cover; /*枠に合わせて拡大縮小 */
   background-position: center;
 }
