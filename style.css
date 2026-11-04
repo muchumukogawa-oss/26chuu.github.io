@@ -689,7 +689,8 @@ ol li {
 
 .lower_left {
   left: 0;
-  top: 490px;
+  bottom: -50px;
+  top: auto;
 }
 
 .lower_right {
