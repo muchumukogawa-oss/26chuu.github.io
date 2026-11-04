@@ -432,33 +432,33 @@ ol li {
   line-height: 1;
 }
 
-.positive-label,
-.negative-label {
+.high-label,
+.low-label {
   left: 50%;
   transform: translateX(-50%);
 }
 
-.positive-label {
+.high-label {
   top: -42px;
 }
 
-.negative-label {
+.low-label {
   bottom: -42px;
 }
 
-.dynamic-label,
-.static-label {
+.pleasant-label,
+.unpleasant-label {
   top: 50%;
   transform: translateY(-50%);
   writing-mode: vertical-rl;
   text-orientation: upright;
 }
 
-.dynamic-label {
+.pleasant-label {
   right: -50px;
 }
 
-.static-label {
+.unpleasant-label {
   left: -50px;
 }
 
