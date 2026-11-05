@@ -389,23 +389,32 @@ if (reviewNextBtn) {
 if (window.location.pathname.endsWith('result.html')) {
   const imageMap = {
     1: {
-      '#F4BB31': ['img/area1/0.jpg', 'img/area1/1.jpg'],
-      '#ffee00': ['img/area1/002.PNG', 'img/area1/102.PNG'],
-      '#ffd500': ['img/area1/003.PNG', 'img/area1/103.PNG'],
-      '#ff0000': ['img/area1/004.PNG', 'img/area1/104.PNG'],
-      '#f7ff40': ['img/area1/005.PNG', 'img/area1/105.PNG'],
-      '#ff9900': ['img/area1/006.PNG', 'img/area1/106.PNG'],
-      '#fc6204': ['img/area1/007.PNG', 'img/area1/107.PNG'],
-      '#ff4343': ['img/area1/008.PNG', 'img/area1/108.PNG'],
-      '#fff354': ['img/area1/009.PNG', 'img/area1/109.PNG'],
-      '#ffba45': ['img/area1/010.PNG', 'img/area1/110.PNG'],
-      '#ff92e0': ['img/area1/011.PNG', 'img/area1/111.PNG'],
-      '#ff8989': ['img/area1/012.PNG', 'img/area1/112.PNG'],
-      '#f0ea00': ['img/area1/013.PNG', 'img/area1/113.PNG'],
-      '#f1a983': ['img/area1/014.PNG', 'img/area1/114.PNG'],
-      '#ffcc99': ['img/area1/015.PNG', 'img/area1/115.PNG'],
-      '#ff8db4': ['img/area1/016.PNG', 'img/area1/116.PNG']
-      // ... 1エリアの16色分
+      '#F4BB31': ['img/area1/0.jpg', 'img/meaning/A000.jpg'], //驚き（好意的）
+      '#E1B70E': ['img/area1/1.jpg', 'img/meaning/A001.jpg'], //快活
+      '#E45D37': ['img/area1/2.jpg', 'img/meaning/A002.jpg'], //お祭り気分
+      '#D6BA00': ['img/area1/3.jpg', 'img/meaning/A003.jpg'], //高揚感
+      '#F2BF00': ['img/area1/4.jpg', 'img/meaning/A004.jpg'], //有頂天
+      '#D33941': ['img/area1/5.jpg', 'img/meaning/A005.jpg'], //興奮過剰
+      '#F7A631': ['img/area1/6.jpg', 'img/meaning/A006.jpg'], //陽気
+      '#DA425A': ['img/area1/7.jpg', 'img/meaning/A007.jpg'], //意欲
+      '#F6CC37': ['img/area1/8.jpg', 'img/meaning/A008.jpg'], //ひらめき
+      '#F78E2E': ['img/area1/9.jpg', 'img/meaning/A009.jpg'], //意気揚々
+      '#EF8011': ['img/area1/10.jpg', 'img/meaning/A010.jpg'], //活力
+      '#EE7722': ['img/area1/11.jpg', 'img/meaning/A011.jpg'], //活気
+      '#C92F45': ['img/area1/12.jpg', 'img/meaning/A012.jpg'], //熱意
+      '#F0CB73': ['img/area1/13.jpg', 'img/meaning/A013.jpg'], //楽観
+      '#C43F3D': ['img/area1/14.jpg', 'img/meaning/A014.jpg'], //興奮
+      '#EB6976': ['img/area1/15.jpg', 'img/meaning/A015.jpg'], //嬉しさ
+      '#EA8F98': ['img/area1/16.jpg', 'img/meaning/A016.jpg'], //幸福
+      '#2F7DC5': ['img/area1/17.jpg', 'img/meaning/A017.jpg'], //集中
+      '#FFD934': ['img/area1/18.jpg', 'img/meaning/A018.jpg'], //誇り
+      '#B80535': ['img/area1/19.jpg', 'img/meaning/A019.jpg'], //スリル
+      '#EFCE1F': ['img/area1/20.jpg', 'img/meaning/A020.jpg'], //愉快
+      '#FAC422': ['img/area1/21.jpg', 'img/meaning/A021.jpg'], //歓喜
+      '#ECC945': ['img/area1/22.jpg', 'img/meaning/A022.jpg'], //希望
+      '#F28436': ['img/area1/23.jpg', 'img/meaning/A023.jpg'], //遊び心
+      '#F5D269': ['img/area1/24.jpg', 'img/meaning/A024.jpg'] //至福
+      // ... 1エリアの25色分
     },
     2: {
       '#c1e4f5': ['img/area2/001.PNG', 'img/area2/101.PNG'],
@@ -424,7 +433,7 @@ if (window.location.pathname.endsWith('result.html')) {
       '#4bb3e1': ['img/area2/014.PNG', 'img/area2/114.PNG'],
       '#1bd5e3': ['img/area2/015.PNG', 'img/area2/115.PNG'],
       '#ffb0ff': ['img/area2/016.PNG', 'img/area2/116.PNG']
-      // ... 2エリアの16色分
+      // ... 2エリアの25色分
     },
     3: {
       '#d0d0d0': ['img/area3/001.PNG', 'img/area3/101.PNG'],
@@ -443,7 +452,7 @@ if (window.location.pathname.endsWith('result.html')) {
       '#0a3041': ['img/area3/014.PNG', 'img/area3/114.PNG'],
       '#084044': ['img/area3/015.PNG', 'img/area3/115.PNG'],
       '#595959': ['img/area3/016.PNG', 'img/area3/116.PNG']
-      // ... 3エリアの16色分
+      // ... 3エリアの25色分
     },
     4: {
       '#d2cd00': ['img/area4/001.PNG', 'img/area4/101.PNG'],
@@ -462,7 +471,7 @@ if (window.location.pathname.endsWith('result.html')) {
       '#782170': ['img/area4/014.PNG', 'img/area4/114.PNG'],
       '#b02163': ['img/area4/015.PNG', 'img/area4/A100.jpg'],
       '#7c0000': ['img/area4/016.PNG', 'img/area4/A122.jpg']
-      // ... 4エリアの16色分
+      // ... 4エリアの25色分
     }
   };
   // URLパラメータからエリアとカラーコードを取得
