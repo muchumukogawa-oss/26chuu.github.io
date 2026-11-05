@@ -445,31 +445,31 @@ if (window.location.pathname.endsWith('result.html')) {
       // ... 2エリアの25色分
     },
     3: {
-      '': ['img/area3/200.jpg', 'img/meaning/A200.jpg'], //
-      '': ['img/area3/201.jpg', 'img/meaning/A201.jpg'], //
-      '': ['img/area3/202.jpg', 'img/meaning/A202.jpg'], //
-      '': ['img/area3/203.jpg', 'img/meaning/A203.jpg'], //
-      '': ['img/area3/204.jpg', 'img/meaning/A204.jpg'], //
-      '': ['img/area3/205.jpg', 'img/meaning/A205.jpg'], //
-      '': ['img/area3/206.jpg', 'img/meaning/A206.jpg'], //
-      '': ['img/area3/207.jpg', 'img/meaning/A207.jpg'], //
-      '': ['img/area3/208.jpg', 'img/meaning/A208.jpg'], //
-      '': ['img/area3/209.jpg', 'img/meaning/A209.jpg'], //
-      '': ['img/area3/210.jpg', 'img/meaning/A210.jpg'], //
-      '': ['img/area3/211.jpg', 'img/meaning/A211.jpg'], //
-      '': ['img/area3/212.jpg', 'img/meaning/A212.jpg'], //
-      '': ['img/area3/213.jpg', 'img/meaning/A213.jpg'], //
-      '': ['img/area3/214.jpg', 'img/meaning/A214.jpg'], //
-      '': ['img/area3/215.jpg', 'img/meaning/A215.jpg'], //
-      '': ['img/area3/216.jpg', 'img/meaning/A216.jpg'], //
-      '': ['img/area3/217.jpg', 'img/meaning/A217.jpg'], //
-      '': ['img/area3/218.jpg', 'img/meaning/A218.jpg'], //
-      '': ['img/area3/219.jpg', 'img/meaning/A219.jpg'], //
-      '': ['img/area3/220.jpg', 'img/meaning/A220.jpg'], //
-      '': ['img/area3/221.jpg', 'img/meaning/A221.jpg'], //
-      '': ['img/area3/222.jpg', 'img/meaning/A222.jpg'], //
-      '': ['img/area3/223.jpg', 'img/meaning/A223.jpg'], //
-      '': ['img/area3/224.jpg', 'img/meaning/A224.jpg'] //
+      '#63516A': ['img/area3/200.jpg', 'img/meaning/A200.jpg'], //うんざり感
+      '#4A5365': ['img/area3/201.jpg', 'img/meaning/A201.jpg'], //陰気
+      '#2E2A27': ['img/area3/202.jpg', 'img/meaning/A202.jpg'], //失望
+      '#354C6C': ['img/area3/203.jpg', 'img/meaning/A203.jpg'], //気分の落ち込み
+      '#E1E0DF': ['img/area3/204.jpg', 'img/meaning/A204.jpg'], //無関心
+      '#355873': ['img/area3/205.jpg', 'img/meaning/A205.jpg'], //悲観
+      '#322D42': ['img/area3/206.jpg', 'img/meaning/A206.jpg'], //陰鬱
+      '#476678': ['img/area3/207.jpg', 'img/meaning/A207.jpg'], //意気消沈
+      '#27557D': ['img/area3/208.jpg', 'img/meaning/A208.jpg'], //悲しみ
+      '#5B565A': ['img/area3/209.jpg', 'img/meaning/A209.jpg'], //退屈
+      '#A69BA8': ['img/area3/210.jpg', 'img/meaning/A210.jpg'], //疎外感
+      '#3D5762': ['img/area3/211.jpg', 'img/meaning/A211.jpg'], //惨めさ
+      '#5C6472': ['img/area3/212.jpg', 'img/meaning/A212.jpg'], //孤独
+      '#31495D': ['img/area3/213.jpg', 'img/meaning/A213.jpg'], //落胆
+      '#5F5768': ['img/area3/214.jpg', 'img/meaning/A214.jpg'], //疲れ
+      '#25334A': ['img/area3/215.jpg', 'img/meaning/A215.jpg'], //悲嘆
+      '#343D44': ['img/area3/216.jpg', 'img/meaning/A216.jpg'], //うつ状態
+      '#1E3338': ['img/area3/217.jpg', 'img/meaning/A217.jpg'], //ふさぎ込み
+      '#565A75': ['img/area3/218.jpg', 'img/meaning/A218.jpg'], //疲れ果て
+      '#286075': ['img/area3/219.jpg', 'img/meaning/A219.jpg'], //疲労
+      '#242228': ['img/area3/220.jpg', 'img/meaning/A220.jpg'], //絶望
+      '#322F3B': ['img/area3/221.jpg', 'img/meaning/A221.jpg'], //絶望的状態
+      '#002F49': ['img/area3/222.jpg', 'img/meaning/A222.jpg'], //孤立感
+      '#EBF2F6': ['img/area3/223.jpg', 'img/meaning/A223.jpg'], //虚脱
+      '#FAEFE7': ['img/area3/224.jpg', 'img/meaning/A224.jpg'] //エネルギー枯渇
       // ... 3エリアの25色分
     },
     4: {

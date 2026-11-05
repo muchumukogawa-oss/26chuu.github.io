@@ -399,7 +399,7 @@ ol li {
   width: min(90vw, 420px);
   aspect-ratio: 1 / 1;
   gap: 0;
-  background: #000;
+  /* background: #000; */
   box-shadow: none;
 }
 
