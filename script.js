@@ -199,12 +199,12 @@ if (startBtn) {
   // });
 }
 
-// movie.html / correct.html 用
+// ques.html / correct.html 用
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
 
-const isMoviePage = window.location.pathname.endsWith('movie.html');
+const isMoviePage = window.location.pathname.endsWith('ques.html');
 
 const questionImage = document.getElementById('questionImage');
 const answerImage = document.getElementById('answerImage');
