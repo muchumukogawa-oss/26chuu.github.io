@@ -389,7 +389,7 @@ if (reviewNextBtn) {
 if (window.location.pathname.endsWith('result.html')) {
   const imageMap = {
     1: {
-      '#F4BB31': ['img/area1/000.jpg', 'img/meaning/A000.jpg'], //驚き（好意的）
+      '#F4BB31': ['img/meaning/A000.jpg'], //驚き（好意的）
       '#E1B70E': ['img/area1/001.jpg', 'img/meaning/A001.jpg'], //快活
       '#E45D37': ['img/area1/002.jpg', 'img/meaning/A002.jpg'], //お祭り気分
       '#D6BA00': ['img/area1/003.jpg', 'img/meaning/A003.jpg'], //高揚感
@@ -507,8 +507,18 @@ if (window.location.pathname.endsWith('result.html')) {
   const area = params.get('area');
   const color = params.get('color');
   const img = document.getElementById('main');
+  const photo = document.getElementById('photo');
   const leftArrow = document.querySelector('.leftArrow');
   const rightArrow = document.querySelector('.rightArrow');
+
+  if (color) {
+    document.documentElement.style.setProperty('--selected-color', color);
+    document.documentElement.style.setProperty('--color', color);
+    if (photo) {
+      photo.style.borderColor = color;
+      photo.style.background = color;
+    }
+  }
 
   let imgN = 0;
   let imageList = [];
