@@ -230,7 +230,7 @@ if (isMoviePage && questionImage && playMovieBtn) {
   }
   sessionStorage.setItem(QUESTION_IMAGE_NUMBER_KEY, questionImageNumber);
   setCurrentProblemNumber(questionImageNumber);
-  questionImage.src = `Q_movies/${randomImage}`;
+  questionImage.src = `question/${randomImage}`;
 
   playMovieBtn.addEventListener('click', () => {
     if (playMovieBtn.dataset.played === 'true') return;
@@ -252,7 +252,7 @@ if (isCorrectPage && answerImage && playMovieBtn) {
     throw new Error('問題画像の番号が保存されていません');
   }
 
-  answerImage.src = `A_movies/A${questionImageNumber}.jpg`;
+  answerImage.src = `meaning/A${questionImageNumber}.jpg`;
   answerImage.addEventListener('error', () => {
     console.error(`正解画像を読み込めませんでした: ${answerImage.src}`);
   });
