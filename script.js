@@ -390,114 +390,114 @@ if (window.location.pathname.endsWith('result.html')) {
   const imageMap = {
     1: {
       '#F4BB31': ['img/meaning/A000.jpg'], //驚き（好意的）
-      '#E1B70E': ['img/area1/001.jpg', 'img/meaning/A001.jpg'], //快活
-      '#E45D37': ['img/area1/002.jpg', 'img/meaning/A002.jpg'], //お祭り気分
-      '#D6BA00': ['img/area1/003.jpg', 'img/meaning/A003.jpg'], //高揚感
-      '#F2BF00': ['img/area1/004.jpg', 'img/meaning/A004.jpg'], //有頂天
-      '#D33941': ['img/area1/005.jpg', 'img/meaning/A005.jpg'], //興奮過剰
-      '#F7A631': ['img/area1/006.jpg', 'img/meaning/A006.jpg'], //陽気
-      '#DA425A': ['img/area1/007.jpg', 'img/meaning/A007.jpg'], //意欲
-      '#F6CC37': ['img/area1/008.jpg', 'img/meaning/A008.jpg'], //ひらめき
-      '#F78E2E': ['img/area1/009.jpg', 'img/meaning/A009.jpg'], //意気揚々
-      '#EF8011': ['img/area1/010.jpg', 'img/meaning/A010.jpg'], //活力
-      '#EE7722': ['img/area1/011.jpg', 'img/meaning/A011.jpg'], //活気
-      '#C92F45': ['img/area1/012.jpg', 'img/meaning/A012.jpg'], //熱意
-      '#F0CB73': ['img/area1/013.jpg', 'img/meaning/A013.jpg'], //楽観
-      '#C43F3D': ['img/area1/014.jpg', 'img/meaning/A014.jpg'], //興奮
-      '#EB6976': ['img/area1/015.jpg', 'img/meaning/A015.jpg'], //嬉しさ
-      '#EA8F98': ['img/area1/016.jpg', 'img/meaning/A016.jpg'], //幸福
-      '#2F7DC5': ['img/area1/017.jpg', 'img/meaning/A017.jpg'], //集中
-      '#FFD934': ['img/area1/018.jpg', 'img/meaning/A018.jpg'], //誇り
-      '#B80535': ['img/area1/019.jpg', 'img/meaning/A019.jpg'], //スリル
-      '#EFCE1F': ['img/area1/020.jpg', 'img/meaning/A020.jpg'], //愉快
-      '#FAC422': ['img/area1/021.jpg', 'img/meaning/A021.jpg'], //歓喜
-      '#ECC945': ['img/area1/022.jpg', 'img/meaning/A022.jpg'], //希望
-      '#F28436': ['img/area1/023.jpg', 'img/meaning/A023.jpg'], //遊び心
-      '#F5D269': ['img/area1/024.jpg', 'img/meaning/A024.jpg'] //至福
+      '#E1B70E': ['img/meaning/A001.jpg'], //快活
+      '#E45D37': ['img/meaning/A002.jpg'], //お祭り気分
+      '#D6BA00': ['img/meaning/A003.jpg'], //高揚感
+      '#F2BF00': ['img/meaning/A004.jpg'], //有頂天
+      '#D33941': ['img/meaning/A005.jpg'], //興奮過剰
+      '#F7A631': ['img/meaning/A006.jpg'], //陽気
+      '#DA425A': ['img/meaning/A007.jpg'], //意欲
+      '#F6CC37': ['img/meaning/A008.jpg'], //ひらめき
+      '#F78E2E': ['img/meaning/A009.jpg'], //意気揚々
+      '#EF8011': ['img/meaning/A010.jpg'], //活力
+      '#EE7722': ['img/meaning/A011.jpg'], //活気
+      '#C92F45': ['img/meaning/A012.jpg'], //熱意
+      '#F0CB73': ['img/meaning/A013.jpg'], //楽観
+      '#C43F3D': ['img/meaning/A014.jpg'], //興奮
+      '#EB6976': ['img/meaning/A015.jpg'], //嬉しさ
+      '#EA8F98': ['img/meaning/A016.jpg'], //幸福
+      '#2F7DC5': ['img/meaning/A017.jpg'], //集中
+      '#FFD934': ['img/meaning/A018.jpg'], //誇り
+      '#B80535': ['img/meaning/A019.jpg'], //スリル
+      '#EFCE1F': ['img/meaning/A020.jpg'], //愉快
+      '#FAC422': ['img/meaning/A021.jpg'], //歓喜
+      '#ECC945': ['img/meaning/A022.jpg'], //希望
+      '#F28436': ['img/meaning/A023.jpg'], //遊び心
+      '#F5D269': ['img/meaning/A024.jpg'] //至福
       // ... 1エリアの25色分
     },
     2: {
-      '#9F2942': ['img/area2/100.jpg', 'img/meaning/A100.jpg'], //憤怒
-      '#DB2D48': ['img/area2/101.jpg', 'img/meaning/A101.jpg'], //パニック
-      '#A25854': ['img/area2/102.jpg', 'img/meaning/A102.jpg'], //ストレス
-      '#A9003B': ['img/area2/103.jpg', 'img/meaning/A103.jpg'], //焦燥
-      '#C12149': ['img/area2/104.jpg', 'img/meaning/A104.jpg'], //衝撃
-      '#AC2750': ['img/area2/105.jpg', 'img/meaning/A105.jpg'], //激高
-      '#B02838': ['img/area2/106.jpg', 'img/meaning/A106.jpg'], //激怒
-      '#B89BA6': ['img/area2/107.jpg', 'img/meaning/A107.jpg'], //もどかしさ
-      '#8B9BA7': ['img/area2/108.jpg', 'img/meaning/A108.jpg'], //緊張
-      '#EBF3E7': ['img/area2/109.jpg', 'img/meaning/A109.jpg'], //茫然
-      '#A12E39': ['img/area2/110.jpg', 'img/meaning/A110.jpg'], //煮えくり返り
-      '#402D39': ['img/area2/111.jpg', 'img/meaning/A111.jpg'], //恐怖
-      '#AD2341': ['img/area2/112.jpg', 'img/meaning/A112.jpg'], //怒り
-      '#C73A56': ['img/area2/113.jpg', 'img/meaning/A113.jpg'], //ドキドキ感
-      '#BEAFBE': ['img/area2/114.jpg', 'img/meaning/A114.jpg'], //そわそわ感
-      '#22395B': ['img/area2/115.jpg', 'img/meaning/A115.jpg'], //強度の不安
-      '#A25962': ['img/area2/116.jpg', 'img/meaning/A116.jpg'], //危惧
-      '#486385': ['img/area2/117.jpg', 'img/meaning/A117.jpg'], //心配
-      '#B73C4C': ['img/area2/118.jpg', 'img/meaning/A118.jpg'], //イライラ
-      '#C6404B': ['img/area2/119.jpg', 'img/meaning/A119.jpg'], //苛立ち
-      '#5F3F69': ['img/area2/120.jpg', 'img/meaning/A120.jpg'], //嫌悪
-      '#2A2E53': ['img/area2/121.jpg', 'img/meaning/A121.jpg'], //苦悩
-      '#0D465B': ['img/area2/122.jpg', 'img/meaning/A122.jpg'], //懸念
-      '#77655E': ['img/area2/123.jpg', 'img/meaning/A123.jpg'], //胸騒ぎ
-      '#484454': ['img/area2/124.jpg', 'img/meaning/A124.jpg'] //不機嫌
+      '#9F2942': ['img/meaning/A100.jpg'], //憤怒
+      '#DB2D48': ['img/meaning/A101.jpg'], //パニック
+      '#A25854': ['img/meaning/A102.jpg'], //ストレス
+      '#A9003B': ['img/meaning/A103.jpg'], //焦燥
+      '#C12149': ['img/meaning/A104.jpg'], //衝撃
+      '#AC2750': ['img/meaning/A105.jpg'], //激高
+      '#B02838': ['img/meaning/A106.jpg'], //激怒
+      '#B89BA6': ['img/meaning/A107.jpg'], //もどかしさ
+      '#8B9BA7': ['img/meaning/A108.jpg'], //緊張
+      '#EBF3E7': ['img/meaning/A109.jpg'], //茫然
+      '#A12E39': ['img/meaning/A110.jpg'], //煮えくり返り
+      '#402D39': ['img/meaning/A111.jpg'], //恐怖
+      '#AD2341': ['img/meaning/A112.jpg'], //怒り
+      '#C73A56': ['img/meaning/A113.jpg'], //ドキドキ感
+      '#BEAFBE': ['img/meaning/A114.jpg'], //そわそわ感
+      '#22395B': ['img/meaning/A115.jpg'], //強度の不安
+      '#A25962': ['img/meaning/A116.jpg'], //危惧
+      '#486385': ['img/meaning/A117.jpg'], //心配
+      '#B73C4C': ['img/meaning/A118.jpg'], //イライラ
+      '#C6404B': ['img/meaning/A119.jpg'], //苛立ち
+      '#5F3F69': ['img/meaning/A120.jpg'], //嫌悪
+      '#2A2E53': ['img/meaning/A121.jpg'], //苦悩
+      '#0D465B': ['img/meaning/A122.jpg'], //懸念
+      '#77655E': ['img/meaning/A123.jpg'], //胸騒ぎ
+      '#484454': ['img/meaning/A124.jpg'] //不機嫌
       // ... 2エリアの25色分
     },
     3: {
-      '#63516A': ['img/area3/200.jpg', 'img/meaning/A200.jpg'], //うんざり感
-      '#4A5365': ['img/area3/201.jpg', 'img/meaning/A201.jpg'], //陰気
-      '#2E2A27': ['img/area3/202.jpg', 'img/meaning/A202.jpg'], //失望
-      '#354C6C': ['img/area3/203.jpg', 'img/meaning/A203.jpg'], //気分の落ち込み
-      '#E1E0DF': ['img/area3/204.jpg', 'img/meaning/A204.jpg'], //無関心
-      '#355873': ['img/area3/205.jpg', 'img/meaning/A205.jpg'], //悲観
-      '#322D42': ['img/area3/206.jpg', 'img/meaning/A206.jpg'], //陰鬱
-      '#476678': ['img/area3/207.jpg', 'img/meaning/A207.jpg'], //意気消沈
-      '#27557D': ['img/area3/208.jpg', 'img/meaning/A208.jpg'], //悲しみ
-      '#5B565A': ['img/area3/209.jpg', 'img/meaning/A209.jpg'], //退屈
-      '#A69BA8': ['img/area3/210.jpg', 'img/meaning/A210.jpg'], //疎外感
-      '#3D5762': ['img/area3/211.jpg', 'img/meaning/A211.jpg'], //惨めさ
-      '#5C6472': ['img/area3/212.jpg', 'img/meaning/A212.jpg'], //孤独
-      '#31495D': ['img/area3/213.jpg', 'img/meaning/A213.jpg'], //落胆
-      '#5F5768': ['img/area3/214.jpg', 'img/meaning/A214.jpg'], //疲れ
-      '#25334A': ['img/area3/215.jpg', 'img/meaning/A215.jpg'], //悲嘆
-      '#343D44': ['img/area3/216.jpg', 'img/meaning/A216.jpg'], //うつ状態
-      '#1E3338': ['img/area3/217.jpg', 'img/meaning/A217.jpg'], //ふさぎ込み
-      '#565A75': ['img/area3/218.jpg', 'img/meaning/A218.jpg'], //疲れ果て
-      '#286075': ['img/area3/219.jpg', 'img/meaning/A219.jpg'], //疲労
-      '#242228': ['img/area3/220.jpg', 'img/meaning/A220.jpg'], //絶望
-      '#322F3B': ['img/area3/221.jpg', 'img/meaning/A221.jpg'], //絶望的状態
-      '#002F49': ['img/area3/222.jpg', 'img/meaning/A222.jpg'], //孤立感
-      '#EBF2F6': ['img/area3/223.jpg', 'img/meaning/A223.jpg'], //虚脱
-      '#FAEFE7': ['img/area3/224.jpg', 'img/meaning/A224.jpg'] //エネルギー枯渇
+      '#63516A': ['img/meaning/A200.jpg'], //うんざり感
+      '#4A5365': ['img/meaning/A201.jpg'], //陰気
+      '#2E2A27': ['img/meaning/A202.jpg'], //失望
+      '#354C6C': ['img/meaning/A203.jpg'], //気分の落ち込み
+      '#E1E0DF': ['img/meaning/A204.jpg'], //無関心
+      '#355873': ['img/meaning/A205.jpg'], //悲観
+      '#322D42': ['img/meaning/A206.jpg'], //陰鬱
+      '#476678': ['img/meaning/A207.jpg'], //意気消沈
+      '#27557D': ['img/meaning/A208.jpg'], //悲しみ
+      '#5B565A': ['img/meaning/A209.jpg'], //退屈
+      '#A69BA8': ['img/meaning/A210.jpg'], //疎外感
+      '#3D5762': ['img/meaning/A211.jpg'], //惨めさ
+      '#5C6472': ['img/meaning/A212.jpg'], //孤独
+      '#31495D': ['img/meaning/A213.jpg'], //落胆
+      '#5F5768': ['img/meaning/A214.jpg'], //疲れ
+      '#25334A': ['img/meaning/A215.jpg'], //悲嘆
+      '#343D44': ['img/meaning/A216.jpg'], //うつ状態
+      '#1E3338': ['img/meaning/A217.jpg'], //ふさぎ込み
+      '#565A75': ['img/meaning/A218.jpg'], //疲れ果て
+      '#286075': ['img/meaning/A219.jpg'], //疲労
+      '#242228': ['img/meaning/A220.jpg'], //絶望
+      '#322F3B': ['img/meaning/A221.jpg'], //絶望的状態
+      '#002F49': ['img/meaning/A222.jpg'], //孤立感
+      '#EBF2F6': ['img/meaning/A223.jpg'], //虚脱
+      '#FAEFE7': ['img/meaning/A224.jpg'] //エネルギー枯渇
       // ... 3エリアの25色分
     },
     4: {
-      '#E18E82': ['img/area4/300.jpg', 'img/meaning/A300.jpg'], //安堵
-      '#FFDBBE': ['img/area4/301.jpg', 'img/meaning/A301.jpg'], //大らかさ
-      '#E3CF68': ['img/area4/302.jpg', 'img/meaning/A302.jpg'], //充足
-      '#E7757F': ['img/area4/303.jpg', 'img/meaning/A303.jpg'], //愛おしさ
-      '#FFA024': ['img/area4/304.jpg', 'img/meaning/A304.jpg'], //充実感
-      '#8FA9BE': ['img/area4/305.jpg', 'img/meaning/A305.jpg'], //冷静
-      '#CDAFAF': ['img/area4/306.jpg', 'img/meaning/A306.jpg'], //安心
-      '#F16D4C': ['img/area4/307.jpg', 'img/meaning/A307.jpg'], //満足
-      '#DF6465': ['img/area4/308.jpg', 'img/meaning/A308.jpg'], //感謝
-      '#EE9B99': ['img/area4/309.jpg', 'img/meaning/A309.jpg'], //感銘
-      '#E5C0BE': ['img/area4/310.jpg', 'img/meaning/A310.jpg'], //リラックス
-      '#EADBB6': ['img/area4/311.jpg', 'img/meaning/A311.jpg'], //平穏な寛ぎ
-      '#B3CAB8': ['img/area4/312.jpg', 'img/meaning/A312.jpg'], //安らぎ
-      '#E65866': ['img/area4/313.jpg', 'img/meaning/A313.jpg'], //恩恵感
-      '#AECBC7': ['img/area4/314.jpg', 'img/meaning/A314.jpg'], //心身の調和
-      '#18A76B': ['img/area4/315.jpg', 'img/meaning/A315.jpg'], //豊かさ
-      '#ADAFCD': ['img/area4/316.jpg', 'img/meaning/A316.jpg'], //物思い
-      '#9FCABA': ['img/area4/317.jpg', 'img/meaning/A317.jpg'], //平和
-      '#A7C6D0': ['img/area4/318.jpg', 'img/meaning/A318.jpg'], //快適さ
-      '#E0CC74': ['img/area4/319.jpg', 'img/meaning/A319.jpg'], //気楽さ
-      '#A5A8BA': ['img/area4/320.jpg', 'img/meaning/A320.jpg'], //眠気
-      '#E7D0B7': ['img/area4/321.jpg', 'img/meaning/A321.jpg'], //のほほん状態
-      '#D0C7AC': ['img/area4/322.jpg', 'img/meaning/A322.jpg'], //平穏
-      '#92C5A7': ['img/area4/323.jpg', 'img/meaning/A323.jpg'], //居心地の良さ
-      '#A6BBD0': ['img/area4/324.jpg', 'img/meaning/A324.jpg'] //静謐（せいひつ）
+      '#E18E82': ['img/meaning/A300.jpg'], //安堵
+      '#FFDBBE': ['img/meaning/A301.jpg'], //大らかさ
+      '#E3CF68': ['img/meaning/A302.jpg'], //充足
+      '#E7757F': ['img/meaning/A303.jpg'], //愛おしさ
+      '#FFA024': ['img/meaning/A304.jpg'], //充実感
+      '#8FA9BE': ['img/meaning/A305.jpg'], //冷静
+      '#CDAFAF': ['img/meaning/A306.jpg'], //安心
+      '#F16D4C': ['img/meaning/A307.jpg'], //満足
+      '#DF6465': ['img/meaning/A308.jpg'], //感謝
+      '#EE9B99': ['img/meaning/A309.jpg'], //感銘
+      '#E5C0BE': ['img/meaning/A310.jpg'], //リラックス
+      '#EADBB6': ['img/meaning/A311.jpg'], //平穏な寛ぎ
+      '#B3CAB8': ['img/meaning/A312.jpg'], //安らぎ
+      '#E65866': ['img/meaning/A313.jpg'], //恩恵感
+      '#AECBC7': ['img/meaning/A314.jpg'], //心身の調和
+      '#18A76B': ['img/meaning/A315.jpg'], //豊かさ
+      '#ADAFCD': ['img/meaning/A316.jpg'], //物思い
+      '#9FCABA': ['img/meaning/A317.jpg'], //平和
+      '#A7C6D0': ['img/meaning/A318.jpg'], //快適さ
+      '#E0CC74': ['img/meaning/A319.jpg'], //気楽さ
+      '#A5A8BA': ['img/meaning/A320.jpg'], //眠気
+      '#E7D0B7': ['img/meaning/A321.jpg'], //のほほん状態
+      '#D0C7AC': ['img/meaning/A322.jpg'], //平穏
+      '#92C5A7': ['img/meaning/A323.jpg'], //居心地の良さ
+      '#A6BBD0': ['img/meaning/A324.jpg'] //静謐（せいひつ）
       // ... 4エリアの25色分
     }
   };
@@ -508,54 +508,19 @@ if (window.location.pathname.endsWith('result.html')) {
   const color = params.get('color');
   const img = document.getElementById('main');
   const photo = document.getElementById('photo');
-  const leftArrow = document.querySelector('.leftArrow');
-  const rightArrow = document.querySelector('.rightArrow');
 
   if (color) {
     document.documentElement.style.setProperty('--selected-color', color);
-    document.documentElement.style.setProperty('--color', color);
     if (photo) {
       photo.style.borderColor = color;
       photo.style.background = color;
     }
   }
 
-  let imgN = 0;
-  let imageList = [];
-
-  function updateArrows() {
-    if (!leftArrow || !rightArrow) return;
-    // 左端なら左矢印非表示
-    leftArrow.style.display = imgN === 0 ? 'none' : 'block';
-    // 右端なら右矢印非表示
-    rightArrow.style.display = imgN === imageList.length - 1 ? 'none' : 'block';
-  }
-
   if (img && area && color && imageMap[area] && imageMap[area][color]) {
-    imageList = imageMap[area][color];
-    img.src = imageList[imgN];
-    updateArrows();
-
-    // スライドショーのイベント
-    if (leftArrow && rightArrow) {
-      leftArrow.addEventListener('click', () => {
-        if (imgN > 0) {
-          imgN -= 1;
-          img.src = imageList[imgN];
-          updateArrows();
-        }
-      });
-      rightArrow.addEventListener('click', () => {
-        if (imgN < imageList.length - 1) {
-          imgN += 1;
-          img.src = imageList[imgN];
-          updateArrows();
-        }
-      });
-    }
+    const currentImage = imageMap[area][color][0];
+    img.src = currentImage;
   } else if (img) {
     img.src = 'img/仮画像.png';
-    if (leftArrow) leftArrow.style.display = 'none';
-    if (rightArrow) rightArrow.style.display = 'none';
   }
 }
