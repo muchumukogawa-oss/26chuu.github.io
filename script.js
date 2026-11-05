@@ -473,7 +473,7 @@ if (window.location.pathname.endsWith('result.html')) {
       // ... 3エリアの25色分
     },
     4: {
-      '#E18E82': ['img/meaning/A300.jpg'], //安堵
+      '#E18E82': ['img/meaning/A300.JPG'], //安堵
       '#FFDBBE': ['img/meaning/A301.jpg'], //大らかさ
       '#E3CF68': ['img/meaning/A302.jpg'], //充足
       '#E7757F': ['img/meaning/A303.jpg'], //愛おしさ
