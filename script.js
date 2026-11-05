@@ -497,7 +497,7 @@ if (window.location.pathname.endsWith('result.html')) {
       '#E7D0B7': ['img/meaning/A321.jpg'], //のほほん状態
       '#D0C7AC': ['img/meaning/A322.jpg'], //平穏
       '#92C5A7': ['img/meaning/A323.jpg'], //居心地の良さ
-      '#A6BBD0': ['img/meaning/A324.jpg'] //静謐（せいひつ）
+      '#A6BBD0': ['img/meaning/A324.jpg'] //静謐
       // ... 4エリアの25色分
     }
   };
@@ -508,6 +508,7 @@ if (window.location.pathname.endsWith('result.html')) {
   const color = params.get('color');
   const img = document.getElementById('main');
   const photo = document.getElementById('photo');
+  const selectedWord = document.getElementById('selectedWord');
 
   if (color) {
     document.documentElement.style.setProperty('--selected-color', color);
@@ -517,10 +518,35 @@ if (window.location.pathname.endsWith('result.html')) {
     }
   }
 
+  async function loadSelectedWord() {
+    if (!area || !color) return '';
+
+    try {
+      const source = await fetch('script.js').then((response) => response.text());
+      const escapedColor = color.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const match = source.match(
+        new RegExp(`'${escapedColor}'\\s*:\\s*\\[[^\\]]*\\]\\s*(?:,)?\\s*//\\s*([^\\r\\n]+)`, 'm')
+      );
+      return match ? match[1].trim() : '';
+    } catch (error) {
+      console.error('感情語彙の取得に失敗しました:', error);
+      return '';
+    }
+  }
+
   if (img && area && color && imageMap[area] && imageMap[area][color]) {
     const currentImage = imageMap[area][color][0];
     img.src = currentImage;
+
+    loadSelectedWord().then((word) => {
+      if (selectedWord) {
+        selectedWord.textContent = word || '';
+      }
+    });
   } else if (img) {
     img.src = 'img/仮画像.png';
+    if (selectedWord) {
+      selectedWord.textContent = '';
+    }
   }
 }
