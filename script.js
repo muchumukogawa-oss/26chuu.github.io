@@ -473,31 +473,31 @@ if (window.location.pathname.endsWith('result.html')) {
       // ... 3エリアの25色分
     },
     4: {
-      '': ['img/area4/300.jpg', 'img/meaning/A300.jpg'], //
-      '': ['img/area4/301.jpg', 'img/meaning/A301.jpg'], //
-      '': ['img/area4/302.jpg', 'img/meaning/A302.jpg'], //
-      '': ['img/area4/303.jpg', 'img/meaning/A303.jpg'], //
-      '': ['img/area4/304.jpg', 'img/meaning/A304.jpg'], //
-      '': ['img/area4/305.jpg', 'img/meaning/A305.jpg'], //
-      '': ['img/area4/306.jpg', 'img/meaning/A306.jpg'], //
-      '': ['img/area4/307.jpg', 'img/meaning/A307.jpg'], //
-      '': ['img/area4/308.jpg', 'img/meaning/A308.jpg'], //
-      '': ['img/area4/309.jpg', 'img/meaning/A309.jpg'], //
-      '': ['img/area4/310.jpg', 'img/meaning/A310.jpg'], //
-      '': ['img/area4/311.jpg', 'img/meaning/A311.jpg'], //
-      '': ['img/area4/312.jpg', 'img/meaning/A312.jpg'], //
-      '': ['img/area4/313.jpg', 'img/meaning/A313.jpg'], //
-      '': ['img/area4/314.jpg', 'img/meaning/A314.jpg'], //
-      '': ['img/area4/315.jpg', 'img/meaning/A315.jpg'], //
-      '': ['img/area4/316.jpg', 'img/meaning/A316.jpg'], //
-      '': ['img/area4/317.jpg', 'img/meaning/A317.jpg'], //
-      '': ['img/area4/318.jpg', 'img/meaning/A318.jpg'], //
-      '': ['img/area4/319.jpg', 'img/meaning/A319.jpg'], //
-      '': ['img/area4/320.jpg', 'img/meaning/A320.jpg'], //
-      '': ['img/area4/321.jpg', 'img/meaning/A321.jpg'], //
-      '': ['img/area4/322.jpg', 'img/meaning/A322.jpg'], //
-      '': ['img/area4/323.jpg', 'img/meaning/A323.jpg'], //
-      '': ['img/area4/324.jpg', 'img/meaning/A324.jpg'] //
+      '#E18E82': ['img/area4/300.jpg', 'img/meaning/A300.jpg'], //安堵
+      '#FFDBBE': ['img/area4/301.jpg', 'img/meaning/A301.jpg'], //大らかさ
+      '#E3CF68': ['img/area4/302.jpg', 'img/meaning/A302.jpg'], //充足
+      '#E7757F': ['img/area4/303.jpg', 'img/meaning/A303.jpg'], //愛おしさ
+      '#FFA024': ['img/area4/304.jpg', 'img/meaning/A304.jpg'], //充実感
+      '#8FA9BE': ['img/area4/305.jpg', 'img/meaning/A305.jpg'], //冷静
+      '#CDAFAF': ['img/area4/306.jpg', 'img/meaning/A306.jpg'], //安心
+      '#F16D4C': ['img/area4/307.jpg', 'img/meaning/A307.jpg'], //満足
+      '#DF6465': ['img/area4/308.jpg', 'img/meaning/A308.jpg'], //感謝
+      '#EE9B99': ['img/area4/309.jpg', 'img/meaning/A309.jpg'], //感銘
+      '#E5C0BE': ['img/area4/310.jpg', 'img/meaning/A310.jpg'], //リラックス
+      '#EADBB6': ['img/area4/311.jpg', 'img/meaning/A311.jpg'], //平穏な寛ぎ
+      '#B3CAB8': ['img/area4/312.jpg', 'img/meaning/A312.jpg'], //安らぎ
+      '#E65866': ['img/area4/313.jpg', 'img/meaning/A313.jpg'], //恩恵感
+      '#AECBC7': ['img/area4/314.jpg', 'img/meaning/A314.jpg'], //心身の調和
+      '#18A76B': ['img/area4/315.jpg', 'img/meaning/A315.jpg'], //豊かさ
+      '#ADAFCD': ['img/area4/316.jpg', 'img/meaning/A316.jpg'], //物思い
+      '#9FCABA': ['img/area4/317.jpg', 'img/meaning/A317.jpg'], //平和
+      '#A7C6D0': ['img/area4/318.jpg', 'img/meaning/A318.jpg'], //快適さ
+      '#E0CC74': ['img/area4/319.jpg', 'img/meaning/A319.jpg'], //気楽さ
+      '#A5A8BA': ['img/area4/320.jpg', 'img/meaning/A320.jpg'], //眠気
+      '#E7D0B7': ['img/area4/321.jpg', 'img/meaning/A321.jpg'], //のほほん状態
+      '#D0C7AC': ['img/area4/322.jpg', 'img/meaning/A322.jpg'], //平穏
+      '#92C5A7': ['img/area4/323.jpg', 'img/meaning/A323.jpg'], //居心地の良さ
+      '#A6BBD0': ['img/area4/324.jpg', 'img/meaning/A324.jpg'] //静謐（せいひつ）
       // ... 4エリアの25色分
     }
   };
