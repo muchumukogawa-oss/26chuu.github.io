@@ -510,6 +510,8 @@ if (window.location.pathname.endsWith('result.html')) {
   const photo = document.getElementById('photo');
   const selectedWord = document.getElementById('selectedWord');
 
+  const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
+
   if (color) {
     document.documentElement.style.setProperty('--selected-color', color);
     if (photo) {
@@ -534,19 +536,53 @@ if (window.location.pathname.endsWith('result.html')) {
     }
   }
 
-  if (img && area && color && imageMap[area] && imageMap[area][color]) {
-    const currentImage = imageMap[area][color][0];
-    img.src = currentImage;
+  const resolveMeaningEntry = () => {
+    if (!area || !color || !imageMap[area]) return null;
+    const normalized = normalizeColorKey(color);
+    const entries = Object.entries(imageMap[area]);
+    const match = entries.find(([key]) => normalizeColorKey(key) === normalized);
+    return match ? match[1] : null;
+  };
 
-    loadSelectedWord().then((word) => {
-      if (selectedWord) {
-        selectedWord.textContent = word || '';
-      }
-    });
+  const trySetImage = (candidates, index = 0) => {
+    if (!img || !candidates || candidates.length === 0) {
+      if (selectedWord) selectedWord.textContent = '';
+      return;
+    }
+
+    const candidate = candidates[index];
+    if (!candidate) {
+      img.src = 'img/仮画像.png';
+      if (selectedWord) selectedWord.textContent = '';
+      return;
+    }
+
+    img.onerror = () => trySetImage(candidates, index + 1);
+    img.src = candidate;
+  };
+
+  if (img && area && color) {
+    const entry = resolveMeaningEntry();
+    const candidates = Array.isArray(entry) ? entry : entry ? [entry] : [];
+
+    if (candidates.length > 0) {
+      img.onerror = () => {
+        const fallback = candidates.slice(1);
+        trySetImage(fallback, 0);
+      };
+      img.src = candidates[0];
+
+      loadSelectedWord().then((word) => {
+        if (selectedWord) {
+          selectedWord.textContent = word || '';
+        }
+      });
+    } else {
+      img.src = 'img/仮画像.png';
+      if (selectedWord) selectedWord.textContent = '';
+    }
   } else if (img) {
     img.src = 'img/仮画像.png';
-    if (selectedWord) {
-      selectedWord.textContent = '';
-    }
+    if (selectedWord) selectedWord.textContent = '';
   }
 }
