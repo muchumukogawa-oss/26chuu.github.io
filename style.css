@@ -93,8 +93,15 @@ rt {
 
 /* image */
 #main {
-  width: 384px;
-  height: 294px;
+  display: block;
+  width: auto;
+  max-width: min(420px, calc(100vw - 40px));
+  height: auto;
+  max-height: 340px;
+  object-fit: contain;
+  background: #f5f5f5;
+  border: 3px solid #232323;
+  box-sizing: border-box;
 }
 
 a {
@@ -712,25 +719,46 @@ ol li {
 }
 
 #slideshow {
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+#photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(420px, calc(100vw - 40px));
+}
+
+.slide-nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* height: 320px; 画像の高さに合わせて調整 */
+  gap: 24px;
 }
+
 .arrow {
-  position: absolute;
-  top: 50%; /* 画像の高さの半分 */
-  transform: translateY(-50%);
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  transform: none;
   z-index: 2;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
 }
+
 .leftArrow {
-  left: 0; /* 左端 */
+  left: auto;
 }
 
 .rightArrow {
-  /* 右端 */
-  right: 33px;
+  right: auto;
 }
 
 .arrow::before,

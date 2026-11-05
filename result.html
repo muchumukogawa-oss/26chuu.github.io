@@ -16,11 +16,13 @@
         <h3 style="text-align: center">あなたが選んだ「おもい」は<br />こんなことば</h3>
       </div>
       <div id="slideshow">
-        <span class="arrow leftArrow"></span>
         <div id="photo">
-          <img id="main" />
+          <img id="main" alt="選択したイメージ" />
         </div>
-        <span class="arrow rightArrow"></span>
+        <div class="slide-nav" aria-label="スライドの切り替え">
+          <span class="arrow leftArrow" aria-label="前の画像"></span>
+          <span class="arrow rightArrow" aria-label="次の画像"></span>
+        </div>
       </div>
       <!-- 評価 -->
       <div class="rating-group" role="radiogroup" aria-label="評価の選択">
