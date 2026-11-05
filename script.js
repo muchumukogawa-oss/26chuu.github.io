@@ -389,7 +389,7 @@ if (reviewNextBtn) {
 if (window.location.pathname.endsWith('result.html')) {
   const imageMap = {
     1: {
-      '#92d050': ['img/area1/001.PNG', 'img/area1/101.PNG'],
+      '#F4BB31': ['img/area1/0.jpg', 'img/area1/1.jpg'],
       '#ffee00': ['img/area1/002.PNG', 'img/area1/102.PNG'],
       '#ffd500': ['img/area1/003.PNG', 'img/area1/103.PNG'],
       '#ff0000': ['img/area1/004.PNG', 'img/area1/104.PNG'],
