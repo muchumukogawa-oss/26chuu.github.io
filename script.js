@@ -389,88 +389,115 @@ if (reviewNextBtn) {
 if (window.location.pathname.endsWith('result.html')) {
   const imageMap = {
     1: {
-      '#F4BB31': ['img/area1/0.jpg', 'img/meaning/A000.jpg'], //驚き（好意的）
-      '#E1B70E': ['img/area1/1.jpg', 'img/meaning/A001.jpg'], //快活
-      '#E45D37': ['img/area1/2.jpg', 'img/meaning/A002.jpg'], //お祭り気分
-      '#D6BA00': ['img/area1/3.jpg', 'img/meaning/A003.jpg'], //高揚感
-      '#F2BF00': ['img/area1/4.jpg', 'img/meaning/A004.jpg'], //有頂天
-      '#D33941': ['img/area1/5.jpg', 'img/meaning/A005.jpg'], //興奮過剰
-      '#F7A631': ['img/area1/6.jpg', 'img/meaning/A006.jpg'], //陽気
-      '#DA425A': ['img/area1/7.jpg', 'img/meaning/A007.jpg'], //意欲
-      '#F6CC37': ['img/area1/8.jpg', 'img/meaning/A008.jpg'], //ひらめき
-      '#F78E2E': ['img/area1/9.jpg', 'img/meaning/A009.jpg'], //意気揚々
-      '#EF8011': ['img/area1/10.jpg', 'img/meaning/A010.jpg'], //活力
-      '#EE7722': ['img/area1/11.jpg', 'img/meaning/A011.jpg'], //活気
-      '#C92F45': ['img/area1/12.jpg', 'img/meaning/A012.jpg'], //熱意
-      '#F0CB73': ['img/area1/13.jpg', 'img/meaning/A013.jpg'], //楽観
-      '#C43F3D': ['img/area1/14.jpg', 'img/meaning/A014.jpg'], //興奮
-      '#EB6976': ['img/area1/15.jpg', 'img/meaning/A015.jpg'], //嬉しさ
-      '#EA8F98': ['img/area1/16.jpg', 'img/meaning/A016.jpg'], //幸福
-      '#2F7DC5': ['img/area1/17.jpg', 'img/meaning/A017.jpg'], //集中
-      '#FFD934': ['img/area1/18.jpg', 'img/meaning/A018.jpg'], //誇り
-      '#B80535': ['img/area1/19.jpg', 'img/meaning/A019.jpg'], //スリル
-      '#EFCE1F': ['img/area1/20.jpg', 'img/meaning/A020.jpg'], //愉快
-      '#FAC422': ['img/area1/21.jpg', 'img/meaning/A021.jpg'], //歓喜
-      '#ECC945': ['img/area1/22.jpg', 'img/meaning/A022.jpg'], //希望
-      '#F28436': ['img/area1/23.jpg', 'img/meaning/A023.jpg'], //遊び心
-      '#F5D269': ['img/area1/24.jpg', 'img/meaning/A024.jpg'] //至福
+      '#F4BB31': ['img/area1/000.jpg', 'img/meaning/A000.jpg'], //驚き（好意的）
+      '#E1B70E': ['img/area1/001.jpg', 'img/meaning/A001.jpg'], //快活
+      '#E45D37': ['img/area1/002.jpg', 'img/meaning/A002.jpg'], //お祭り気分
+      '#D6BA00': ['img/area1/003.jpg', 'img/meaning/A003.jpg'], //高揚感
+      '#F2BF00': ['img/area1/004.jpg', 'img/meaning/A004.jpg'], //有頂天
+      '#D33941': ['img/area1/005.jpg', 'img/meaning/A005.jpg'], //興奮過剰
+      '#F7A631': ['img/area1/006.jpg', 'img/meaning/A006.jpg'], //陽気
+      '#DA425A': ['img/area1/007.jpg', 'img/meaning/A007.jpg'], //意欲
+      '#F6CC37': ['img/area1/008.jpg', 'img/meaning/A008.jpg'], //ひらめき
+      '#F78E2E': ['img/area1/009.jpg', 'img/meaning/A009.jpg'], //意気揚々
+      '#EF8011': ['img/area1/010.jpg', 'img/meaning/A010.jpg'], //活力
+      '#EE7722': ['img/area1/011.jpg', 'img/meaning/A011.jpg'], //活気
+      '#C92F45': ['img/area1/012.jpg', 'img/meaning/A012.jpg'], //熱意
+      '#F0CB73': ['img/area1/013.jpg', 'img/meaning/A013.jpg'], //楽観
+      '#C43F3D': ['img/area1/014.jpg', 'img/meaning/A014.jpg'], //興奮
+      '#EB6976': ['img/area1/015.jpg', 'img/meaning/A015.jpg'], //嬉しさ
+      '#EA8F98': ['img/area1/016.jpg', 'img/meaning/A016.jpg'], //幸福
+      '#2F7DC5': ['img/area1/017.jpg', 'img/meaning/A017.jpg'], //集中
+      '#FFD934': ['img/area1/018.jpg', 'img/meaning/A018.jpg'], //誇り
+      '#B80535': ['img/area1/019.jpg', 'img/meaning/A019.jpg'], //スリル
+      '#EFCE1F': ['img/area1/020.jpg', 'img/meaning/A020.jpg'], //愉快
+      '#FAC422': ['img/area1/021.jpg', 'img/meaning/A021.jpg'], //歓喜
+      '#ECC945': ['img/area1/022.jpg', 'img/meaning/A022.jpg'], //希望
+      '#F28436': ['img/area1/023.jpg', 'img/meaning/A023.jpg'], //遊び心
+      '#F5D269': ['img/area1/024.jpg', 'img/meaning/A024.jpg'] //至福
       // ... 1エリアの25色分
     },
     2: {
-      '#c1e4f5': ['img/area2/001.PNG', 'img/area2/101.PNG'],
-      '#ffcccc': ['img/area2/002.PNG', 'img/area2/102.PNG'],
-      '#ffddf4': ['img/area2/003.PNG', 'img/area2/103.PNG'],
-      '#00b050': ['img/area2/004.PNG', 'img/area2/104.PNG'],
-      '#83caeb': ['img/area2/005.PNG', 'img/area2/105.PNG'],
-      '#ff9999': ['img/area2/006.PNG', 'img/area2/106.PNG'],
-      '#d9f9fb': ['img/area2/007.PNG', 'img/area2/107.PNG'],
-      '#ffffcc': ['img/area2/008.PNG', 'img/area2/108.PNG'],
-      '#4d94d8': ['img/area2/009.PNG', 'img/area2/109.PNG'],
-      '#b3e5a1': ['img/area2/010.PNG', 'img/area2/110.PNG'],
-      '#b7f2f7': ['img/area2/011.PNG', 'img/area2/111.PNG'],
-      '#ffff99': ['img/area2/012.PNG', 'img/area2/112.PNG'],
-      '#215e99': ['img/area2/013.PNG', 'img/area2/113.PNG'],
-      '#4bb3e1': ['img/area2/014.PNG', 'img/area2/114.PNG'],
-      '#1bd5e3': ['img/area2/015.PNG', 'img/area2/115.PNG'],
-      '#ffb0ff': ['img/area2/016.PNG', 'img/area2/116.PNG']
+      '#9F2942': ['img/area2/100.jpg', 'img/meaning/A100.jpg'], //憤怒
+      '#DB2D48': ['img/area2/101.jpg', 'img/meaning/A101.jpg'], //パニック
+      '#A25854': ['img/area2/102.jpg', 'img/meaning/A102.jpg'], //ストレス
+      '#A9003B': ['img/area2/103.jpg', 'img/meaning/A103.jpg'], //焦燥
+      '#C12149': ['img/area2/104.jpg', 'img/meaning/A104.jpg'], //衝撃
+      '#AC2750': ['img/area2/105.jpg', 'img/meaning/A105.jpg'], //激高
+      '#B02838': ['img/area2/106.jpg', 'img/meaning/A106.jpg'], //激怒
+      '#B89BA6': ['img/area2/107.jpg', 'img/meaning/A107.jpg'], //もどかしさ
+      '#8B9BA7': ['img/area2/108.jpg', 'img/meaning/A108.jpg'], //緊張
+      '#EBF3E7': ['img/area2/109.jpg', 'img/meaning/A109.jpg'], //茫然
+      '#A12E39': ['img/area2/110.jpg', 'img/meaning/A110.jpg'], //煮えくり返り
+      '#402D39': ['img/area2/111.jpg', 'img/meaning/A111.jpg'], //恐怖
+      '#AD2341': ['img/area2/112.jpg', 'img/meaning/A112.jpg'], //怒り
+      '#C73A56': ['img/area2/113.jpg', 'img/meaning/A113.jpg'], //ドキドキ感
+      '#BEAFBE': ['img/area2/114.jpg', 'img/meaning/A114.jpg'], //そわそわ感
+      '#22395B': ['img/area2/115.jpg', 'img/meaning/A115.jpg'], //強度の不安
+      '#A25962': ['img/area2/116.jpg', 'img/meaning/A116.jpg'], //危惧
+      '#486385': ['img/area2/117.jpg', 'img/meaning/A117.jpg'], //心配
+      '#B73C4C': ['img/area2/118.jpg', 'img/meaning/A118.jpg'], //イライラ
+      '#C6404B': ['img/area2/119.jpg', 'img/meaning/A119.jpg'], //苛立ち
+      '#5F3F69': ['img/area2/120.jpg', 'img/meaning/A120.jpg'], //嫌悪
+      '#2A2E53': ['img/area2/121.jpg', 'img/meaning/A121.jpg'], //苦悩
+      '#0D465B': ['img/area2/122.jpg', 'img/meaning/A122.jpg'], //懸念
+      '#77655E': ['img/area2/123.jpg', 'img/meaning/A123.jpg'], //胸騒ぎ
+      '#484454': ['img/area2/124.jpg', 'img/meaning/A124.jpg'] //不機嫌
       // ... 2エリアの25色分
     },
     3: {
-      '#d0d0d0': ['img/area3/001.PNG', 'img/area3/101.PNG'],
-      '#2195c9': ['img/area3/002.PNG', 'img/area3/102.PNG'],
-      '#16abb6': ['img/area3/003.PNG', 'img/area3/103.PNG'],
-      '#5ba142': ['img/area3/004.PNG', 'img/area3/104.PNG'],
-      '#747474': ['img/area3/005.PNG', 'img/area3/105.PNG'],
-      '#186b90': ['img/area3/006.PNG', 'img/area3/106.PNG'],
-      '#0e6d74': ['img/area3/007.PNG', 'img/area3/107.PNG'],
-      '#427530': ['img/area3/008.PNG', 'img/area3/108.PNG'],
-      '#3a3a3a': ['img/area3/009.PNG', 'img/area3/109.PNG'],
-      '#0f4861': ['img/area3/010.PNG', 'img/area3/110.PNG'],
-      '#0a5156': ['img/area3/011.PNG', 'img/area3/111.PNG'],
-      '#305523': ['img/area3/012.PNG', 'img/area3/112.PNG'],
-      '#000000': ['img/area3/013.PNG', 'img/area3/113.PNG'],
-      '#0a3041': ['img/area3/014.PNG', 'img/area3/114.PNG'],
-      '#084044': ['img/area3/015.PNG', 'img/area3/115.PNG'],
-      '#595959': ['img/area3/016.PNG', 'img/area3/116.PNG']
+      '': ['img/area3/200.jpg', 'img/meaning/A200.jpg'], //
+      '': ['img/area3/201.jpg', 'img/meaning/A201.jpg'], //
+      '': ['img/area3/202.jpg', 'img/meaning/A202.jpg'], //
+      '': ['img/area3/203.jpg', 'img/meaning/A203.jpg'], //
+      '': ['img/area3/204.jpg', 'img/meaning/A204.jpg'], //
+      '': ['img/area3/205.jpg', 'img/meaning/A205.jpg'], //
+      '': ['img/area3/206.jpg', 'img/meaning/A206.jpg'], //
+      '': ['img/area3/207.jpg', 'img/meaning/A207.jpg'], //
+      '': ['img/area3/208.jpg', 'img/meaning/A208.jpg'], //
+      '': ['img/area3/209.jpg', 'img/meaning/A209.jpg'], //
+      '': ['img/area3/210.jpg', 'img/meaning/A210.jpg'], //
+      '': ['img/area3/211.jpg', 'img/meaning/A211.jpg'], //
+      '': ['img/area3/212.jpg', 'img/meaning/A212.jpg'], //
+      '': ['img/area3/213.jpg', 'img/meaning/A213.jpg'], //
+      '': ['img/area3/214.jpg', 'img/meaning/A214.jpg'], //
+      '': ['img/area3/215.jpg', 'img/meaning/A215.jpg'], //
+      '': ['img/area3/216.jpg', 'img/meaning/A216.jpg'], //
+      '': ['img/area3/217.jpg', 'img/meaning/A217.jpg'], //
+      '': ['img/area3/218.jpg', 'img/meaning/A218.jpg'], //
+      '': ['img/area3/219.jpg', 'img/meaning/A219.jpg'], //
+      '': ['img/area3/220.jpg', 'img/meaning/A220.jpg'], //
+      '': ['img/area3/221.jpg', 'img/meaning/A221.jpg'], //
+      '': ['img/area3/222.jpg', 'img/meaning/A222.jpg'], //
+      '': ['img/area3/223.jpg', 'img/meaning/A223.jpg'], //
+      '': ['img/area3/224.jpg', 'img/meaning/A224.jpg'] //
       // ... 3エリアの25色分
     },
     4: {
-      '#d2cd00': ['img/area4/001.PNG', 'img/area4/101.PNG'],
-      '#d593d3': ['img/area4/002.PNG', 'img/area4/102.PNG'],
-      '#9b87b0': ['img/area4/003.PNG', 'img/area4/103.PNG'],
-      '#c85a55': ['img/area4/004.PNG', 'img/area4/104.PNG'],
-      '#868300': ['img/area4/005.PNG', 'img/area4/105.PNG'],
-      '#9668a3': ['img/area4/006.PNG', 'img/area4/106.PNG'],
-      '#ae5d5d': ['img/area4/007.PNG', 'img/area4/107.PNG'],
-      '#d70000': ['img/area4/008.PNG', 'img/area4/108.PNG'],
-      '#545200': ['img/area4/009.PNG', 'img/area4/109.PNG'],
-      '#836381': ['img/area4/010.PNG', 'img/area4/110.PNG'],
-      '#d7623e': ['img/area4/011.PNG', 'img/area4/111.PNG'],
-      '#982e11': ['img/area4/012.PNG', 'img/area4/112.PNG'],
-      '#460000': ['img/area4/013.PNG', 'img/area4/113.PNG'],
-      '#782170': ['img/area4/014.PNG', 'img/area4/114.PNG'],
-      '#b02163': ['img/area4/015.PNG', 'img/area4/A100.jpg'],
-      '#7c0000': ['img/area4/016.PNG', 'img/area4/A122.jpg']
+      '': ['img/area4/300.jpg', 'img/meaning/A300.jpg'], //
+      '': ['img/area4/301.jpg', 'img/meaning/A301.jpg'], //
+      '': ['img/area4/302.jpg', 'img/meaning/A302.jpg'], //
+      '': ['img/area4/303.jpg', 'img/meaning/A303.jpg'], //
+      '': ['img/area4/304.jpg', 'img/meaning/A304.jpg'], //
+      '': ['img/area4/305.jpg', 'img/meaning/A305.jpg'], //
+      '': ['img/area4/306.jpg', 'img/meaning/A306.jpg'], //
+      '': ['img/area4/307.jpg', 'img/meaning/A307.jpg'], //
+      '': ['img/area4/308.jpg', 'img/meaning/A308.jpg'], //
+      '': ['img/area4/309.jpg', 'img/meaning/A309.jpg'], //
+      '': ['img/area4/310.jpg', 'img/meaning/A310.jpg'], //
+      '': ['img/area4/311.jpg', 'img/meaning/A311.jpg'], //
+      '': ['img/area4/312.jpg', 'img/meaning/A312.jpg'], //
+      '': ['img/area4/313.jpg', 'img/meaning/A313.jpg'], //
+      '': ['img/area4/314.jpg', 'img/meaning/A314.jpg'], //
+      '': ['img/area4/315.jpg', 'img/meaning/A315.jpg'], //
+      '': ['img/area4/316.jpg', 'img/meaning/A316.jpg'], //
+      '': ['img/area4/317.jpg', 'img/meaning/A317.jpg'], //
+      '': ['img/area4/318.jpg', 'img/meaning/A318.jpg'], //
+      '': ['img/area4/319.jpg', 'img/meaning/A319.jpg'], //
+      '': ['img/area4/320.jpg', 'img/meaning/A320.jpg'], //
+      '': ['img/area4/321.jpg', 'img/meaning/A321.jpg'], //
+      '': ['img/area4/322.jpg', 'img/meaning/A322.jpg'], //
+      '': ['img/area4/323.jpg', 'img/meaning/A323.jpg'], //
+      '': ['img/area4/324.jpg', 'img/meaning/A324.jpg'] //
       // ... 4エリアの25色分
     }
   };
