@@ -55,6 +55,7 @@
         nickname = value;
         localStorage.setItem('nickname', nickname);
         localStorage.setItem('questionProgress', '0');
+        localStorage.removeItem('usedQuestionImages');
         setStatus(`「${nickname}」で入力しました。次のページへ進みます...`);
 
         setTimeout(() => {

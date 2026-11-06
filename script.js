@@ -253,33 +253,58 @@ if (isMoviePage) {
 }
 
 if (isMoviePage && questionImage && playMovieBtn) {
-  const questionImageFiles = [
+  const QUESTION_DIR = 'img/question';
+  const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
+
+  function getUsedQuestionImages() {
+    try {
+      const raw = localStorage.getItem(USED_QUESTION_IMAGES_KEY);
+      if (!raw) return [];
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed.filter((value) => typeof value === 'string') : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveUsedQuestionImages(list) {
+    localStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list));
+  }
+
+  const allQuestionFiles = [
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.JPG`)
   ];
-  const answerImageNumbers = new Set(['100', '122']);
-  const matchingQuestionImages = questionImageFiles.filter((filename) => {
-    const number = filename.match(/\d+/)?.[0];
-    return number && answerImageNumbers.has(number);
-  });
-  if (matchingQuestionImages.length === 0) {
-    throw new Error('対応する問題画像が見つかりません');
+
+  let usedImages = getUsedQuestionImages();
+  let availableImages = allQuestionFiles.filter((filename) => !usedImages.includes(filename));
+
+  if (availableImages.length === 0) {
+    usedImages = [];
+    availableImages = allQuestionFiles;
+    saveUsedQuestionImages([]);
   }
-  const randomImage = matchingQuestionImages[Math.floor(Math.random() * matchingQuestionImages.length)];
+
+  const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
   const questionImageNumber = randomImage.match(/\d+/)?.[0];
   if (!questionImageNumber) {
     throw new Error('対応する問題画像が見つかりません');
   }
+
+  usedImages = [...usedImages, randomImage];
+  saveUsedQuestionImages(usedImages);
+
   sessionStorage.setItem(QUESTION_IMAGE_NUMBER_KEY, questionImageNumber);
   setCurrentProblemNumber(questionImageNumber);
-  questionImage.src = `question/${randomImage}`;
+  questionImage.src = `${QUESTION_DIR}/${randomImage}`;
 
   playMovieBtn.addEventListener('click', () => {
     if (playMovieBtn.dataset.played === 'true') return;
 
     playMovieBtn.dataset.played = 'true';
     playMovieBtn.disabled = true;
+    playMovieBtn.classList.add('is-played');
     setAnswerStartTime(Date.now());
     questionImage.classList.add('is-visible');
 
@@ -332,7 +357,7 @@ if (movieVideo && playMovieBtn) {
       movieVideo.currentTime = 0;
       await movieVideo.play();
     } catch (error) {
-      console.error('動画再生に失敗しました:', error);
+      console.error('画像の表示に失敗しました:', error);
       playMovieBtn.classList.remove('is-played');
       if (!isCorrectPage) {
         playMovieBtn.dataset.played = 'false';
