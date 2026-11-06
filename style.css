@@ -251,7 +251,70 @@ a:any-link {
   position: sticky;
   bottom: 0; /* 下端に固定 */
 }
+/* ==========================
+  test.html
+  ========================== */
+.input-box {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 14px;
+  font-size: 18px;
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-sizing: border-box;
+  margin: 12px auto;
+  display: block;
+  position: relative;
+  z-index: 5;
+  background: #fff;
+  pointer-events: auto;
+}
+.status-text {
+  margin-top: 16px;
+  font-size: 16px;
+  color: #444;
+}
+.card p {
+  margin: 12 0 0 12px;
+}
+#confirmNickname {
+  min-width: 90px;
+  height: 42px;
+  padding: 6px 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  border-radius: 100px;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
 
+#confirmNickname::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: #232323;
+  z-index: 1;
+}
+
+#confirmNickname::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  background: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+  transform: translate(3px, 3px);
+  z-index: 0;
+}
+
+#confirmNickname .btn-text {
+  position: relative;
+  z-index: 2;
+}
 /* ==========================
   play.html
   ========================== */

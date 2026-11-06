@@ -6,31 +6,6 @@
     <title>おもいのパレット-ニックネーム入力</title>
     <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .input-box {
-        width: 100%;
-        max-width: 300px;
-        padding: 12px 14px;
-        font-size: 18px;
-        border: 2px solid #000;
-        border-radius: 12px;
-        box-sizing: border-box;
-        margin: 12px auto;
-        display: block;
-        position: relative;
-        z-index: 5;
-        background: #fff;
-        pointer-events: auto;
-      }
-      .status-text {
-        margin-top: 16px;
-        font-size: 16px;
-        color: #444;
-      }
-      .card p {
-        margin: 0 0 12px;
-      }
-    </style>
   </head>
   <body>
     <div class="page-container">
@@ -40,7 +15,7 @@
         <p>ニックネームを入力して「次へ進む」ボタンを押してください。</p>
         <input id="nicknameInput" class="input-box" type="text" placeholder="ニックネームを入力" maxlength="20" />
         <button id="confirmNickname" class="custom-btn" disabled>
-          <span class="btn-text">次へ進む</span>
+          <span class="btn-text">次へ</span>
         </button>
         <p id="status" class="status-text">ニックネームを入力すると、次へ進めます。</p>
       </div>
