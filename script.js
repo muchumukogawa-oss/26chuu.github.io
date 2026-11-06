@@ -472,120 +472,122 @@ if (reviewNextBtn) {
 
 // result.html 用
 if (window.location.pathname.endsWith('result.html')) {
-  const imageMap = {
-    1: {
-      '#F4BB31': ['img/meaning/A000.jpg'], //驚き（好意的）
-      '#E1B70E': ['img/meaning/A001.jpg'], //快活
-      '#E45D37': ['img/meaning/A002.jpg'], //お祭り気分
-      '#D6BA00': ['img/meaning/A003.jpg'], //高揚感
-      '#F2BF00': ['img/meaning/A004.jpg'], //有頂天
-      '#D33941': ['img/meaning/A005.jpg'], //興奮過剰
-      '#F7A631': ['img/meaning/A006.jpg'], //陽気
-      '#DA425A': ['img/meaning/A007.jpg'], //意欲
-      '#F6CC37': ['img/meaning/A008.jpg'], //ひらめき
-      '#F78E2E': ['img/meaning/A009.jpg'], //意気揚々
-      '#EF8011': ['img/meaning/A010.jpg'], //活力
-      '#EE7722': ['img/meaning/A011.jpg'], //活気
-      '#C92F45': ['img/meaning/A012.jpg'], //熱意
-      '#F0CB73': ['img/meaning/A013.jpg'], //楽観
-      '#C43F3D': ['img/meaning/A014.jpg'], //興奮
-      '#EB6976': ['img/meaning/A015.jpg'], //嬉しさ
-      '#EA8F98': ['img/meaning/A016.jpg'], //幸福
-      '#2F7DC5': ['img/meaning/A017.jpg'], //集中
-      '#FFD934': ['img/meaning/A018.jpg'], //誇り
-      '#B80535': ['img/meaning/A019.jpg'], //スリル
-      '#EFCE1F': ['img/meaning/A020.jpg'], //愉快
-      '#FAC422': ['img/meaning/A021.jpg'], //歓喜
-      '#ECC945': ['img/meaning/A022.jpg'], //希望
-      '#F28436': ['img/meaning/A023.jpg'], //遊び心
-      '#F5D269': ['img/meaning/A024.jpg'] //至福
-      // ... 1エリアの25色分
-    },
-    2: {
-      '#9F2942': ['img/meaning/A100.jpg'], //憤怒
-      '#DB2D48': ['img/meaning/A101.jpg'], //パニック
-      '#A25854': ['img/meaning/A102.jpg'], //ストレス
-      '#A9003B': ['img/meaning/A103.jpg'], //焦燥
-      '#C12149': ['img/meaning/A104.jpg'], //衝撃
-      '#AC2750': ['img/meaning/A105.jpg'], //激高
-      '#B02838': ['img/meaning/A106.jpg'], //激怒
-      '#B89BA6': ['img/meaning/A107.jpg'], //もどかしさ
-      '#8B9BA7': ['img/meaning/A108.jpg'], //緊張
-      '#EBF3E7': ['img/meaning/A109.jpg'], //茫然
-      '#A12E39': ['img/meaning/A110.jpg'], //煮えくり返り
-      '#402D39': ['img/meaning/A111.jpg'], //恐怖
-      '#AD2341': ['img/meaning/A112.jpg'], //怒り
-      '#C73A56': ['img/meaning/A113.jpg'], //ドキドキ感
-      '#BEAFBE': ['img/meaning/A114.jpg'], //そわそわ感
-      '#22395B': ['img/meaning/A115.jpg'], //強度の不安
-      '#A25962': ['img/meaning/A116.jpg'], //危惧
-      '#486385': ['img/meaning/A117.jpg'], //心配
-      '#B73C4C': ['img/meaning/A118.jpg'], //イライラ
-      '#C6404B': ['img/meaning/A119.jpg'], //苛立ち
-      '#5F3F69': ['img/meaning/A120.jpg'], //嫌悪
-      '#2A2E53': ['img/meaning/A121.jpg'], //苦悩
-      '#0D465B': ['img/meaning/A122.jpg'], //懸念
-      '#77655E': ['img/meaning/A123.jpg'], //胸騒ぎ
-      '#484454': ['img/meaning/A124.jpg'] //不機嫌
-      // ... 2エリアの25色分
-    },
-    3: {
-      '#63516A': ['img/meaning/A200.jpg'], //うんざり感
-      '#4A5365': ['img/meaning/A201.jpg'], //陰気
-      '#2E2A27': ['img/meaning/A202.jpg'], //失望
-      '#354C6C': ['img/meaning/A203.jpg'], //気分の落ち込み
-      '#E1E0DF': ['img/meaning/A204.jpg'], //無関心
-      '#355873': ['img/meaning/A205.jpg'], //悲観
-      '#322D42': ['img/meaning/A206.jpg'], //陰鬱
-      '#476678': ['img/meaning/A207.jpg'], //意気消沈
-      '#27557D': ['img/meaning/A208.jpg'], //悲しみ
-      '#5B565A': ['img/meaning/A209.jpg'], //退屈
-      '#A69BA8': ['img/meaning/A210.jpg'], //疎外感
-      '#3D5762': ['img/meaning/A211.jpg'], //惨めさ
-      '#5C6472': ['img/meaning/A212.jpg'], //孤独
-      '#31495D': ['img/meaning/A213.jpg'], //落胆
-      '#5F5768': ['img/meaning/A214.jpg'], //疲れ
-      '#25334A': ['img/meaning/A215.jpg'], //悲嘆
-      '#343D44': ['img/meaning/A216.jpg'], //うつ状態
-      '#1E3338': ['img/meaning/A217.jpg'], //ふさぎ込み
-      '#565A75': ['img/meaning/A218.jpg'], //疲れ果て
-      '#286075': ['img/meaning/A219.jpg'], //疲労
-      '#242228': ['img/meaning/A220.jpg'], //絶望
-      '#322F3B': ['img/meaning/A221.jpg'], //絶望的状態
-      '#002F49': ['img/meaning/A222.jpg'], //孤立感
-      '#EBF2F6': ['img/meaning/A223.jpg'], //虚脱
-      '#FAEFE7': ['img/meaning/A224.jpg'] //エネルギー枯渇
-      // ... 3エリアの25色分
-    },
-    4: {
-      '#E18E82': ['img/meaning/A300.jpg'], //安堵
-      '#FFDBBE': ['img/meaning/A301.jpg'], //大らかさ
-      '#E3CF68': ['img/meaning/A302.jpg'], //充足
-      '#E7757F': ['img/meaning/A303.jpg'], //愛おしさ
-      '#FFA024': ['img/meaning/A304.jpg'], //充実感
-      '#8FA9BE': ['img/meaning/A305.jpg'], //冷静
-      '#CDAFAF': ['img/meaning/A306.jpg'], //安心
-      '#F16D4C': ['img/meaning/A307.jpg'], //満足
-      '#DF6465': ['img/meaning/A308.jpg'], //感謝
-      '#EE9B99': ['img/meaning/A309.jpg'], //感銘
-      '#E5C0BE': ['img/meaning/A310.jpg'], //リラックス
-      '#EADBB6': ['img/meaning/A311.jpg'], //平穏な寛ぎ
-      '#B3CAB8': ['img/meaning/A312.jpg'], //安らぎ
-      '#E65866': ['img/meaning/A313.jpg'], //恩恵感
-      '#AECBC7': ['img/meaning/A314.jpg'], //心身の調和
-      '#18A76B': ['img/meaning/A315.jpg'], //豊かさ
-      '#ADAFCD': ['img/meaning/A316.jpg'], //物思い
-      '#9FCABA': ['img/meaning/A317.jpg'], //平和
-      '#A7C6D0': ['img/meaning/A318.jpg'], //快適さ
-      '#E0CC74': ['img/meaning/A319.jpg'], //気楽さ
-      '#A5A8BA': ['img/meaning/A320.jpg'], //眠気
-      '#E7D0B7': ['img/meaning/A321.jpg'], //のほほん状態
-      '#D0C7AC': ['img/meaning/A322.jpg'], //平穏
-      '#92C5A7': ['img/meaning/A323.jpg'], //居心地の良さ
-      '#A6BBD0': ['img/meaning/A324.jpg'] //静謐
-      // ... 4エリアの25色分
-    }
-  };
+  const meaningCatalog = [
+    { area: 1, number: '000', color: '#F4BB31', word: '驚き（好意的）', questionImage: 'img/question/Q000.jpg', meaningImage: 'img/meaning/A000.jpg' },
+    { area: 1, number: '001', color: '#E1B70E', word: '快活', questionImage: 'img/question/Q001.jpg', meaningImage: 'img/meaning/A001.jpg' },
+    { area: 1, number: '002', color: '#E45D37', word: 'お祭り気分', questionImage: 'img/question/Q002.jpg', meaningImage: 'img/meaning/A002.jpg' },
+    { area: 1, number: '003', color: '#D6BA00', word: '高揚感', questionImage: 'img/question/Q003.jpg', meaningImage: 'img/meaning/A003.jpg' },
+    { area: 1, number: '004', color: '#F2BF00', word: '有頂天', questionImage: 'img/question/Q004.jpg', meaningImage: 'img/meaning/A004.jpg' },
+    { area: 1, number: '005', color: '#D33941', word: '興奮過剰', questionImage: 'img/question/Q005.jpg', meaningImage: 'img/meaning/A005.jpg' },
+    { area: 1, number: '006', color: '#F7A631', word: '陽気', questionImage: 'img/question/Q006.jpg', meaningImage: 'img/meaning/A006.jpg' },
+    { area: 1, number: '007', color: '#DA425A', word: '意欲', questionImage: 'img/question/Q007.jpg', meaningImage: 'img/meaning/A007.jpg' },
+    { area: 1, number: '008', color: '#F6CC37', word: 'ひらめき', questionImage: 'img/question/Q008.jpg', meaningImage: 'img/meaning/A008.jpg' },
+    { area: 1, number: '009', color: '#F78E2E', word: '意気揚々', questionImage: 'img/question/Q009.jpg', meaningImage: 'img/meaning/A009.jpg' },
+    { area: 1, number: '010', color: '#EF8011', word: '活力', questionImage: 'img/question/Q010.jpg', meaningImage: 'img/meaning/A010.jpg' },
+    { area: 1, number: '011', color: '#EE7722', word: '活気', questionImage: 'img/question/Q011.jpg', meaningImage: 'img/meaning/A011.jpg' },
+    { area: 1, number: '012', color: '#C92F45', word: '熱意', questionImage: 'img/question/Q012.jpg', meaningImage: 'img/meaning/A012.jpg' },
+    { area: 1, number: '013', color: '#F0CB73', word: '楽観', questionImage: 'img/question/Q013.jpg', meaningImage: 'img/meaning/A013.jpg' },
+    { area: 1, number: '014', color: '#C43F3D', word: '興奮', questionImage: 'img/question/Q014.jpg', meaningImage: 'img/meaning/A014.jpg' },
+    { area: 1, number: '015', color: '#EB6976', word: '嬉しさ', questionImage: 'img/question/Q015.jpg', meaningImage: 'img/meaning/A015.jpg' },
+    { area: 1, number: '016', color: '#EA8F98', word: '幸福', questionImage: 'img/question/Q016.jpg', meaningImage: 'img/meaning/A016.jpg' },
+    { area: 1, number: '017', color: '#2F7DC5', word: '集中', questionImage: 'img/question/Q017.jpg', meaningImage: 'img/meaning/A017.jpg' },
+    { area: 1, number: '018', color: '#FFD934', word: '誇り', questionImage: 'img/question/Q018.jpg', meaningImage: 'img/meaning/A018.jpg' },
+    { area: 1, number: '019', color: '#B80535', word: 'スリル', questionImage: 'img/question/Q019.jpg', meaningImage: 'img/meaning/A019.jpg' },
+    { area: 1, number: '020', color: '#EFCE1F', word: '愉快', questionImage: 'img/question/Q020.jpg', meaningImage: 'img/meaning/A020.jpg' },
+    { area: 1, number: '021', color: '#FAC422', word: '歓喜', questionImage: 'img/question/Q021.jpg', meaningImage: 'img/meaning/A021.jpg' },
+    { area: 1, number: '022', color: '#ECC945', word: '希望', questionImage: 'img/question/Q022.jpg', meaningImage: 'img/meaning/A022.jpg' },
+    { area: 1, number: '023', color: '#F28436', word: '遊び心', questionImage: 'img/question/Q023.jpg', meaningImage: 'img/meaning/A023.jpg' },
+    { area: 1, number: '024', color: '#F5D269', word: '至福', questionImage: 'img/question/Q024.jpg', meaningImage: 'img/meaning/A024.jpg' },
+    { area: 2, number: '100', color: '#9F2942', word: '憤怒', questionImage: 'img/question/Q100.jpg', meaningImage: 'img/meaning/A100.jpg' },
+    { area: 2, number: '101', color: '#DB2D48', word: 'パニック', questionImage: 'img/question/Q101.jpg', meaningImage: 'img/meaning/A101.jpg' },
+    { area: 2, number: '102', color: '#A25854', word: 'ストレス', questionImage: 'img/question/Q102.jpg', meaningImage: 'img/meaning/A102.jpg' },
+    { area: 2, number: '103', color: '#A9003B', word: '焦燥', questionImage: 'img/question/Q103.jpg', meaningImage: 'img/meaning/A103.jpg' },
+    { area: 2, number: '104', color: '#C12149', word: '衝撃', questionImage: 'img/question/Q104.jpg', meaningImage: 'img/meaning/A104.jpg' },
+    { area: 2, number: '105', color: '#AC2750', word: '激高', questionImage: 'img/question/Q105.jpg', meaningImage: 'img/meaning/A105.jpg' },
+    { area: 2, number: '106', color: '#B02838', word: '激怒', questionImage: 'img/question/Q106.jpg', meaningImage: 'img/meaning/A106.jpg' },
+    { area: 2, number: '107', color: '#B89BA6', word: 'もどかしさ', questionImage: 'img/question/Q107.jpg', meaningImage: 'img/meaning/A107.jpg' },
+    { area: 2, number: '108', color: '#8B9BA7', word: '緊張', questionImage: 'img/question/Q108.jpg', meaningImage: 'img/meaning/A108.jpg' },
+    { area: 2, number: '109', color: '#EBF3E7', word: '茫然', questionImage: 'img/question/Q109.jpg', meaningImage: 'img/meaning/A109.jpg' },
+    { area: 2, number: '110', color: '#A12E39', word: '煮えくり返り', questionImage: 'img/question/Q110.jpg', meaningImage: 'img/meaning/A110.jpg' },
+    { area: 2, number: '111', color: '#402D39', word: '恐怖', questionImage: 'img/question/Q111.jpg', meaningImage: 'img/meaning/A111.jpg' },
+    { area: 2, number: '112', color: '#AD2341', word: '怒り', questionImage: 'img/question/Q112.jpg', meaningImage: 'img/meaning/A112.jpg' },
+    { area: 2, number: '113', color: '#C73A56', word: 'ドキドキ感', questionImage: 'img/question/Q113.jpg', meaningImage: 'img/meaning/A113.jpg' },
+    { area: 2, number: '114', color: '#BEAFBE', word: 'そわそわ感', questionImage: 'img/question/Q114.jpg', meaningImage: 'img/meaning/A114.jpg' },
+    { area: 2, number: '115', color: '#22395B', word: '強度の不安', questionImage: 'img/question/Q115.jpg', meaningImage: 'img/meaning/A115.jpg' },
+    { area: 2, number: '116', color: '#A25962', word: '危惧', questionImage: 'img/question/Q116.jpg', meaningImage: 'img/meaning/A116.jpg' },
+    { area: 2, number: '117', color: '#486385', word: '心配', questionImage: 'img/question/Q117.jpg', meaningImage: 'img/meaning/A117.jpg' },
+    { area: 2, number: '118', color: '#B73C4C', word: 'イライラ', questionImage: 'img/question/Q118.jpg', meaningImage: 'img/meaning/A118.jpg' },
+    { area: 2, number: '119', color: '#C6404B', word: '苛立ち', questionImage: 'img/question/Q119.jpg', meaningImage: 'img/meaning/A119.jpg' },
+    { area: 2, number: '120', color: '#5F3F69', word: '嫌悪', questionImage: 'img/question/Q120.jpg', meaningImage: 'img/meaning/A120.jpg' },
+    { area: 2, number: '121', color: '#2A2E53', word: '苦悩', questionImage: 'img/question/Q121.jpg', meaningImage: 'img/meaning/A121.jpg' },
+    { area: 2, number: '122', color: '#0D465B', word: '懸念', questionImage: 'img/question/Q122.jpg', meaningImage: 'img/meaning/A122.jpg' },
+    { area: 2, number: '123', color: '#77655E', word: '胸騒ぎ', questionImage: 'img/question/Q123.jpg', meaningImage: 'img/meaning/A123.jpg' },
+    { area: 2, number: '124', color: '#484454', word: '不機嫌', questionImage: 'img/question/Q124.jpg', meaningImage: 'img/meaning/A124.jpg' },
+    { area: 3, number: '200', color: '#63516A', word: 'うんざり感', questionImage: 'img/question/Q200.jpg', meaningImage: 'img/meaning/A200.jpg' },
+    { area: 3, number: '201', color: '#4A5365', word: '陰気', questionImage: 'img/question/Q201.jpg', meaningImage: 'img/meaning/A201.jpg' },
+    { area: 3, number: '202', color: '#2E2A27', word: '失望', questionImage: 'img/question/Q202.jpg', meaningImage: 'img/meaning/A202.jpg' },
+    { area: 3, number: '203', color: '#354C6C', word: '気分の落ち込み', questionImage: 'img/question/Q203.jpg', meaningImage: 'img/meaning/A203.jpg' },
+    { area: 3, number: '204', color: '#E1E0DF', word: '無関心', questionImage: 'img/question/Q204.jpg', meaningImage: 'img/meaning/A204.jpg' },
+    { area: 3, number: '205', color: '#355873', word: '悲観', questionImage: 'img/question/Q205.jpg', meaningImage: 'img/meaning/A205.jpg' },
+    { area: 3, number: '206', color: '#322D42', word: '陰鬱', questionImage: 'img/question/Q206.jpg', meaningImage: 'img/meaning/A206.jpg' },
+    { area: 3, number: '207', color: '#476678', word: '意気消沈', questionImage: 'img/question/Q207.jpg', meaningImage: 'img/meaning/A207.jpg' },
+    { area: 3, number: '208', color: '#27557D', word: '悲しみ', questionImage: 'img/question/Q208.jpg', meaningImage: 'img/meaning/A208.jpg' },
+    { area: 3, number: '209', color: '#5B565A', word: '退屈', questionImage: 'img/question/Q209.jpg', meaningImage: 'img/meaning/A209.jpg' },
+    { area: 3, number: '210', color: '#A69BA8', word: '疎外感', questionImage: 'img/question/Q210.jpg', meaningImage: 'img/meaning/A210.jpg' },
+    { area: 3, number: '211', color: '#3D5762', word: '惨めさ', questionImage: 'img/question/Q211.jpg', meaningImage: 'img/meaning/A211.jpg' },
+    { area: 3, number: '212', color: '#5C6472', word: '孤独', questionImage: 'img/question/Q212.jpg', meaningImage: 'img/meaning/A212.jpg' },
+    { area: 3, number: '213', color: '#31495D', word: '落胆', questionImage: 'img/question/Q213.jpg', meaningImage: 'img/meaning/A213.jpg' },
+    { area: 3, number: '214', color: '#5F5768', word: '疲れ', questionImage: 'img/question/Q214.jpg', meaningImage: 'img/meaning/A214.jpg' },
+    { area: 3, number: '215', color: '#25334A', word: '悲嘆', questionImage: 'img/question/Q215.jpg', meaningImage: 'img/meaning/A215.jpg' },
+    { area: 3, number: '216', color: '#343D44', word: 'うつ状態', questionImage: 'img/question/Q216.jpg', meaningImage: 'img/meaning/A216.jpg' },
+    { area: 3, number: '217', color: '#1E3338', word: 'ふさぎ込み', questionImage: 'img/question/Q217.jpg', meaningImage: 'img/meaning/A217.jpg' },
+    { area: 3, number: '218', color: '#565A75', word: '疲れ果て', questionImage: 'img/question/Q218.jpg', meaningImage: 'img/meaning/A218.jpg' },
+    { area: 3, number: '219', color: '#286075', word: '疲労', questionImage: 'img/question/Q219.jpg', meaningImage: 'img/meaning/A219.jpg' },
+    { area: 3, number: '220', color: '#242228', word: '絶望', questionImage: 'img/question/Q220.jpg', meaningImage: 'img/meaning/A220.jpg' },
+    { area: 3, number: '221', color: '#322F3B', word: '絶望的状態', questionImage: 'img/question/Q221.jpg', meaningImage: 'img/meaning/A221.jpg' },
+    { area: 3, number: '222', color: '#002F49', word: '孤立感', questionImage: 'img/question/Q222.jpg', meaningImage: 'img/meaning/A222.jpg' },
+    { area: 3, number: '223', color: '#EBF2F6', word: '虚脱', questionImage: 'img/question/Q223.jpg', meaningImage: 'img/meaning/A223.jpg' },
+    { area: 3, number: '224', color: '#FAEFE7', word: 'エネルギー枯渇', questionImage: 'img/question/Q224.jpg', meaningImage: 'img/meaning/A224.jpg' },
+    { area: 4, number: '300', color: '#E18E82', word: '安堵', questionImage: 'img/question/Q300.jpg', meaningImage: 'img/meaning/A300.jpg' },
+    { area: 4, number: '301', color: '#FFDBBE', word: '大らかさ', questionImage: 'img/question/Q301.jpg', meaningImage: 'img/meaning/A301.jpg' },
+    { area: 4, number: '302', color: '#E3CF68', word: '充足', questionImage: 'img/question/Q302.jpg', meaningImage: 'img/meaning/A302.jpg' },
+    { area: 4, number: '303', color: '#E7757F', word: '愛おしさ', questionImage: 'img/question/Q303.jpg', meaningImage: 'img/meaning/A303.jpg' },
+    { area: 4, number: '304', color: '#FFA024', word: '充実感', questionImage: 'img/question/Q304.jpg', meaningImage: 'img/meaning/A304.jpg' },
+    { area: 4, number: '305', color: '#8FA9BE', word: '冷静', questionImage: 'img/question/Q305.jpg', meaningImage: 'img/meaning/A305.jpg' },
+    { area: 4, number: '306', color: '#CDAFAF', word: '安心', questionImage: 'img/question/Q306.jpg', meaningImage: 'img/meaning/A306.jpg' },
+    { area: 4, number: '307', color: '#F16D4C', word: '満足', questionImage: 'img/question/Q307.jpg', meaningImage: 'img/meaning/A307.jpg' },
+    { area: 4, number: '308', color: '#DF6465', word: '感謝', questionImage: 'img/question/Q308.jpg', meaningImage: 'img/meaning/A308.jpg' },
+    { area: 4, number: '309', color: '#EE9B99', word: '感銘', questionImage: 'img/question/Q309.jpg', meaningImage: 'img/meaning/A309.jpg' },
+    { area: 4, number: '310', color: '#E5C0BE', word: 'リラックス', questionImage: 'img/question/Q310.jpg', meaningImage: 'img/meaning/A310.jpg' },
+    { area: 4, number: '311', color: '#EADBB6', word: '平穏な寛ぎ', questionImage: 'img/question/Q311.jpg', meaningImage: 'img/meaning/A311.jpg' },
+    { area: 4, number: '312', color: '#B3CAB8', word: '安らぎ', questionImage: 'img/question/Q312.jpg', meaningImage: 'img/meaning/A312.jpg' },
+    { area: 4, number: '313', color: '#E65866', word: '恩恵感', questionImage: 'img/question/Q313.jpg', meaningImage: 'img/meaning/A313.jpg' },
+    { area: 4, number: '314', color: '#AECBC7', word: '心身の調和', questionImage: 'img/question/Q314.jpg', meaningImage: 'img/meaning/A314.jpg' },
+    { area: 4, number: '315', color: '#18A76B', word: '豊かさ', questionImage: 'img/question/Q315.jpg', meaningImage: 'img/meaning/A315.jpg' },
+    { area: 4, number: '316', color: '#ADAFCD', word: '物思い', questionImage: 'img/question/Q316.jpg', meaningImage: 'img/meaning/A316.jpg' },
+    { area: 4, number: '317', color: '#9FCABA', word: '平和', questionImage: 'img/question/Q317.jpg', meaningImage: 'img/meaning/A317.jpg' },
+    { area: 4, number: '318', color: '#A7C6D0', word: '快適さ', questionImage: 'img/question/Q318.jpg', meaningImage: 'img/meaning/A318.jpg' },
+    { area: 4, number: '319', color: '#E0CC74', word: '気楽さ', questionImage: 'img/question/Q319.jpg', meaningImage: 'img/meaning/A319.jpg' },
+    { area: 4, number: '320', color: '#A5A8BA', word: '眠気', questionImage: 'img/question/Q320.jpg', meaningImage: 'img/meaning/A320.jpg' },
+    { area: 4, number: '321', color: '#E7D0B7', word: 'のほほん状態', questionImage: 'img/question/Q321.jpg', meaningImage: 'img/meaning/A321.jpg' },
+    { area: 4, number: '322', color: '#D0C7AC', word: '平穏', questionImage: 'img/question/Q322.jpg', meaningImage: 'img/meaning/A322.jpg' },
+    { area: 4, number: '323', color: '#92C5A7', word: '居心地の良さ', questionImage: 'img/question/Q323.jpg', meaningImage: 'img/meaning/A323.jpg' },
+    { area: 4, number: '324', color: '#A6BBD0', word: '静謐', questionImage: 'img/question/Q324.jpg', meaningImage: 'img/meaning/A324.jpg' }
+  ];
+
+  const imageMap = meaningCatalog.reduce((map, item) => {
+    const areaKey = String(item.area);
+    map[areaKey] = map[areaKey] || {};
+    map[areaKey][item.color] = [item.meaningImage];
+    return map;
+  }, {});
+
+  const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
+
+  const meaningLookup = new Map(
+    meaningCatalog.map((item) => [`${item.area}:${normalizeColorKey(item.color)}`, item])
+  );
+  const meaningByNumber = new Map(meaningCatalog.map((item) => [item.number, item]));
   // URLパラメータからエリアとカラーコードを取得
 
   const params = new URLSearchParams(window.location.search);
@@ -595,7 +597,10 @@ if (window.location.pathname.endsWith('result.html')) {
   const photo = document.getElementById('photo');
   const selectedWord = document.getElementById('selectedWord');
 
-  const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
+  const getMeaningMetadata = (targetArea, targetColor) => {
+    if (!targetArea || !targetColor) return null;
+    return meaningLookup.get(`${String(targetArea)}:${normalizeColorKey(targetColor)}`) || null;
+  };
 
   if (color) {
     document.documentElement.style.setProperty('--selected-color', color);
@@ -605,28 +610,16 @@ if (window.location.pathname.endsWith('result.html')) {
     }
   }
 
-  async function loadSelectedWord() {
+  function loadSelectedWord() {
     if (!area || !color) return '';
-
-    try {
-      const source = await fetch('script.js').then((response) => response.text());
-      const escapedColor = color.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const match = source.match(
-        new RegExp(`'${escapedColor}'\\s*:\\s*\\[[^\\]]*\\]\\s*(?:,)?\\s*//\\s*([^\\r\\n]+)`, 'm')
-      );
-      return match ? match[1].trim() : '';
-    } catch (error) {
-      console.error('感情語彙の取得に失敗しました:', error);
-      return '';
-    }
+    const metadata = getMeaningMetadata(area, color);
+    return metadata ? metadata.word : '';
   }
 
   const resolveMeaningEntry = () => {
     if (!area || !color || !imageMap[area]) return null;
-    const normalized = normalizeColorKey(color);
-    const entries = Object.entries(imageMap[area]);
-    const match = entries.find(([key]) => normalizeColorKey(key) === normalized);
-    return match ? match[1] : null;
+    const metadata = getMeaningMetadata(area, color);
+    return metadata ? [metadata.meaningImage] : null;
   };
 
   const trySetImage = (candidates, index = 0) => {
@@ -657,11 +650,10 @@ if (window.location.pathname.endsWith('result.html')) {
       };
       img.src = candidates[0];
 
-      loadSelectedWord().then((word) => {
-        if (selectedWord) {
-          selectedWord.textContent = word || '';
-        }
-      });
+      const word = loadSelectedWord();
+      if (selectedWord) {
+        selectedWord.textContent = word || '';
+      }
     } else {
       img.src = 'img/仮画像.png';
       if (selectedWord) selectedWord.textContent = '';
