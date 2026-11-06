@@ -92,18 +92,6 @@ rt {
 }
 
 /* image */
-#main {
-  display: block;
-  width: auto;
-  max-width: min(420px, calc(100vw - 40px));
-  height: auto;
-  max-height: 340px;
-  object-fit: contain;
-  background: #f5f5f5;
-  border: 3px solid #232323;
-  box-sizing: border-box;
-}
-
 a {
   text-decoration: none;
 }
@@ -262,17 +250,6 @@ a:any-link {
   text-align: center;
   position: sticky;
   bottom: 0; /* 下端に固定 */
-}
-
-/* 同意する*/
-.agree-btn {
-  font-size: 16px;
-  padding: 6px 14px;
-}
-
-.agree-btn::after {
-  background: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
-  transform: translate(4px, 4px);
 }
 
 /* ==========================
@@ -711,21 +688,6 @@ ol li {
   ========================== */
 /* 参考 https://www.pressmantech.com/tech/design/2738#arrow-sample4-6 */
 
-:root {
-  --color: lightgray; /* 矢印の色 */
-  --size: 4; /* 矢印の大きさ */
-  --weight: 2.5px;
-  /* 枠の太さ */
-}
-
-#slideshow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
 #resultDisplay {
   display: flex;
   flex-direction: column;
@@ -766,78 +728,6 @@ ol li {
   background: #f5f5f5;
   border: none;
   box-sizing: border-box;
-}
-
-.slide-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 24px;
-}
-
-.arrow {
-  position: relative;
-  top: auto;
-  left: auto;
-  right: auto;
-  transform: none;
-  z-index: 2;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.leftArrow {
-  left: auto;
-}
-
-.rightArrow {
-  right: auto;
-}
-
-.arrow::before,
-.arrow::after {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
-  content: '';
-  vertical-align: middle;
-}
-
-.arrow::before {
-  box-sizing: border-box;
-  width: calc(12px * var(--size));
-  height: calc(12px * var(--size));
-  border: var(--weight) solid var(--color);
-  border-radius: 25%;
-}
-
-.arrow::after {
-  box-sizing: border-box;
-  width: calc(3px * var(--size));
-  height: calc(3px * var(--size));
-  border: calc(3px * var(--size)) solid transparent;
-}
-
-.rightArrow {
-  padding: 0 0 0 calc(4px * var(--size));
-}
-
-.leftArrow {
-  padding: 0 calc(12px * var(--size)) 0 0;
-}
-
-.rightArrow::after {
-  left: calc(5px * var(--size));
-  border-left: calc(3px * var(--size)) solid var(--color);
-}
-
-.leftArrow::after {
-  left: calc(3px * var(--size) / 2);
-  border-right: calc(3px * var(--size)) solid var(--color);
 }
 
 .rating-group {
