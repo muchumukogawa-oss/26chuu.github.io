@@ -14,8 +14,9 @@
         <h3 id="h3" style="text-align: center">
           次のシチュエーションに合う色を<br /><br />イメージしてください
         </h3>
+        <p>第<span id="questionNumberLabel">1</span>問</p>
         <div id="questionImageFrame">
-          <img id="questionImage" alt="" />
+          <img id="questionImage" alt="問題" />
         </div>
 
         <!-- <div class="next"> -->
@@ -27,7 +28,7 @@
 
       <!-- 次へ -->
       <div class="next">
-        <a href="AreaSelect.html">
+        <a id="areaSelectLink" href="AreaSelect.html">
           <button id="nextBtn" class="custom-btn next-btn">
             <span class="btn-text">色選択へ</span>
           </button>

@@ -178,25 +178,44 @@ function getElapsedTimeSeconds() {
 
 // index.html 用
 const startBtn = document.querySelector('.start-btn');
-// const popup = document.getElementById('popup');
-// const closeBtn = document.querySelector('.close');
-// const agreeBtn = document.getElementById('agreeBtn');
 
 if (startBtn) {
   startBtn.addEventListener('click', () => {
     window.location.href = 'test.html';
   });
+}
 
-  // startBtn.addEventListener('click', (e) => {
-  //   e.preventDefault();
-  //   popup.style.display = 'flex';
-  // });
+// 問題進行管理
+const QUESTION_PROGRESS_KEY = 'questionProgress';
 
-  // closeBtn.addEventListener('click', () => (popup.style.display = 'none'));
+function getQuestionProgress() {
+  const value = Number(localStorage.getItem(QUESTION_PROGRESS_KEY) || '0');
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+}
 
-  // agreeBtn.addEventListener('click', () => {
-  //   window.location.href = 'test.html';
-  // });
+function setQuestionProgress(value) {
+  const normalized = Math.min(Math.max(0, Number(value) || 0), 16);
+  localStorage.setItem(QUESTION_PROGRESS_KEY, String(normalized));
+  return normalized;
+}
+
+function resetQuestionProgress() {
+  localStorage.setItem(QUESTION_PROGRESS_KEY, '0');
+}
+
+function advanceQuestionProgress() {
+  const current = getQuestionProgress();
+  const next = Math.min(current + 1, 16);
+  setQuestionProgress(next);
+  return next;
+}
+
+function redirectToFinalPageIfNeeded() {
+  if (getQuestionProgress() >= 16) {
+    window.location.href = 'fin.html';
+    return true;
+  }
+  return false;
 }
 
 // ques.html / correct.html 用
@@ -208,6 +227,30 @@ const isMoviePage = window.location.pathname.endsWith('ques.html');
 
 const questionImage = document.getElementById('questionImage');
 const answerImage = document.getElementById('answerImage');
+const questionNumberLabel = document.getElementById('questionNumberLabel');
+const areaSelectLink = document.getElementById('areaSelectLink');
+const nextQuestionLink = document.getElementById('nextQuestionLink');
+
+if (isMoviePage) {
+  const currentProgress = getQuestionProgress();
+  if (currentProgress > 16) {
+    window.location.replace('fin.html');
+  } else {
+    const questionNumber = currentProgress >= 16 ? 16 : advanceQuestionProgress();
+    if (questionNumberLabel) {
+      questionNumberLabel.textContent = String(questionNumber);
+    }
+
+    if (areaSelectLink) {
+      const isFinalQuestion = questionNumber > 16;
+      areaSelectLink.href = isFinalQuestion ? 'fin.html' : 'AreaSelect.html';
+      const btnText = areaSelectLink.querySelector('.btn-text');
+      if (btnText) {
+        btnText.textContent = isFinalQuestion ? '終了' : '色選択へ';
+      }
+    }
+  }
+}
 
 if (isMoviePage && questionImage && playMovieBtn) {
   const questionImageFiles = [
@@ -256,6 +299,17 @@ if (isCorrectPage && answerImage && playMovieBtn) {
   answerImage.addEventListener('error', () => {
     console.error(`正解画像を読み込めませんでした: ${answerImage.src}`);
   });
+
+  if (nextQuestionLink) {
+    const currentProgress = getQuestionProgress();
+    const isFinalQuestion = currentProgress >= 16;
+    nextQuestionLink.href = isFinalQuestion ? 'fin.html' : 'ques.html';
+    const btnText = nextQuestionLink.querySelector('.btn-text');
+    if (btnText) {
+      btnText.textContent = isFinalQuestion ? '終了' : '次の問題へ';
+    }
+    nextQuestionLink.setAttribute('aria-label', isFinalQuestion ? '終了' : '次の問題へ');
+  }
 
   playMovieBtn.addEventListener('click', () => {
     answerImage.classList.add('is-visible');
@@ -375,6 +429,12 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
 
 const reviewNextBtn = document.getElementById('reviewNextBtn');
 if (reviewNextBtn) {
+  const btnText = reviewNextBtn.querySelector('.btn-text');
+  if (btnText) {
+    btnText.textContent = '次へ';
+  }
+  reviewNextBtn.setAttribute('aria-label', '次へ');
+
   reviewNextBtn.addEventListener('click', async (event) => {
     event.preventDefault();
     addQuestionEvent('review_next', { color: getSelectedColor() || '' });
