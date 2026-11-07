@@ -314,25 +314,31 @@ if (isMoviePage && questionImage && playMovieBtn) {
   const QUESTION_DIR = 'img/question';
   const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
 
+  function normalizeQuestionImageName(value) {
+    return String(value).toLowerCase();
+  }
+
   function getUsedQuestionImages() {
     try {
       const raw = localStorage.getItem(USED_QUESTION_IMAGES_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) ? parsed.filter((value) => typeof value === 'string') : [];
+      return Array.isArray(parsed)
+        ? parsed.filter((value) => typeof value === 'string').map(normalizeQuestionImageName)
+        : [];
     } catch {
       return [];
     }
   }
 
   function saveUsedQuestionImages(list) {
-    localStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list));
+    localStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
   }
 
   const allQuestionFiles = [
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.JPG`)
+    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.jpg`)
   ];
 
   let usedImages = getUsedQuestionImages();
