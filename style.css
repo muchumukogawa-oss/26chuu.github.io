@@ -370,16 +370,21 @@ ol li {
 
 /* 快適くん */
 .comfortable-in-howto {
-  margin-top: 28px;
+  /* margin-top: 28px; */
   margin-right: 22px;
   position: absolute;
-  bottom: -65%; /* 少し下に出す感じ */
+  bottom: -50%; /* 少し下に出す感じ */
   right: -8%;
   width: 50%;
   height: auto;
 }
 
 /* 次へボタン */
+body.play-page .next {
+  margin-top: 150px;
+  padding-top: 0;
+}
+
 .next {
   margin-top: 100px;
   padding-top: 29px;
