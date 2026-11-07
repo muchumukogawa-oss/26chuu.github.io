@@ -10,10 +10,12 @@ const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
 
+// ニックネームを取得する。
 function getNickname() {
   return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
 }
 
+// 問題ログの現在状態を取得する。
 function getQuestionLogState() {
   const raw = sessionStorage.getItem(QUESTION_LOG_STATE_KEY);
   if (!raw) {
@@ -43,14 +45,17 @@ function getQuestionLogState() {
   }
 }
 
+// 問題ログを保存する。
 function saveQuestionLogState(state) {
   sessionStorage.setItem(QUESTION_LOG_STATE_KEY, JSON.stringify(state));
 }
 
+// 問題ログを初期化する。
 function resetQuestionLogState() {
   sessionStorage.removeItem(QUESTION_LOG_STATE_KEY);
 }
 
+// 問題イベントをログに追加する。
 function addQuestionEvent(eventName, payload = {}) {
   const state = getQuestionLogState();
   state.nickname = getNickname();
@@ -65,6 +70,7 @@ function addQuestionEvent(eventName, payload = {}) {
   saveQuestionLogState(state);
 }
 
+// 候補色を追加して現在選択中として保存する。
 function addCandidateColor(color) {
   if (!color) return;
   const state = getQuestionLogState();
@@ -76,6 +82,7 @@ function addCandidateColor(color) {
   saveQuestionLogState(state);
 }
 
+// 選択を取り消した色を記録する。
 function cancelColor(color) {
   if (!color) return;
   const state = getQuestionLogState();
@@ -87,15 +94,18 @@ function cancelColor(color) {
   saveQuestionLogState(state);
 }
 
+// 評価ラジオボタンの値を取得する。
 function getSelectedRatingValue() {
   return document.querySelector('input[name="situation-rating"]:checked')?.value ?? '';
 }
 
+// 日本時間の ISO 文字列を返す。
 function toJstIsoString(date = new Date()) {
   const jstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
   return jstDate.toISOString().replace('Z', '+09:00');
 }
 
+// 送信用のログオブジェクトを組み立てる。
 function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
   const finalSelectedColor = getSelectedColor() || state.selected_color || '';
@@ -117,6 +127,7 @@ function buildQuestionLogEntry(extra = {}) {
   };
 }
 
+// ログをサーバーに送信する。
 async function appendLogEntry(entry) {
   try {
     await fetch('/api/logs', {
@@ -129,18 +140,19 @@ async function appendLogEntry(entry) {
   }
 }
 
+// 今の回答ログをまとめて送信して状態をリセットする。
 async function flushQuestionLog(extra = {}) {
   const entry = buildQuestionLogEntry(extra);
   await appendLogEntry(entry);
   resetQuestionLogState();
 }
 
-// 解答開始時間を保存する
+// 解答開始時刻を保存する。
 function setAnswerStartTime(time) {
   sessionStorage.setItem(ANSWER_START_TIME_KEY, String(time));
 }
 
-// 解答開始時間を取得する
+// 解答開始時刻を取得する。
 function getAnswerStartTime() {
   const storedValue = sessionStorage.getItem(ANSWER_START_TIME_KEY);
   if (!storedValue) return null;
@@ -148,31 +160,32 @@ function getAnswerStartTime() {
   return Number.isNaN(parsedValue) ? null : parsedValue;
 }
 
-// 解答開始時間をクリア
+// 解答開始時刻を削除する。
 function clearAnswerStartTime() {
   sessionStorage.removeItem(ANSWER_START_TIME_KEY);
 }
 
-// 現在の問題番号を保存する
+// 問題番号を保存する。
 function setCurrentProblemNumber(value) {
   sessionStorage.setItem(CURRENT_PROBLEM_KEY, String(value));
 }
 
-// 現在の問題番号を取得する
+// 問題番号を取得する。
 function getCurrentProblemNumber() {
   return sessionStorage.getItem(CURRENT_PROBLEM_KEY) || '';
 }
 
-// 選択した色を保存する
+// 選択中の色を保存する。
 function setSelectedColor(value) {
   sessionStorage.setItem(SELECTED_COLOR_KEY, String(value));
 }
 
-// 選択した色を取得する
+// 選択中の色を取得する。
 function getSelectedColor() {
   return sessionStorage.getItem(SELECTED_COLOR_KEY) || '';
 }
 
+// 経過時間を秒数で返す。
 function getElapsedTimeSeconds() {
   const startTime = getAnswerStartTime();
   if (!startTime) return '0.00';
@@ -182,32 +195,35 @@ function getElapsedTimeSeconds() {
 /* ==========================
   index.html
   ========================== */
-const startBtn = document.querySelector('.start-btn');
-
-if (startBtn) {
-  startBtn.addEventListener('click', () => {
-    window.location.href = 'id.html';
-  });
-}
-
-// 問題進行管理
+// スタート画面の初期化処理。
+// 「はじめる」ボタンがあれば、クリックで ID入力画面へ遷移させる。
 const QUESTION_PROGRESS_KEY = 'questionProgress';
 
+// スタート画面のボタン処理を初期化する。
+function initIndexPage() {
+  const startBtn = document.querySelector('.start-btn');
+
+  if (startBtn) {
+    startBtn.addEventListener('click', () => {
+      window.location.href = 'id.html';
+    });
+  }
+}
+
+// 今の問題進行数を取得する。
 function getQuestionProgress() {
   const value = Number(localStorage.getItem(QUESTION_PROGRESS_KEY) || '0');
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
+// 問題進行数を安全な範囲に丸めて保存する。
 function setQuestionProgress(value) {
   const normalized = Math.min(Math.max(0, Number(value) || 0), 16);
   localStorage.setItem(QUESTION_PROGRESS_KEY, String(normalized));
   return normalized;
 }
 
-function resetQuestionProgress() {
-  localStorage.setItem(QUESTION_PROGRESS_KEY, '0');
-}
-
+// 1問進めて進行数を返す。
 function advanceQuestionProgress() {
   const current = getQuestionProgress();
   const next = Math.min(current + 1, 16);
@@ -215,61 +231,58 @@ function advanceQuestionProgress() {
   return next;
 }
 
-function redirectToFinalPageIfNeeded() {
-  if (getQuestionProgress() >= 16) {
-    window.location.href = 'fin.html';
-    return true;
-  }
-  return false;
-}
-
 /* ==========================
   id.html
   ========================== */
-if (window.location.pathname.endsWith('id.html')) {
+// ニックネーム入力画面の初期化処理。
+// 名前が入力されているときだけ確認ボタンを有効化し、入力を保存して次ページへ進む。
+// ニックネーム入力画面を初期化する。
+function initIdPage() {
+  if (!window.location.pathname.endsWith('id.html')) return;
+
   const nicknameInput = document.getElementById('nicknameInput');
   const confirmBtn = document.getElementById('confirmNickname');
   const status = document.getElementById('status');
 
-  if (nicknameInput && confirmBtn && status) {
-    const setStatus = (text) => {
-      status.textContent = text;
-    };
+  if (!nicknameInput || !confirmBtn || !status) return;
 
-    const updateConfirmButton = () => {
-      const value = nicknameInput.value.trim();
-      const enabled = value.length > 0;
+  const setStatus = (text) => {
+    status.textContent = text;
+  };
 
-      confirmBtn.disabled = !enabled;
-      confirmBtn.style.opacity = enabled ? '1' : '0.5';
-      confirmBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+  const updateConfirmButton = () => {
+    const value = nicknameInput.value.trim();
+    const enabled = value.length > 0;
 
-      if (!enabled) {
-        setStatus('ニックネームを入力すると、次へ進めます。');
-      }
-    };
+    confirmBtn.disabled = !enabled;
+    confirmBtn.style.opacity = enabled ? '1' : '0.5';
+    confirmBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
 
-    nicknameInput.addEventListener('input', updateConfirmButton);
+    if (!enabled) {
+      setStatus('ニックネームを入力すると、次へ進めます。');
+    }
+  };
 
-    confirmBtn.addEventListener('click', () => {
-      const value = nicknameInput.value.trim();
-      if (!value) {
-        setStatus('ニックネームを入力してください。');
-        return;
-      }
+  nicknameInput.addEventListener('input', updateConfirmButton);
 
-      localStorage.setItem('nickname', value);
-      localStorage.setItem('questionProgress', '0');
-      localStorage.removeItem('usedQuestionImages');
-      setStatus(`「${value}」で入力しました。次のページへ進みます...`);
+  confirmBtn.addEventListener('click', () => {
+    const value = nicknameInput.value.trim();
+    if (!value) {
+      setStatus('ニックネームを入力してください。');
+      return;
+    }
 
-      window.setTimeout(() => {
-        window.location.href = 'play.html';
-      }, 500);
-    });
+    localStorage.setItem('nickname', value);
+    localStorage.setItem('questionProgress', '0');
+    localStorage.removeItem('usedQuestionImages');
+    setStatus(`「${value}」で入力しました。次のページへ進みます...`);
 
-    updateConfirmButton();
-  }
+    window.setTimeout(() => {
+      window.location.href = 'play.html';
+    }, 500);
+  });
+
+  updateConfirmButton();
 }
 /* ==========================
   play.html
@@ -286,38 +299,76 @@ const questionNumberLabel = document.getElementById('questionNumberLabel');
 const areaSelectLink = document.getElementById('areaSelectLink');
 const nextQuestionLink = document.getElementById('nextQuestionLink');
 
+// 現在のエリア番号を取得する。
+function getAreaGridNumber() {
+  const areaGrid = document.querySelector('.area-image-grid');
+  return areaGrid ? areaGrid.id.replace('area', '') : '1';
+}
+
+// 一度だけ動くボタン処理を登録する。
+function bindOneShotButtonClick(button, onPlay, { resetOnError = false } = {}) {
+  if (!button) return;
+
+  button.addEventListener('click', () => {
+    if (button.dataset.played === 'true') return;
+
+    button.dataset.played = 'true';
+    button.disabled = true;
+    button.classList.add('is-played');
+
+    try {
+      onPlay();
+    } catch (error) {
+      console.error('ボタン処理に失敗しました:', error);
+      button.classList.remove('is-played');
+      if (resetOnError) {
+        button.dataset.played = 'false';
+        button.disabled = false;
+      }
+    }
+  });
+}
+
 /* ==========================
   ques.html
   ========================== */
-if (isMoviePage) {
-  const currentProgress = getQuestionProgress();
-  if (currentProgress > 16) {
-    window.location.replace('fin.html');
-  } else {
-    const questionNumber = currentProgress >= 16 ? 16 : advanceQuestionProgress();
-    if (questionNumberLabel) {
-      questionNumberLabel.textContent = String(questionNumber);
-    }
+// 問題表示画面の初期化処理。
+// 進捗状況から現在の問題番号を決め、1問ごとにランダムな問題画像を選んで表示する。
+function initQuestionPage() {
+  if (!isMoviePage) return;
 
-    if (areaSelectLink) {
-      const isFinalQuestion = questionNumber > 16;
-      areaSelectLink.href = isFinalQuestion ? 'fin.html' : 'AreaSelect.html';
-      const btnText = areaSelectLink.querySelector('.btn-text');
-      if (btnText) {
-        btnText.textContent = isFinalQuestion ? '終了' : '色選択へ';
-      }
+  const currentProgress = getQuestionProgress();
+  if (currentProgress > 17) {
+    window.location.replace('fin.html');
+    return;
+  }
+
+  const questionNumber = currentProgress >= 17 ? 17 : advanceQuestionProgress();
+  const isFinalQuestion = questionNumber >= 17;
+
+  if (questionNumberLabel) {
+    questionNumberLabel.textContent = String(questionNumber);
+  }
+
+  if (areaSelectLink) {
+    areaSelectLink.href = isFinalQuestion ? 'fin.html' : 'AreaSelect.html';
+    const btnText = areaSelectLink.querySelector('.btn-text');
+    if (btnText) {
+      btnText.textContent = isFinalQuestion ? '終了' : '色選択へ';
     }
   }
-}
 
-if (isMoviePage && questionImage && playMovieBtn) {
+  if (!questionImage || !playMovieBtn) return;
+
   const QUESTION_DIR = 'img/question';
   const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
 
+  // 画像名の大文字小文字差を吸収する。
   function normalizeQuestionImageName(value) {
     return String(value).toLowerCase();
   }
 
+  // 使用済み問題画像の一覧を取得する。
   function getUsedQuestionImages() {
     try {
       const raw = localStorage.getItem(USED_QUESTION_IMAGES_KEY);
@@ -331,6 +382,7 @@ if (isMoviePage && questionImage && playMovieBtn) {
     }
   }
 
+  // 使用済み問題画像を保存する。
   function saveUsedQuestionImages(list) {
     localStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
   }
@@ -363,15 +415,9 @@ if (isMoviePage && questionImage && playMovieBtn) {
   setCurrentProblemNumber(questionImageNumber);
   questionImage.src = `${QUESTION_DIR}/${randomImage}`;
 
-  playMovieBtn.addEventListener('click', () => {
-    if (playMovieBtn.dataset.played === 'true') return;
-
-    playMovieBtn.dataset.played = 'true';
-    playMovieBtn.disabled = true;
-    playMovieBtn.classList.add('is-played');
+  bindOneShotButtonClick(playMovieBtn, () => {
     setAnswerStartTime(Date.now());
     questionImage.classList.add('is-visible');
-
     window.setTimeout(() => {
       questionImage.classList.remove('is-visible');
     }, 10000);
@@ -381,7 +427,12 @@ if (isMoviePage && questionImage && playMovieBtn) {
 /* ==========================
   correct.html
   ========================== */
-if (isCorrectPage) {
+// 正解・解説画面の初期化処理。
+// 今回の問題番号をもとに該当する意味画像・色・言葉を表示し、次の問題へ進むリンクを調整する。
+// 正解画面を初期化する。
+function initCorrectPage() {
+  if (!isCorrectPage) return;
+
   const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY);
   if (!questionImageNumber) {
     throw new Error('問題画像の番号が保存されていません');
@@ -391,7 +442,6 @@ if (isCorrectPage) {
   const emotionWord = document.getElementById('emotionWord');
   const emotionColorBarTop = document.getElementById('emotionColorBarTop');
   const emotionColorBarBottom = document.getElementById('emotionColorBarBottom');
-  const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
 
   const renderCorrectSummary = async () => {
     const source = await fetch('script.js').then((response) => response.text());
@@ -470,14 +520,19 @@ if (isCorrectPage) {
   }
 }
 
-if (movieVideo && playMovieBtn) {
+// 動画再生ボタンの初期化処理。
+// 問題表示画面や動画再生ボタンの連打防止、再生時間の開始、終了時の状態回復をまとめて扱う。
+// 動画再生制御を初期化する。
+function initVideoPlayback() {
+  if (!movieVideo || !playMovieBtn) return;
+
   playMovieBtn.addEventListener('click', async () => {
     if (!isCorrectPage && playMovieBtn.dataset.played === 'true') return;
 
     if (!isCorrectPage) {
       playMovieBtn.dataset.played = 'true';
       playMovieBtn.disabled = true;
-      setAnswerStartTime(Date.now()); // 解答開始時間を保存
+      setAnswerStartTime(Date.now());
     }
 
     try {
@@ -503,38 +558,42 @@ if (movieVideo && playMovieBtn) {
 /* ==========================
   AreaSelect.html
   ========================== */
+// 色選択画面の初期化処理。
+// 画像を押したら確認ポップアップを開き、OK/NGで次の結果画面へ進むか再選択の状態を管理する。
+// 色選択画面を初期化する。
+function initAreaSelectionPage() {
+  const buttons = document.querySelectorAll('.area-image-button');
+  const confirmPopup = document.getElementById('confirmPopup');
+  const selectedColorCircle = document.getElementById('selectedColor');
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
 
-/* ==========================
-  num_area.html
-  ========================== */
-const buttons = document.querySelectorAll('.area-image-button');
-const confirmPopup = document.getElementById('confirmPopup');
-const selectedColorCircle = document.getElementById('selectedColor');
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
+  let selectedId = null;
 
-let selectedId = null;
+  // 選択中の色をプレビュー表示する。
+  function setSelectedPreview(value) {
+    if (!selectedColorCircle) return;
 
-function setSelectedPreview(value) {
-  if (!selectedColorCircle) return;
+    const isImagePath = /\.(png|jpe?g|gif|webp|bmp|svg)(\?.*)?$/i.test(value || '') || (value || '').startsWith('img/');
 
-  const isImagePath = /\.(png|jpe?g|gif|webp|bmp|svg)(\?.*)?$/i.test(value || '') || (value || '').startsWith('img/');
+    if (isImagePath) {
+      selectedColorCircle.style.background = 'transparent';
+      selectedColorCircle.style.backgroundImage = `url("${value}")`;
+      selectedColorCircle.style.backgroundSize = 'cover';
+      selectedColorCircle.style.backgroundPosition = 'center';
+      selectedColorCircle.style.borderRadius = '0';
+      return;
+    }
 
-  if (isImagePath) {
-    selectedColorCircle.style.background = 'transparent';
-    selectedColorCircle.style.backgroundImage = `url("${value}")`;
-    selectedColorCircle.style.backgroundSize = 'cover';
-    selectedColorCircle.style.backgroundPosition = 'center';
-    selectedColorCircle.style.borderRadius = '0';
+    selectedColorCircle.style.backgroundImage = 'none';
+    selectedColorCircle.style.background = value || 'transparent';
+    selectedColorCircle.style.borderRadius = '50%';
+  }
+
+  if (buttons.length === 0 || !confirmPopup || !selectedColorCircle || !yesBtn || !noBtn) {
     return;
   }
 
-  selectedColorCircle.style.backgroundImage = 'none';
-  selectedColorCircle.style.background = value || 'transparent';
-  selectedColorCircle.style.borderRadius = '50%';
-}
-
-if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn) {
   buttons.forEach((btn) => {
     btn.addEventListener('click', async () => {
       const nextColor = btn.id || btn.dataset.image || '';
@@ -549,8 +608,7 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
       setSelectedPreview(selectedId);
       confirmPopup.style.display = 'flex';
 
-      const areaDiv = document.querySelector(', .area-image-grid');
-      const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
+      const areaNum = getAreaGridNumber();
       if (!getCurrentProblemNumber()) {
         setCurrentProblemNumber(areaNum);
       }
@@ -561,8 +619,7 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
   });
 
   yesBtn.addEventListener('click', () => {
-    const areaDiv = document.querySelector('.area-image-grid');
-    const areaNum = areaDiv ? areaDiv.id.replace('area', '') : '1';
+    const areaNum = getAreaGridNumber();
     const confirmedColor = selectedId || '';
     setSelectedColor(confirmedColor);
     addQuestionEvent('click_yes', { color: confirmedColor });
@@ -585,30 +642,35 @@ if (buttons.length > 0 && confirmPopup && selectedColorCircle && yesBtn && noBtn
       selectedColorCircle.style.borderRadius = '0';
     }
   });
-}
 
-const reviewNextBtn = document.getElementById('reviewNextBtn');
-if (reviewNextBtn) {
-  const btnText = reviewNextBtn.querySelector('.btn-text');
-  if (btnText) {
-    btnText.textContent = '次へ';
+  const reviewNextBtn = document.getElementById('reviewNextBtn');
+  if (reviewNextBtn) {
+    const btnText = reviewNextBtn.querySelector('.btn-text');
+    if (btnText) {
+      btnText.textContent = '次へ';
+    }
+    reviewNextBtn.setAttribute('aria-label', '次へ');
+
+    reviewNextBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      addQuestionEvent('review_next', { color: getSelectedColor() || '' });
+      const evaluation = getSelectedRatingValue();
+      await flushQuestionLog({ evaluation });
+      clearAnswerStartTime();
+      window.location.href = 'correct.html';
+    });
   }
-  reviewNextBtn.setAttribute('aria-label', '次へ');
-
-  reviewNextBtn.addEventListener('click', async (event) => {
-    event.preventDefault();
-    addQuestionEvent('review_next', { color: getSelectedColor() || '' });
-    const evaluation = getSelectedRatingValue();
-    await flushQuestionLog({ evaluation });
-    clearAnswerStartTime();
-    window.location.href = 'correct.html';
-  });
 }
 
 /* ==========================
   result.html
   ========================== */
-if (window.location.pathname.endsWith('result.html')) {
+// 結果表示画面の初期化処理。
+// URL の area と color を読み取り、対応する意味画像と説明文を画面に表示する。
+// 結果画面を初期化する。
+function initResultPage() {
+  if (!window.location.pathname.endsWith('result.html')) return;
+
   const meaningCatalog = [
     {
       area: 1,
@@ -1422,7 +1484,6 @@ if (window.location.pathname.endsWith('result.html')) {
   const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
 
   const meaningLookup = new Map(meaningCatalog.map((item) => [`${item.area}:${normalizeColorKey(item.color)}`, item]));
-  const meaningByNumber = new Map(meaningCatalog.map((item) => [item.number, item]));
   // URLパラメータからエリアとカラーコードを取得
 
   const params = new URLSearchParams(window.location.search);
@@ -1445,6 +1506,7 @@ if (window.location.pathname.endsWith('result.html')) {
     }
   }
 
+  // 選択した色に対応する意味語を返す。
   function loadSelectedWord() {
     if (!area || !color) return '';
     const metadata = getMeaningMetadata(area, color);
@@ -1498,6 +1560,15 @@ if (window.location.pathname.endsWith('result.html')) {
     if (selectedWord) selectedWord.textContent = '';
   }
 }
+
+initIndexPage();
+initIdPage();
+initQuestionPage();
+initCorrectPage();
+initVideoPlayback();
+initAreaSelectionPage();
+initResultPage();
+
 /* ==========================
   fin.html
   ========================== */
