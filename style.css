@@ -5,6 +5,7 @@
   --soft-gray: #747474;
   --shadow-pattern: repeating-linear-gradient(45deg, #fff 0 4px, #000 4px 9px);
   --shadow-pattern-small: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+  --font-base: 'Kosugi Maru', sans-serif;
 }
 
 html,
@@ -14,7 +15,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--page-bg);
-  font-family: 'Kosugi Maru', sans-serif;
+  font-family: var(--font-base);
 }
 
 ruby {
@@ -124,7 +125,7 @@ a:any-link {
   padding: 12.5px 36.5px;
   border: none;
   border-radius: 100px;
-  font-family: 'Kosugi Maru';
+  font-family: var(--font-base);
   font-size: 19px;
   line-height: 160%;
   color: #fff; /* 文字色 */
@@ -558,7 +559,7 @@ ol li {
   padding: 6px 14px;
   border: 2px solid var(--gray100, #616161);
   border-radius: 100px;
-  font-family: 'Kosugi Maru';
+  font-family: var(--font-base);
   font-size: 16px;
   line-height: 160%;
   color: #000; /* 文字色 */
@@ -668,7 +669,7 @@ ol li {
   padding: 12.5px 36.5px;
   border: 2px solid var(--gray100, #616161);
   border-radius: 100px;
-  font-family: 'Kosugi Maru';
+  font-family: var(--font-base);
   font-size: 26px;
   line-height: 160%;
   color: #000; /* 文字色 */
