@@ -1,10 +1,19 @@
+:root {
+  --page-bg: #eee;
+  --panel-bg: #fff;
+  --ink: #232323;
+  --soft-gray: #747474;
+  --shadow-pattern: repeating-linear-gradient(45deg, #fff 0 4px, #000 4px 9px);
+  --shadow-pattern-small: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+}
+
 html,
 body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background: #eee;
+  background: var(--page-bg);
   font-family: 'Kosugi Maru', sans-serif;
 }
 
@@ -18,12 +27,11 @@ rt {
 
 /* ページ全体 */
 .page-container {
-  font-family: 'Kosugi Maru', sans-serif;
   text-align: center;
   width: 100%;
   height: 100%;
   position: relative;
-  background: white;
+  background: var(--panel-bg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -107,7 +115,8 @@ a:any-link {
   z-index: 3; /* 擬似要素より前面 */
 }
 
-.custom-btn {
+.custom-btn,
+#confirmNickname {
   position: relative;
   display: inline-flex;
   justify-content: center;
@@ -125,22 +134,24 @@ a:any-link {
 }
 
 /* 背景用擬似要素（文字より下に配置） */
-.custom-btn::before {
+.custom-btn::before,
+#confirmNickname::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 100px;
-  background: #232323; /* 黒背景 */
+  background: var(--ink); /* 黒背景 */
   z-index: 1; /* 文字より下 */
 }
 
 /* 斜線影用擬似要素（最背面に配置） */
-.custom-btn::after {
+.custom-btn::after,
+#confirmNickname::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 100px;
-  background: repeating-linear-gradient(45deg, #fff 0 4px, #000 4px 9px);
+  background: var(--shadow-pattern);
   transform: translate(6px, 6px);
   z-index: 0; /* 背景のさらに下 */
 }
@@ -285,35 +296,11 @@ a:any-link {
   line-height: 1.6;
   border-radius: 100px;
   box-sizing: border-box;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: visible;
-}
-
-#confirmNickname::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 100px;
-  background: #232323;
-  z-index: 1;
 }
 
 #confirmNickname::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 100px;
-  background: repeating-linear-gradient(45deg, #fff 0 3px, #000 3px 9px);
+  background: var(--shadow-pattern-small);
   transform: translate(3px, 3px);
-  z-index: 0;
-}
-
-#confirmNickname .btn-text {
-  position: relative;
-  z-index: 2;
 }
 /* ==========================
   play.html
