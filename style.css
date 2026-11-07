@@ -167,6 +167,15 @@ a:any-link {
   filter: none;
 }
 
+.custom-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.custom-btn:disabled::before {
+  background: #4a4a4a;
+}
+
 /* ==========================
   index.html
   ========================== */

@@ -643,23 +643,6 @@ function initAreaSelectionPage() {
     }
   });
 
-  const reviewNextBtn = document.getElementById('reviewNextBtn');
-  if (reviewNextBtn) {
-    const btnText = reviewNextBtn.querySelector('.btn-text');
-    if (btnText) {
-      btnText.textContent = '次へ';
-    }
-    reviewNextBtn.setAttribute('aria-label', '次へ');
-
-    reviewNextBtn.addEventListener('click', async (event) => {
-      event.preventDefault();
-      addQuestionEvent('review_next', { color: getSelectedColor() || '' });
-      const evaluation = getSelectedRatingValue();
-      await flushQuestionLog({ evaluation });
-      clearAnswerStartTime();
-      window.location.href = 'correct.html';
-    });
-  }
 }
 
 /* ==========================
@@ -670,6 +653,38 @@ function initAreaSelectionPage() {
 // 結果画面を初期化する。
 function initResultPage() {
   if (!window.location.pathname.endsWith('result.html')) return;
+
+  const reviewNextBtn = document.getElementById('reviewNextBtn');
+  const ratingInputs = document.querySelectorAll('input[name="situation-rating"]');
+
+  const updateReviewNextButton = () => {
+    const hasSelection = Array.from(ratingInputs).some((input) => input.checked);
+    if (!reviewNextBtn) return;
+
+    reviewNextBtn.disabled = !hasSelection;
+    reviewNextBtn.setAttribute('aria-disabled', String(!hasSelection));
+    reviewNextBtn.style.opacity = hasSelection ? '1' : '0.55';
+    reviewNextBtn.style.cursor = hasSelection ? 'pointer' : 'not-allowed';
+  };
+
+  if (reviewNextBtn) {
+    updateReviewNextButton();
+    ratingInputs.forEach((input) => {
+      input.addEventListener('change', updateReviewNextButton);
+    });
+
+    reviewNextBtn.setAttribute('aria-label', '次へ');
+    reviewNextBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      if (reviewNextBtn.disabled) return;
+
+      addQuestionEvent('review_next', { color: getSelectedColor() || '' });
+      const evaluation = getSelectedRatingValue();
+      await flushQuestionLog({ evaluation });
+      clearAnswerStartTime();
+      window.location.href = 'correct.html';
+    });
+  }
 
   const meaningCatalog = [
     {
