@@ -1,5 +1,8 @@
 'use strict';
 
+/* ==========================
+  全体共通
+  ========================== */
 const NICKNAME_STORAGE_KEY = 'nickname';
 const ANSWER_START_TIME_KEY = 'answerStartTime';
 const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
@@ -176,7 +179,9 @@ function getElapsedTimeSeconds() {
   return ((Date.now() - startTime) / 1000).toFixed(2);
 }
 
-// index.html 用
+/* ==========================
+  index.html
+  ========================== */
 const startBtn = document.querySelector('.start-btn');
 
 if (startBtn) {
@@ -218,7 +223,9 @@ function redirectToFinalPageIfNeeded() {
   return false;
 }
 
-// id.html 用
+/* ==========================
+  id.html
+  ========================== */
 if (window.location.pathname.endsWith('id.html')) {
   const nicknameInput = document.getElementById('nicknameInput');
   const confirmBtn = document.getElementById('confirmNickname');
@@ -264,8 +271,9 @@ if (window.location.pathname.endsWith('id.html')) {
     updateConfirmButton();
   }
 }
-
-// ques.html / correct.html 用
+/* ==========================
+  play.html
+  ========================== */
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
@@ -278,6 +286,9 @@ const questionNumberLabel = document.getElementById('questionNumberLabel');
 const areaSelectLink = document.getElementById('areaSelectLink');
 const nextQuestionLink = document.getElementById('nextQuestionLink');
 
+/* ==========================
+  ques.html
+  ========================== */
 if (isMoviePage) {
   const currentProgress = getQuestionProgress();
   if (currentProgress > 16) {
@@ -361,6 +372,9 @@ if (isMoviePage && questionImage && playMovieBtn) {
   });
 }
 
+/* ==========================
+  correct.html
+  ========================== */
 if (isCorrectPage) {
   const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY);
   if (!questionImageNumber) {
@@ -381,7 +395,11 @@ if (isCorrectPage) {
     }
 
     const catalogText = arrayMatch[0].replace(/^const meaningCatalog = /, '').replace(/;\s*const imageMap[\s\S]*$/, '');
-    const entries = [...catalogText.matchAll(/\{\s*area:\s*(\d+),\s*number:\s*'([^']+)',\s*color:\s*'([^']+)',\s*word:\s*'((?:[^'\\]|\\.)*)',\s*questionImage:\s*'([^']+)',\s*meaningImage:\s*'([^']+)'\s*\}/g)];
+    const entries = [
+      ...catalogText.matchAll(
+        /\{\s*area:\s*(\d+),\s*number:\s*'([^']+)',\s*color:\s*'([^']+)',\s*word:\s*'((?:[^'\\]|\\.)*)',\s*questionImage:\s*'([^']+)',\s*meaningImage:\s*'([^']+)'\s*\}/g
+      )
+    ];
 
     const catalog = entries.map(([, area, number, color, word, questionImage, meaningImage]) => ({
       area: Number(area),
@@ -430,7 +448,6 @@ if (isCorrectPage) {
       metaBox.style.borderColor = currentItem.color;
       metaBox.style.boxShadow = `inset 0 0 0 2px ${currentItem.color}`;
     }
-
   };
 
   renderCorrectSummary();
@@ -477,7 +494,13 @@ if (movieVideo && playMovieBtn) {
   });
 }
 
-// num_area.html 用
+/* ==========================
+  AreaSelect.html
+  ========================== */
+
+/* ==========================
+  num_area.html
+  ========================== */
 const buttons = document.querySelectorAll('.area-image-button');
 const confirmPopup = document.getElementById('confirmPopup');
 const selectedColorCircle = document.getElementById('selectedColor');
@@ -576,7 +599,9 @@ if (reviewNextBtn) {
   });
 }
 
-// result.html 用
+/* ==========================
+  result.html
+  ========================== */
 if (window.location.pathname.endsWith('result.html')) {
   const meaningCatalog = [
     {
@@ -1467,3 +1492,6 @@ if (window.location.pathname.endsWith('result.html')) {
     if (selectedWord) selectedWord.textContent = '';
   }
 }
+/* ==========================
+  fin.html
+  ========================== */
