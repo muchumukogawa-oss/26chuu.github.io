@@ -259,7 +259,7 @@ function initIdPage() {
     confirmBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
 
     if (!enabled) {
-      setStatus('ニックネームを入力すると、次へ進めます。');
+      setStatus('IDを入力すると、次へ進めます。');
     }
   };
 
@@ -268,7 +268,7 @@ function initIdPage() {
   confirmBtn.addEventListener('click', () => {
     const value = nicknameInput.value.trim();
     if (!value) {
-      setStatus('ニックネームを入力してください。');
+      setStatus('IDを入力してください。');
       return;
     }
 
@@ -642,7 +642,6 @@ function initAreaSelectionPage() {
       selectedColorCircle.style.borderRadius = '0';
     }
   });
-
 }
 
 /* ==========================
