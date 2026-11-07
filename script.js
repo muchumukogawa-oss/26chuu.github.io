@@ -9,6 +9,7 @@ const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
 const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
+let meaningCatalogForLogging = [];
 
 // ニックネームを取得する。
 function getNickname() {
@@ -99,6 +100,16 @@ function getSelectedRatingValue() {
   return document.querySelector('input[name="situation-rating"]:checked')?.value ?? '';
 }
 
+// カラーコードを意味カタログの番号に変換する。
+function getMeaningNumberForColor(color, area) {
+  if (!color || meaningCatalogForLogging.length === 0) return color;
+  const normalizedColor = String(color).trim().replace(/^#/, '').toUpperCase();
+  const matches = meaningCatalogForLogging.filter(
+    (item) => item.color.replace(/^#/, '').toUpperCase() === normalizedColor && (!area || item.area === Number(area))
+  );
+  return matches.length === 1 ? matches[0].number : color;
+}
+
 // 日本時間の ISO 文字列を返す。
 function toJstIsoString(date = new Date()) {
   const jstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -108,7 +119,9 @@ function toJstIsoString(date = new Date()) {
 // 送信用のログオブジェクトを組み立てる。
 function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
-  const finalSelectedColor = getSelectedColor() || state.selected_color || '';
+  const area = new URLSearchParams(window.location.search).get('area');
+  const toMeaningNumber = (color) => getMeaningNumberForColor(color, area);
+  const finalSelectedColor = toMeaningNumber(getSelectedColor() || state.selected_color || '');
   const candidateColors = Array.isArray(state.candidate_colors) ? state.candidate_colors : [];
   const cancelledColors = Array.isArray(state.cancelled_colors) ? state.cancelled_colors : [];
   const evaluationValue = extra.evaluation ?? state.evaluation ?? getSelectedRatingValue();
@@ -118,10 +131,13 @@ function buildQuestionLogEntry(extra = {}) {
     problem_no: getCurrentProblemNumber() || state.problem_no || '',
     area_no: getCurrentProblemNumber() || state.problem_no || '',
     selected_color: finalSelectedColor,
-    candidate_colors: candidateColors,
-    cancelled_colors: cancelledColors,
+    candidate_colors: candidateColors.map(toMeaningNumber),
+    cancelled_colors: cancelledColors.map(toMeaningNumber),
     answer_time_sec: getElapsedTimeSeconds(),
-    event_history: state.event_history || [],
+    event_history: (state.event_history || []).map((event) => ({
+      ...event,
+      ...(event.color ? { color: toMeaningNumber(event.color) } : {})
+    })),
     timestamp: toJstIsoString(),
     evaluation: evaluationValue
   };
@@ -1487,6 +1503,8 @@ function initResultPage() {
       meaningImage: 'img/meaning/A324.jpg'
     }
   ];
+
+  meaningCatalogForLogging = meaningCatalog;
 
   const imageMap = meaningCatalog.reduce((map, item) => {
     const areaKey = String(item.area);
