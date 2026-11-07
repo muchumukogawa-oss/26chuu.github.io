@@ -9,15 +9,24 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="page-container">
+    <div class="page-container correct-page">
       <h3>シチュエーションに合う感情とその意味は</h3>
-      <img id="answerImage" alt="正解の写真" />
-      <br />
-      <button id="playMovieBtn" class="custom-btn">
-        <span class="btn-text">正解表示</span>
-      </button>
-      <p>正解の表示は何度でも可能です</p>
-      <br />
+
+      <div id="correctEmotionSummary" class="correct-emotion-summary">
+        <div class="correct-item-meta">
+          <div class="correct-item-visual">
+            <img id="questionImage" alt="問題画像" />
+          </div>
+          <div id="emotionNumberLabel" class="emotion-number-label"></div>
+          <div class="emotion-word-block">
+            <span id="emotionColorBarTop" class="emotion-color-divider" aria-hidden="true"></span>
+            <div id="emotionWord" class="emotion-word"></div>
+            <span id="emotionColorBarBottom" class="emotion-color-divider" aria-hidden="true"></span>
+          </div>
+          <img id="answerImage" alt="意味画像" />
+        </div>
+      </div>
+
       <a id="nextQuestionLink" href="ques.html"
         ><button class="custom-btn">
           <span class="btn-text">次の問題へ</span>

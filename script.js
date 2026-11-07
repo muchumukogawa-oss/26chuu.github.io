@@ -361,16 +361,79 @@ if (isMoviePage && questionImage && playMovieBtn) {
   });
 }
 
-if (isCorrectPage && answerImage && playMovieBtn) {
+if (isCorrectPage) {
   const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY);
   if (!questionImageNumber) {
     throw new Error('問題画像の番号が保存されていません');
   }
 
-  answerImage.src = `meaning/A${questionImageNumber}.jpg`;
-  answerImage.addEventListener('error', () => {
-    console.error(`正解画像を読み込めませんでした: ${answerImage.src}`);
-  });
+  const emotionNumberLabel = document.getElementById('emotionNumberLabel');
+  const emotionWord = document.getElementById('emotionWord');
+  const emotionColorBarTop = document.getElementById('emotionColorBarTop');
+  const emotionColorBarBottom = document.getElementById('emotionColorBarBottom');
+  const normalizeColorKey = (value) => (value || '').trim().replace(/^#/, '').toUpperCase();
+
+  const renderCorrectSummary = async () => {
+    const source = await fetch('script.js').then((response) => response.text());
+    const arrayMatch = source.match(/const meaningCatalog = \[(.*?\]\s*);\s*const imageMap/gs);
+    if (!arrayMatch) {
+      return;
+    }
+
+    const catalogText = arrayMatch[0].replace(/^const meaningCatalog = /, '').replace(/;\s*const imageMap[\s\S]*$/, '');
+    const entries = [...catalogText.matchAll(/\{\s*area:\s*(\d+),\s*number:\s*'([^']+)',\s*color:\s*'([^']+)',\s*word:\s*'((?:[^'\\]|\\.)*)',\s*questionImage:\s*'([^']+)',\s*meaningImage:\s*'([^']+)'\s*\}/g)];
+
+    const catalog = entries.map(([, area, number, color, word, questionImage, meaningImage]) => ({
+      area: Number(area),
+      number,
+      color,
+      word: word.replace(/\\'/g, "'").replace(/\\\\/g, '\\'),
+      questionImage,
+      meaningImage
+    }));
+
+    const currentItem = catalog.find((item) => item.number === String(questionImageNumber));
+    if (!currentItem) {
+      return;
+    }
+
+    if (questionImage) {
+      questionImage.src = `img/question/Q${String(questionImageNumber).padStart(3, '0')}.jpg`;
+      questionImage.alt = `問題 ${questionImageNumber}`;
+      questionImage.style.border = 'none';
+    }
+
+    if (answerImage) {
+      answerImage.src = `img/meaning/A${String(questionImageNumber).padStart(3, '0')}.jpg`;
+      answerImage.alt = `意味 ${questionImageNumber}`;
+      answerImage.style.border = 'none';
+    }
+
+    if (emotionNumberLabel) {
+      emotionNumberLabel.textContent = '';
+    }
+
+    if (emotionWord) {
+      emotionWord.textContent = currentItem.word;
+      emotionWord.style.color = '#000';
+    }
+
+    if (emotionColorBarTop) {
+      emotionColorBarTop.style.background = currentItem.color;
+    }
+    if (emotionColorBarBottom) {
+      emotionColorBarBottom.style.background = currentItem.color;
+    }
+
+    const metaBox = document.querySelector('.correct-item-meta');
+    if (metaBox) {
+      metaBox.style.borderColor = currentItem.color;
+      metaBox.style.boxShadow = `inset 0 0 0 2px ${currentItem.color}`;
+    }
+
+  };
+
+  renderCorrectSummary();
 
   if (nextQuestionLink) {
     const currentProgress = getQuestionProgress();
@@ -382,10 +445,6 @@ if (isCorrectPage && answerImage && playMovieBtn) {
     }
     nextQuestionLink.setAttribute('aria-label', isFinalQuestion ? '終了' : '次の問題へ');
   }
-
-  playMovieBtn.addEventListener('click', () => {
-    answerImage.classList.add('is-visible');
-  });
 }
 
 if (movieVideo && playMovieBtn) {
