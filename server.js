@@ -1,7 +1,7 @@
 const port = Number(Deno.env.get('PORT') || '3000');
 const rootDir = Deno.cwd();
 const csvPath = `${rootDir}/demo.csv`;
-const csvHeader = 'ニックネーム,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
+const csvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
 
 function ensureCsvFile() {
   try {
@@ -18,7 +18,7 @@ function ensureCsvFile() {
 }
 
 function normalizeEntry(entry) {
-  const personName = entry.nickname ?? entry['ニックネーム'] ?? '未入力';
+  const personName = entry.nickname ?? entry['ID'] ?? '未入力';
   const problemNo = entry.problem_no ?? entry['問題番号'] ?? '';
   const selectedColor = entry.selected_color ?? entry['選択した色'] ?? '';
   const candidateColors = Array.isArray(entry.candidate_colors)
@@ -34,7 +34,7 @@ function normalizeEntry(entry) {
   const evaluation = entry.evaluation ?? entry['評価'] ?? '';
 
   return {
-    ニックネーム: personName,
+    ID: personName,
     問題番号: problemNo,
     選択した色: selectedColor,
     候補色: candidateColors,
@@ -52,7 +52,7 @@ function escapeCsvValue(value) {
 
 function buildCsvRow(entry) {
   const values = [
-    entry['ニックネーム'],
+    entry['ID'],
     entry['問題番号'],
     entry['選択した色'],
     entry['候補色'],

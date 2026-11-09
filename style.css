@@ -127,7 +127,7 @@ a:any-link {
   border-radius: 100px;
   font-family: var(--font-base);
   font-size: 19px;
-  line-height: 160%;
+  line-height: 100%;
   color: #fff; /* 文字色 */
   cursor: pointer;
   overflow: visible;

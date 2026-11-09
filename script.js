@@ -11,7 +11,7 @@ const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
 let meaningCatalogForLogging = [];
 
-// ニックネームを取得する。
+// IDを取得する。
 function getNickname() {
   return localStorage.getItem(NICKNAME_STORAGE_KEY) || '未入力';
 }
@@ -250,9 +250,9 @@ function advanceQuestionProgress() {
 /* ==========================
   id.html
   ========================== */
-// ニックネーム入力画面の初期化処理。
+// ID入力画面の初期化処理。
 // 名前が入力されているときだけ確認ボタンを有効化し、入力を保存して次ページへ進む。
-// ニックネーム入力画面を初期化する。
+// ID入力画面を初期化する。
 function initIdPage() {
   if (!window.location.pathname.endsWith('id.html')) return;
 
