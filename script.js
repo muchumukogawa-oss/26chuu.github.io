@@ -459,46 +459,18 @@ function initCorrectPage() {
   const emotionColorBarTop = document.getElementById('emotionColorBarTop');
   const emotionColorBarBottom = document.getElementById('emotionColorBarBottom');
 
-  const renderCorrectSummary = async () => {
-    const source = await fetch('script.js').then((response) => response.text());
-    const arrayMatch = source.match(/const meaningCatalog = \[(.*?\]\s*);\s*const imageMap/gs);
-    if (!arrayMatch) {
-      return;
-    }
+  const imageNumber = String(questionImageNumber).padStart(3, '0');
+  if (questionImage) {
+    questionImage.src = `img/question/Q${imageNumber}.jpg`;
+    questionImage.alt = `問題 ${questionImageNumber}`;
+  }
+  if (answerImage) {
+    answerImage.src = `img/meaning/A${imageNumber}.jpg`;
+    answerImage.alt = `意味 ${questionImageNumber}`;
+  }
 
-    const catalogText = arrayMatch[0].replace(/^const meaningCatalog = /, '').replace(/;\s*const imageMap[\s\S]*$/, '');
-    const entries = [
-      ...catalogText.matchAll(
-        /\{\s*area:\s*(\d+),\s*number:\s*'([^']+)',\s*color:\s*'([^']+)',\s*word:\s*'((?:[^'\\]|\\.)*)',\s*questionImage:\s*'([^']+)',\s*meaningImage:\s*'([^']+)'\s*\}/g
-      )
-    ];
-
-    const catalog = entries.map(([, area, number, color, word, questionImage, meaningImage]) => ({
-      area: Number(area),
-      number,
-      color,
-      word: word.replace(/\\'/g, "'").replace(/\\\\/g, '\\'),
-      questionImage,
-      meaningImage
-    }));
-
-    const currentItem = catalog.find((item) => item.number === String(questionImageNumber));
-    if (!currentItem) {
-      return;
-    }
-
-    if (questionImage) {
-      questionImage.src = `img/question/Q${String(questionImageNumber).padStart(3, '0')}.jpg`;
-      questionImage.alt = `問題 ${questionImageNumber}`;
-      questionImage.style.border = 'none';
-    }
-
-    if (answerImage) {
-      answerImage.src = `img/meaning/A${String(questionImageNumber).padStart(3, '0')}.jpg`;
-      answerImage.alt = `意味 ${questionImageNumber}`;
-      answerImage.style.border = 'none';
-    }
-
+  const currentItem = meaningCatalogForLogging.find((item) => item.number === imageNumber);
+  if (currentItem) {
     if (emotionNumberLabel) {
       emotionNumberLabel.textContent = '';
     }
@@ -520,9 +492,7 @@ function initCorrectPage() {
       metaBox.style.borderColor = currentItem.color;
       metaBox.style.boxShadow = `inset 0 0 0 2px ${currentItem.color}`;
     }
-  };
-
-  renderCorrectSummary();
+  }
 
   if (nextQuestionLink) {
     const currentProgress = getQuestionProgress();
@@ -667,7 +637,8 @@ function initAreaSelectionPage() {
 // URL の area と color を読み取り、対応する意味画像と説明文を画面に表示する。
 // 結果画面を初期化する。
 function initResultPage() {
-  if (!window.location.pathname.endsWith('result.html')) return;
+  const isResultPage = window.location.pathname.endsWith('result.html');
+  if (!isResultPage && !isCorrectPage) return;
 
   const reviewNextBtn = document.getElementById('reviewNextBtn');
   const ratingInputs = document.querySelectorAll('input[name="situation-rating"]');
@@ -1505,6 +1476,7 @@ function initResultPage() {
   ];
 
   meaningCatalogForLogging = meaningCatalog;
+  if (!isResultPage) return;
 
   const imageMap = meaningCatalog.reduce((map, item) => {
     const areaKey = String(item.area);
@@ -1596,10 +1568,10 @@ function initResultPage() {
 initIndexPage();
 initIdPage();
 initQuestionPage();
+initResultPage();
 initCorrectPage();
 initVideoPlayback();
 initAreaSelectionPage();
-initResultPage();
 
 /* ==========================
   fin.html
