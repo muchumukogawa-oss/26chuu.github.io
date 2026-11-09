@@ -18,14 +18,6 @@ body {
   font-family: var(--font-base);
 }
 
-ruby {
-  ruby-position: over; /* 上に表示（デフォルト） */
-}
-
-rt {
-  font-size: 0.5em; /* 小さめに */
-}
-
 /* ページ全体 */
 .page-container {
   text-align: center;
@@ -669,6 +661,7 @@ body.play-page .next {
 
 .h2_color {
   position: relative;
+  line-height: 1.5;
   bottom: 30px;
 }
 
