@@ -19,6 +19,9 @@
         <!-- エリア別軸ラベル -->
         <p class="upper_left">高</p>
         <p class="lower_right">快</p>
+        <p class="lower_left">原点</p>
+        <p class="lower_horizontal">快の強さ→</p>
+        <p class="vertical_left">←感情の強度</p>
 
         <!-- 色ボタン 0~24 -->
         <button
@@ -258,14 +261,14 @@
     <!-- 確認ポップアップ -->
     <div id="confirmPopup" class="confirm-popup" style="display: none">
       <div class="popup-content">
-        <p class="popup-text">これでいいですか？</p>
+        <p class="popup-text">この色で決定しますか？</p>
         <div class="color-circle" id="selectedColor"></div>
         <div class="confirm-buttons">
-          <button id="yesBtn" class="custom-btn yes-btn">
-            <span class="btn-text">はい</span>
-          </button>
           <button id="noBtn" class="no-btn">
-            <span class="btn-text">いいえ</span>
+            <span class="btn-text">選び直す</span>
+          </button>
+          <button id="yesBtn" class="custom-btn yes-btn">
+            <span class="btn-text">決定</span>
           </button>
         </div>
       </div>

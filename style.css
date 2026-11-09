@@ -446,7 +446,7 @@ body.play-page .next {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
-  width: min(90vw, 420px);
+  width: min(80vw, 420px);
   aspect-ratio: 1 / 1;
   gap: 0;
   /* background: #000; */
@@ -505,11 +505,11 @@ body.play-page .next {
 }
 
 .pleasant-label {
-  right: -20px;
+  right: -30px;
 }
 
 .unpleasant-label {
-  left: -20px;
+  left: -30px;
 }
 
 /* ボタン配置 */
@@ -618,7 +618,7 @@ body.play-page .next {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-template-rows: repeat(5, minmax(0, 1fr));
-  width: min(90vw, 500px);
+  width: min(80vw, 500px);
   aspect-ratio: 1 / 1;
   background: transparent;
 }
@@ -673,7 +673,7 @@ body.play-page .next {
 }
 
 #backBtn {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .back-btn {
@@ -685,8 +685,8 @@ body.play-page .next {
   border: 2px solid var(--gray100, #616161);
   border-radius: 100px;
   font-family: var(--font-base);
-  font-size: 26px;
-  line-height: 160%;
+  font-size: 22px;
+  line-height: 100%;
   color: #000; /* 文字色 */
   cursor: pointer;
   overflow: visible;
@@ -716,7 +716,11 @@ body.play-page .next {
 .upper_left,
 .upper_right,
 .lower_left,
-.lower_right {
+.lower_right,
+.upper_horizontal,
+.lower_horizontal,
+.vertical_left,
+.vertical_right {
   position: absolute;
   font-size: 22px;
   font-weight: bold;
@@ -730,23 +734,50 @@ body.play-page .next {
 }
 
 .upper_left {
-  left: 0;
+  left: -20px;
 }
 
 .upper_right {
-  right: 0;
+  right: -20px;
 }
 
 .lower_left {
-  left: 0;
+  left: -20px;
   bottom: -50px;
   top: auto;
 }
 
 .lower_right {
-  right: 0;
+  right: -20px;
   bottom: -50px;
   top: auto;
+}
+
+.upper_horizontal,
+.lower_horizontal {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vertical_left,
+.vertical_right {
+  top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+}
+
+.upper_horizontal {
+  top: -50px;
+}
+
+.lower_horizontal {
+  bottom: -50px;
+}
+.vertical_left {
+  left: -50px;
+}
+.vertical_right {
+  right: -50px;
 }
 
 /* ==========================
