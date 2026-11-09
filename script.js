@@ -10,7 +10,7 @@ const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
 const LOG_ENDPOINT_URL =
-  'https://script.google.com/a/macros/mwu.jp/s/AKfycbxRY-JSnNLoIwhojdZlenYC6pFd5pruWUiHHHDvTcHZpfhAZ57_KL4g5g8xWThRPt6JPA/exec';
+  'https://script.google.com/a/macros/mwu.jp/s/AKfycbzpRJiLd4CjUX6tHCOvxG3lKTgv2a-0RKliD9BXhYKqcs2RoJ4fu8_a6qD5eTpb07N4/exec';
 let meaningCatalogForLogging = [];
 
 // IDを取得する。
