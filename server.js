@@ -1,6 +1,6 @@
 const port = Number(Deno.env.get('PORT') || '3000');
 const rootDir = Deno.cwd();
-const csvPath = `${rootDir}/demo.csv`;
+const csvPath = `${rootDir}/demo_v2.csv`;
 const csvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
 
 function ensureCsvFile() {
@@ -147,7 +147,7 @@ Deno.serve({ port }, async (request) => {
       const body = await request.text();
       const entry = JSON.parse(body || '{}');
       appendLogEntry(entry);
-      return Response.json({ ok: true, savedTo: 'demo.csv' });
+      return Response.json({ ok: true, savedTo: 'demo_v2.csv' });
     } catch (error) {
       return Response.json({ ok: false, error: error.message }, { status: 400 });
     }

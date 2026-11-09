@@ -121,6 +121,10 @@ function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
   const area = new URLSearchParams(window.location.search).get('area');
   const toMeaningNumber = (color) => getMeaningNumberForColor(color, area);
+  const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY)
+    || getCurrentProblemNumber()
+    || state.problem_no
+    || '';
   const finalSelectedColor = toMeaningNumber(getSelectedColor() || state.selected_color || '');
   const candidateColors = Array.isArray(state.candidate_colors) ? state.candidate_colors : [];
   const cancelledColors = Array.isArray(state.cancelled_colors) ? state.cancelled_colors : [];
@@ -128,8 +132,8 @@ function buildQuestionLogEntry(extra = {}) {
 
   return {
     nickname: getNickname(),
-    problem_no: getCurrentProblemNumber() || state.problem_no || '',
-    area_no: getCurrentProblemNumber() || state.problem_no || '',
+    problem_no: questionImageNumber,
+    area_no: questionImageNumber,
     selected_color: finalSelectedColor,
     candidate_colors: candidateColors.map(toMeaningNumber),
     cancelled_colors: cancelledColors.map(toMeaningNumber),
