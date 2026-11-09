@@ -576,7 +576,7 @@ body.play-page .next {
   border-radius: 100px;
   font-family: var(--font-base);
   font-size: 16px;
-  line-height: 160%;
+  line-height: 100%;
   color: #000; /* 文字色 */
   cursor: pointer;
   overflow: visible;
