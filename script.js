@@ -9,6 +9,8 @@ const CURRENT_PROBLEM_KEY = 'currentProblemNumber';
 const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
+const LOG_ENDPOINT_URL =
+  'https://script.google.com/a/macros/mwu.jp/s/AKfycbxRY-JSnNLoIwhojdZlenYC6pFd5pruWUiHHHDvTcHZpfhAZ57_KL4g5g8xWThRPt6JPA/exec';
 let meaningCatalogForLogging = [];
 
 // IDを取得する。
@@ -121,10 +123,8 @@ function buildQuestionLogEntry(extra = {}) {
   const state = getQuestionLogState();
   const area = new URLSearchParams(window.location.search).get('area');
   const toMeaningNumber = (color) => getMeaningNumberForColor(color, area);
-  const questionImageNumber = sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY)
-    || getCurrentProblemNumber()
-    || state.problem_no
-    || '';
+  const questionImageNumber =
+    sessionStorage.getItem(QUESTION_IMAGE_NUMBER_KEY) || getCurrentProblemNumber() || state.problem_no || '';
   const finalSelectedColor = toMeaningNumber(getSelectedColor() || state.selected_color || '');
   const candidateColors = Array.isArray(state.candidate_colors) ? state.candidate_colors : [];
   const cancelledColors = Array.isArray(state.cancelled_colors) ? state.cancelled_colors : [];
@@ -150,13 +150,15 @@ function buildQuestionLogEntry(extra = {}) {
 // ログをサーバーに送信する。
 async function appendLogEntry(entry) {
   try {
-    await fetch('/api/logs', {
+    await fetch(LOG_ENDPOINT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(entry)
     });
   } catch (error) {
     console.error('ログ送信に失敗しました:', error);
+    throw error;
   }
 }
 
@@ -272,14 +274,16 @@ function initIdPage() {
 
   const updateConfirmButton = () => {
     const value = nicknameInput.value.trim();
-    const enabled = value.length > 0;
+    const enabled = /^\d+$/.test(value);
 
     confirmBtn.disabled = !enabled;
     confirmBtn.style.opacity = enabled ? '1' : '0.5';
     confirmBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
 
-    if (!enabled) {
+    if (!value) {
       setStatus('IDを入力すると、次へ進めます。');
+    } else if (!enabled) {
+      setStatus('IDは半角数字で入力してください。');
     }
   };
 
@@ -287,8 +291,8 @@ function initIdPage() {
 
   confirmBtn.addEventListener('click', () => {
     const value = nicknameInput.value.trim();
-    if (!value) {
-      setStatus('IDを入力してください。');
+    if (!/^\d+$/.test(value)) {
+      setStatus('IDを半角数字で入力してください。');
       return;
     }
 
@@ -670,7 +674,15 @@ function initResultPage() {
 
       addQuestionEvent('review_next', { color: getSelectedColor() || '' });
       const evaluation = getSelectedRatingValue();
-      await flushQuestionLog({ evaluation });
+      reviewNextBtn.disabled = true;
+      try {
+        await flushQuestionLog({ evaluation });
+      } catch (error) {
+        console.error('ログ送信に失敗しました:', error);
+        window.alert('ログを送信できませんでした。通信を確認して、もう一度お試しください。');
+        updateReviewNextButton();
+        return;
+      }
       clearAnswerStartTime();
       window.location.href = 'correct.html';
     });
