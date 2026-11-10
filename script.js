@@ -499,7 +499,6 @@ function initCorrectPage() {
     const metaBox = document.querySelector('.correct-item-meta');
     if (metaBox) {
       metaBox.style.borderColor = currentItem.color;
-      metaBox.style.boxShadow = `inset 0 0 0 2px ${currentItem.color}`;
     }
   }
 
