@@ -10,7 +10,7 @@ const SELECTED_COLOR_KEY = 'selectedColor';
 const QUESTION_IMAGE_NUMBER_KEY = 'questionImageNumber';
 const QUESTION_LOG_STATE_KEY = 'questionLogState';
 const LOG_ENDPOINT_URL =
-  'https://script.google.com/a/macros/mwu.jp/s/AKfycbzpRJiLd4CjUX6tHCOvxG3lKTgv2a-0RKliD9BXhYKqcs2RoJ4fu8_a6qD5eTpb07N4/exec';
+  'https://script.google.com/macros/s/AKfycbxDt2w-mZuRg9R9OMfrvW8nQtMpjXgzTAWu64WTWoIwYb4F6pqUsn53wxBS19aLNJJ5CQ/exec';
 let meaningCatalogForLogging = [];
 
 // IDを取得する。
@@ -221,6 +221,8 @@ function getElapsedTimeSeconds() {
 // スタート画面の初期化処理。
 // 「はじめる」ボタンがあれば、クリックで ID入力画面へ遷移させる。
 const QUESTION_PROGRESS_KEY = 'questionProgress';
+const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
+const MAX_QUESTION_COUNT = 16;
 
 // スタート画面のボタン処理を初期化する。
 function initIndexPage() {
@@ -235,21 +237,21 @@ function initIndexPage() {
 
 // 今の問題進行数を取得する。
 function getQuestionProgress() {
-  const value = Number(localStorage.getItem(QUESTION_PROGRESS_KEY) || '0');
+  const value = Number(sessionStorage.getItem(QUESTION_PROGRESS_KEY) || '0');
   return Number.isFinite(value) ? Math.max(0, value) : 0;
 }
 
 // 問題進行数を安全な範囲に丸めて保存する。
 function setQuestionProgress(value) {
-  const normalized = Math.min(Math.max(0, Number(value) || 0), 16);
-  localStorage.setItem(QUESTION_PROGRESS_KEY, String(normalized));
+  const normalized = Math.min(Math.max(0, Number(value) || 0), MAX_QUESTION_COUNT);
+  sessionStorage.setItem(QUESTION_PROGRESS_KEY, String(normalized));
   return normalized;
 }
 
 // 1問進めて進行数を返す。
 function advanceQuestionProgress() {
   const current = getQuestionProgress();
-  const next = Math.min(current + 1, 16);
+  const next = Math.min(current + 1, MAX_QUESTION_COUNT);
   setQuestionProgress(next);
   return next;
 }
@@ -298,8 +300,8 @@ function initIdPage() {
     }
 
     localStorage.setItem('nickname', value);
-    localStorage.setItem('questionProgress', '0');
-    localStorage.removeItem('usedQuestionImages');
+    sessionStorage.setItem(QUESTION_PROGRESS_KEY, '0');
+    sessionStorage.removeItem(USED_QUESTION_IMAGES_KEY);
     setStatus(`「${value}」で入力しました。次のページへ進みます...`);
 
     window.setTimeout(() => {
@@ -363,30 +365,28 @@ function initQuestionPage() {
   if (!isMoviePage) return;
 
   const currentProgress = getQuestionProgress();
-  if (currentProgress > 17) {
+  if (currentProgress >= MAX_QUESTION_COUNT) {
     window.location.replace('fin.html');
     return;
   }
 
-  const questionNumber = currentProgress >= 17 ? 17 : advanceQuestionProgress();
-  const isFinalQuestion = questionNumber >= 17;
+  const questionNumber = advanceQuestionProgress();
 
   if (questionNumberLabel) {
     questionNumberLabel.textContent = String(questionNumber);
   }
 
   if (areaSelectLink) {
-    areaSelectLink.href = isFinalQuestion ? 'fin.html' : 'AreaSelect.html';
+    areaSelectLink.href = 'AreaSelect.html';
     const btnText = areaSelectLink.querySelector('.btn-text');
     if (btnText) {
-      btnText.textContent = isFinalQuestion ? '終了' : '色選択へ';
+      btnText.textContent = '色選択へ';
     }
   }
 
   if (!questionImage || !playMovieBtn) return;
 
   const QUESTION_DIR = 'img/question';
-  const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
 
   // 画像名の大文字小文字差を吸収する。
   function normalizeQuestionImageName(value) {
@@ -396,7 +396,7 @@ function initQuestionPage() {
   // 使用済み問題画像の一覧を取得する。
   function getUsedQuestionImages() {
     try {
-      const raw = localStorage.getItem(USED_QUESTION_IMAGES_KEY);
+      const raw = sessionStorage.getItem(USED_QUESTION_IMAGES_KEY);
       if (!raw) return [];
       const parsed = JSON.parse(raw);
       return Array.isArray(parsed)
@@ -409,17 +409,20 @@ function initQuestionPage() {
 
   // 使用済み問題画像を保存する。
   function saveUsedQuestionImages(list) {
-    localStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
+    sessionStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
   }
 
   const allQuestionFiles = [
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
+    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 200).padStart(3, '0')}.jpg`),
     ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.jpg`)
   ];
 
   let usedImages = getUsedQuestionImages();
-  let availableImages = allQuestionFiles.filter((filename) => !usedImages.includes(filename));
+  let availableImages = allQuestionFiles.filter(
+    (filename) => !usedImages.includes(normalizeQuestionImageName(filename))
+  );
 
   if (availableImages.length === 0) {
     usedImages = [];
@@ -504,7 +507,7 @@ function initCorrectPage() {
 
   if (nextQuestionLink) {
     const currentProgress = getQuestionProgress();
-    const isFinalQuestion = currentProgress >= 16;
+    const isFinalQuestion = currentProgress >= MAX_QUESTION_COUNT;
     nextQuestionLink.href = isFinalQuestion ? 'fin.html' : 'ques.html';
     const btnText = nextQuestionLink.querySelector('.btn-text');
     if (btnText) {
