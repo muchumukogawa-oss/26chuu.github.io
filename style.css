@@ -665,6 +665,10 @@ body.play-page .next {
   bottom: 30px;
 }
 
+#h3 {
+  line-height: 1.5;
+}
+
 #backBtn {
   margin-top: 40px;
 }
