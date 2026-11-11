@@ -144,8 +144,8 @@ function buildQuestionLogEntry(extra = {}) {
     })),
     timestamp: toJstIsoString(),
     evaluation: evaluationValue,
-    evaluation1: extra.evaluation1 ?? '',
-    evaluation2: extra.evaluation2 ?? ''
+    evaluation1: extra.evaluation1 ?? state.evaluation1 ?? '',
+    evaluation2: extra.evaluation2 ?? state.evaluation2 ?? ''
   };
 }
 
@@ -683,9 +683,22 @@ function initResultPage() {
         color: getSelectedColor() || '',
         [evaluationField]: evaluation
       });
+
+      if (!isCorrectPage) {
+        const state = getQuestionLogState();
+        state.evaluation1 = evaluation;
+        saveQuestionLogState(state);
+        window.location.href = 'correct.html';
+        return;
+      }
+
       reviewNextBtn.disabled = true;
       try {
-        await flushQuestionLog({ evaluation, [evaluationField]: evaluation });
+        await flushQuestionLog({
+          evaluation,
+          evaluation1: getQuestionLogState().evaluation1 ?? '',
+          evaluation2: evaluation
+        });
       } catch (error) {
         console.error('ログ送信に失敗しました:', error);
         window.alert('ログを送信できませんでした。通信を確認して、もう一度お試しください。');
@@ -693,7 +706,7 @@ function initResultPage() {
         return;
       }
       clearAnswerStartTime();
-      window.location.href = isCorrectPage ? nextQuestionLink.href : 'correct.html';
+      window.location.href = nextQuestionLink.href;
     });
   }
 
