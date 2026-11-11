@@ -18,7 +18,15 @@ function doPost(e) {
 
     const sheet = spreadsheet.getSheetByName('回答ログ') || spreadsheet.insertSheet('回答ログ');
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['ID', '問題番号', '選択した色', '候補色', 'キャンセル色', '解答時間', 'イベント履歴', '評価']);
+      sheet.appendRow(['ID', '問題番号', '選択した色', '候補色', 'キャンセル色', '解答時間', 'イベント履歴', '評価1', '評価2']);
+    } else {
+      const headers = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 8)).getValues()[0];
+      if (headers[7] === '評価') {
+        sheet.getRange(1, 8).setValue('評価1');
+      }
+      if (headers[8] !== '評価2') {
+        sheet.getRange(1, 9).setValue('評価2');
+      }
     }
 
     sheet.appendRow([
@@ -29,7 +37,8 @@ function doPost(e) {
       JSON.stringify(entry.cancelled_colors ?? []),
       entry.answer_time_sec ?? '',
       JSON.stringify(entry.event_history ?? []),
-      entry.evaluation ?? ''
+      entry.evaluation1 ?? entry.evaluation ?? '',
+      entry.evaluation2 ?? ''
     ]);
 
     return ContentService

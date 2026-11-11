@@ -1,7 +1,8 @@
 const port = Number(Deno.env.get('PORT') || '3000');
 const rootDir = Deno.cwd();
 const csvPath = `${rootDir}/demo_v2.csv`;
-const csvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
+const legacyCsvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
+const csvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価1,評価2\n';
 
 function ensureCsvFile() {
   try {
@@ -14,6 +15,8 @@ function ensureCsvFile() {
   const existing = Deno.readTextFileSync(csvPath, { encoding: 'utf-8' });
   if (!existing.trim()) {
     Deno.writeTextFileSync(csvPath, csvHeader, { encoding: 'utf-8' });
+  } else if (existing.startsWith(legacyCsvHeader)) {
+    Deno.writeTextFileSync(csvPath, `${csvHeader}${existing.slice(legacyCsvHeader.length)}`, { encoding: 'utf-8' });
   }
 }
 
@@ -31,7 +34,8 @@ function normalizeEntry(entry) {
   const eventHistory = Array.isArray(entry.event_history)
     ? JSON.stringify(entry.event_history)
     : (entry.event_history ?? '[]');
-  const evaluation = entry.evaluation ?? entry['評価'] ?? '';
+  const evaluation1 = entry.evaluation1 ?? entry.evaluation ?? entry['評価1'] ?? entry['評価'] ?? '';
+  const evaluation2 = entry.evaluation2 ?? entry['評価2'] ?? '';
 
   return {
     ID: personName,
@@ -41,7 +45,8 @@ function normalizeEntry(entry) {
     キャンセル色: cancelledColors,
     解答時間: answerTime,
     イベント履歴: eventHistory,
-    評価: evaluation
+    評価1: evaluation1,
+    評価2: evaluation2
   };
 }
 
