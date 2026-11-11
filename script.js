@@ -472,6 +472,7 @@ function initCorrectPage() {
   const emotionWord = document.getElementById('emotionWord');
   const emotionColorBarTop = document.getElementById('emotionColorBarTop');
   const emotionColorBarBottom = document.getElementById('emotionColorBarBottom');
+  const emotionColorCircle = document.getElementById('emotionColorCircle');
 
   const imageNumber = String(questionImageNumber).padStart(3, '0');
   if (questionImage) {
@@ -499,6 +500,9 @@ function initCorrectPage() {
     }
     if (emotionColorBarBottom) {
       emotionColorBarBottom.style.background = currentItem.color;
+    }
+    if (emotionColorCircle) {
+      emotionColorCircle.style.backgroundColor = currentItem.color;
     }
 
     const metaBox = document.querySelector('.correct-item-meta');

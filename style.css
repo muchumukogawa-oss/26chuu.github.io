@@ -978,6 +978,15 @@ body.play-page .next {
   background: #232323;
 }
 
+.emotion-color-circle {
+  display: block;
+  flex: 0 0 100px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #232323;
+}
+
 /* ==========================
   fin.html
   ========================== */
