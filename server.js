@@ -59,7 +59,8 @@ function buildCsvRow(entry) {
     entry['キャンセル色'],
     entry['解答時間'],
     entry['イベント履歴'],
-    entry['評価']
+    entry['評価1'],
+    entry['評価2']
   ];
   return values.map((value) => escapeCsvValue(value)).join(',');
 }

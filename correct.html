@@ -14,9 +14,6 @@
 
       <div id="correctEmotionSummary" class="correct-emotion-summary">
         <div class="correct-item-meta">
-          <div class="correct-item-visual">
-            <img id="questionImage" alt="問題画像" />
-          </div>
           <div id="emotionNumberLabel" class="emotion-number-label"></div>
           <div class="emotion-word-block">
             <span id="emotionColorBarTop" class="emotion-color-divider" aria-hidden="true"></span>
@@ -27,9 +24,35 @@
         </div>
       </div>
       <p>縦にスクロールすることができます</p>
-
+      <!-- 評価2 -->
+      <div class="rating-group" role="radiogroup" aria-label="評価2の選択">
+        <h2 style="text-align: center; margin: 0; width: 100%">評価②</h2>
+        <p style="margin: 0 0 8px; text-align: center; width: 100%">色と感情語が合っていましたか？</p>
+        <div class="rating-scale-labels">
+          <span>合っていない</span>
+          <span>合っている</span>
+        </div>
+        <div class="rating-options">
+          <label class="rating-option">
+            <span class="rating-label">1</span>
+            <input type="radio" name="situation-rating" value="1" />
+          </label>
+          <label class="rating-option">
+            <span class="rating-label">2</span>
+            <input type="radio" name="situation-rating" value="2" />
+          </label>
+          <label class="rating-option">
+            <span class="rating-label">3</span>
+            <input type="radio" name="situation-rating" value="3" />
+          </label>
+          <label class="rating-option">
+            <span class="rating-label">4</span>
+            <input type="radio" name="situation-rating" value="4" />
+          </label>
+        </div>
+      </div>
       <a id="nextQuestionLink" href="ques.html"
-        ><button class="custom-btn">
+        ><button id="reviewNextBtn" class="custom-btn" disabled>
           <span class="btn-text">次の問題へ</span>
         </button></a
       >
