@@ -225,6 +225,14 @@ function getElapsedTimeSeconds() {
 const QUESTION_PROGRESS_KEY = 'questionProgress';
 const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
 const MAX_QUESTION_COUNT = 16;
+const QUESTION_PATTERN_NUMBERS = {
+  A: '000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015',
+  B: '016,017,018,019,020,021,022,023,024,100,101,102,103,104,105,106',
+  C: '107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122',
+  D: '123,124,200,201,202,203,204,205,206,207,208,209,210,211,212,213',
+  E: '214,215,216,217,218,219,220,221,222,223,224,300,301,302,303,304',
+  F: '305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320'
+};
 
 // スタート画面のボタン処理を初期化する。
 function initIndexPage() {
@@ -279,16 +287,16 @@ function initIdPage() {
 
   const updateConfirmButton = () => {
     const value = nicknameInput.value.trim();
-    const enabled = /^[A-Za-z0-9]+$/.test(value);
+    const enabled = /^[A-F][A-Za-z0-9]*$/i.test(value);
 
     confirmBtn.disabled = !enabled;
     confirmBtn.style.opacity = enabled ? '1' : '0.5';
     confirmBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
 
     if (!value) {
-      setStatus('IDを入力すると、次へ進めます。');
+      setStatus('IDの先頭をA〜Fにして入力してください。');
     } else if (!enabled) {
-      setStatus('IDは半角英数字で入力してください。');
+      setStatus('IDの先頭はA〜Fにしてください（以降は半角英数字）。');
     }
   };
 
@@ -296,8 +304,8 @@ function initIdPage() {
 
   confirmBtn.addEventListener('click', () => {
     const value = nicknameInput.value.trim();
-    if (!/^[A-Za-z0-9]+$/.test(value)) {
-      setStatus('IDを半角英数字で入力してください。');
+    if (!/^[A-F][A-Za-z0-9]*$/i.test(value)) {
+      setStatus('IDの先頭はA〜Fにしてください（以降は半角英数字）。');
       return;
     }
 
@@ -366,6 +374,12 @@ function bindOneShotButtonClick(button, onPlay, { resetOnError = false } = {}) {
 function initQuestionPage() {
   if (!isMoviePage) return;
 
+  const questionPattern = QUESTION_PATTERN_NUMBERS[getNickname().charAt(0).toUpperCase()];
+  if (!questionPattern) {
+    window.location.replace('id.html');
+    return;
+  }
+
   const currentProgress = getQuestionProgress();
   if (currentProgress >= MAX_QUESTION_COUNT) {
     window.location.replace('fin.html');
@@ -414,12 +428,7 @@ function initQuestionPage() {
     sessionStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
   }
 
-  const allQuestionFiles = [
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 100).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 200).padStart(3, '0')}.jpg`),
-    ...Array.from({ length: 25 }, (_, index) => `Q${String(index + 300).padStart(3, '0')}.jpg`)
-  ];
+  const allQuestionFiles = questionPattern.split(',').map((number) => `Q${number}.jpg`);
 
   let usedImages = getUsedQuestionImages();
   let availableImages = allQuestionFiles.filter(
