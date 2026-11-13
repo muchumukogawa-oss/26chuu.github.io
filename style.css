@@ -892,6 +892,11 @@ body.play-page .next {
   justify-content: flex-start;
 }
 
+.next-question-status {
+  margin: 14px 0 0;
+  color: var(--soft-gray);
+}
+
 .correct-emotion-summary {
   display: flex;
   justify-content: center;

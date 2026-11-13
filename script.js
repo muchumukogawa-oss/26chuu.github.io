@@ -667,6 +667,7 @@ function initResultPage() {
   if (!isResultPage && !isCorrectPage) return;
 
   const reviewNextBtn = document.getElementById('reviewNextBtn');
+  const nextQuestionStatus = document.getElementById('nextQuestionStatus');
   const ratingInputs = document.querySelectorAll('input[name="situation-rating"]');
 
   const updateReviewNextButton = () => {
@@ -706,6 +707,10 @@ function initResultPage() {
       }
 
       reviewNextBtn.disabled = true;
+      if (isCorrectPage && nextQuestionStatus) {
+        nextQuestionStatus.hidden = false;
+        await new Promise((resolve) => window.requestAnimationFrame(resolve));
+      }
       try {
         await flushQuestionLog({
           evaluation,
@@ -715,6 +720,7 @@ function initResultPage() {
       } catch (error) {
         console.error('ログ送信に失敗しました:', error);
         window.alert('ログを送信できませんでした。通信を確認して、もう一度お試しください。');
+        if (nextQuestionStatus) nextQuestionStatus.hidden = true;
         updateReviewNextButton();
         return;
       }
