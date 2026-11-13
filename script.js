@@ -279,7 +279,7 @@ function initIdPage() {
 
   const updateConfirmButton = () => {
     const value = nicknameInput.value.trim();
-    const enabled = /^\d+$/.test(value);
+    const enabled = /^[A-Za-z0-9]+$/.test(value);
 
     confirmBtn.disabled = !enabled;
     confirmBtn.style.opacity = enabled ? '1' : '0.5';
@@ -288,7 +288,7 @@ function initIdPage() {
     if (!value) {
       setStatus('IDを入力すると、次へ進めます。');
     } else if (!enabled) {
-      setStatus('IDは半角数字で入力してください。');
+      setStatus('IDは半角英数字で入力してください。');
     }
   };
 
@@ -296,8 +296,8 @@ function initIdPage() {
 
   confirmBtn.addEventListener('click', () => {
     const value = nicknameInput.value.trim();
-    if (!/^\d+$/.test(value)) {
-      setStatus('IDを半角数字で入力してください。');
+    if (!/^[A-Za-z0-9]+$/.test(value)) {
+      setStatus('IDを半角英数字で入力してください。');
       return;
     }
 

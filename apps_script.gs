@@ -7,8 +7,8 @@ function doPost(e) {
     lockAcquired = true;
     const entry = JSON.parse(e.postData.contents);
     const participantNumber = String(entry.nickname ?? '').trim();
-    if (!/^\d+$/.test(participantNumber)) {
-      throw new Error('参加者番号は半角数字で入力してください。');
+    if (!/^[A-Za-z0-9]+$/.test(participantNumber)) {
+      throw new Error('IDは半角英数字で入力してください。');
     }
 
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
