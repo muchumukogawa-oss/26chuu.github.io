@@ -235,7 +235,7 @@ function getElapsedTimeSeconds() {
 // スタート画面の初期化処理。
 // 「はじめる」ボタンがあれば、クリックで ID入力画面へ遷移させる。
 const QUESTION_PROGRESS_KEY = 'questionProgress';
-const USED_QUESTION_IMAGES_KEY = 'usedQuestionImages';
+const QUESTION_ORDER_KEY = 'questionOrder';
 const MAX_QUESTION_COUNT = 16;
 const QUESTION_PATTERN_NUMBERS = {
   A: '000,001,002,003,004,005,006,007,008,009,010,011,012,013,014,015',
@@ -323,7 +323,7 @@ function initIdPage() {
 
     localStorage.setItem('nickname', value);
     sessionStorage.setItem(QUESTION_PROGRESS_KEY, '0');
-    sessionStorage.removeItem(USED_QUESTION_IMAGES_KEY);
+    sessionStorage.removeItem(QUESTION_ORDER_KEY);
     setStatus(`「${value}」で入力しました。次のページへ進みます...`);
 
     window.setTimeout(() => {
@@ -336,6 +336,30 @@ function initIdPage() {
 /* ==========================
   play.html
   ========================== */
+function initPlayPage() {
+  if (!window.location.pathname.endsWith('play.html')) return;
+
+  const nextBtn = document.getElementById('nextBtn');
+  if (!nextBtn) return;
+
+  nextBtn.addEventListener('click', () => {
+    const group = getNickname().charAt(0).toUpperCase();
+    const questionNumbers = QUESTION_PATTERN_NUMBERS[group]?.split(',');
+    if (!questionNumbers) {
+      console.error('IDに対応する問題グループがありません。');
+      return;
+    }
+
+    const shuffledNumbers = [...questionNumbers];
+    for (let index = shuffledNumbers.length - 1; index > 0; index -= 1) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [shuffledNumbers[index], shuffledNumbers[randomIndex]] = [shuffledNumbers[randomIndex], shuffledNumbers[index]];
+    }
+
+    sessionStorage.setItem(QUESTION_ORDER_KEY, JSON.stringify(shuffledNumbers));
+  });
+}
+
 const movieVideo = document.getElementById('movieVideo');
 const playMovieBtn = document.getElementById('playMovieBtn');
 const isCorrectPage = window.location.pathname.endsWith('correct.html');
@@ -382,26 +406,54 @@ function bindOneShotButtonClick(button, onPlay, { resetOnError = false } = {}) {
   ques.html
   ========================== */
 // 問題表示画面の初期化処理。
-// 進捗状況から現在の問題番号を決め、1問ごとにランダムな問題画像を選んで表示する。
+// 保存されたランダム順と進捗状況から問題画像を順番に表示する。
 function initQuestionPage() {
   if (!isMoviePage) return;
 
-  const questionPattern = QUESTION_PATTERN_NUMBERS[getNickname().charAt(0).toUpperCase()];
-  if (!questionPattern) {
+  const questionNumbers = QUESTION_PATTERN_NUMBERS[getNickname().charAt(0).toUpperCase()]?.split(',');
+  if (!questionNumbers) {
     window.location.replace('id.html');
     return;
   }
 
+  let questionOrder;
+  try {
+    questionOrder = JSON.parse(sessionStorage.getItem(QUESTION_ORDER_KEY) || 'null');
+  } catch {
+    questionOrder = null;
+  }
+  const hasValidOrder =
+    Array.isArray(questionOrder) &&
+    questionOrder.length === questionNumbers.length &&
+    new Set(questionOrder).size === questionNumbers.length &&
+    questionOrder.every((number) => questionNumbers.includes(number));
+  if (!hasValidOrder) {
+    window.location.replace('play.html');
+    return;
+  }
+
   const currentProgress = getQuestionProgress();
+  if (currentProgress === 0) {
+    const group = getNickname().charAt(0).toUpperCase();
+    console.log(`問題画像のランダム順（グループ ${group}）:`);
+    console.table(
+      questionOrder.map((number, index) => ({
+        順番: index + 1,
+        問題番号: number,
+        画像: `Q${number}.jpg`
+      }))
+    );
+  }
+
   if (currentProgress >= MAX_QUESTION_COUNT) {
     window.location.replace('fin.html');
     return;
   }
 
-  const questionNumber = advanceQuestionProgress();
+  const questionOrdinal = advanceQuestionProgress();
 
   if (questionNumberLabel) {
-    questionNumberLabel.textContent = String(questionNumber);
+    questionNumberLabel.textContent = String(questionOrdinal);
   }
 
   if (areaSelectLink) {
@@ -415,56 +467,14 @@ function initQuestionPage() {
   if (!questionImage || !playMovieBtn) return;
 
   const QUESTION_DIR = 'img/question';
-
-  // 画像名の大文字小文字差を吸収する。
-  function normalizeQuestionImageName(value) {
-    return String(value).toLowerCase();
-  }
-
-  // 使用済み問題画像の一覧を取得する。
-  function getUsedQuestionImages() {
-    try {
-      const raw = sessionStorage.getItem(USED_QUESTION_IMAGES_KEY);
-      if (!raw) return [];
-      const parsed = JSON.parse(raw);
-      return Array.isArray(parsed)
-        ? parsed.filter((value) => typeof value === 'string').map(normalizeQuestionImageName)
-        : [];
-    } catch {
-      return [];
-    }
-  }
-
-  // 使用済み問題画像を保存する。
-  function saveUsedQuestionImages(list) {
-    sessionStorage.setItem(USED_QUESTION_IMAGES_KEY, JSON.stringify(list.map(normalizeQuestionImageName)));
-  }
-
-  const allQuestionFiles = questionPattern.split(',').map((number) => `Q${number}.jpg`);
-
-  let usedImages = getUsedQuestionImages();
-  let availableImages = allQuestionFiles.filter(
-    (filename) => !usedImages.includes(normalizeQuestionImageName(filename))
-  );
-
-  if (availableImages.length === 0) {
-    usedImages = [];
-    availableImages = allQuestionFiles;
-    saveUsedQuestionImages([]);
-  }
-
-  const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
-  const questionImageNumber = randomImage.match(/\d+/)?.[0];
+  const questionImageNumber = questionOrder[questionOrdinal - 1];
   if (!questionImageNumber) {
-    throw new Error('対応する問題画像が見つかりません');
+    throw new Error(`第${questionOrdinal}問に対応する問題番号が見つかりません`);
   }
-
-  usedImages = [...usedImages, randomImage];
-  saveUsedQuestionImages(usedImages);
 
   sessionStorage.setItem(QUESTION_IMAGE_NUMBER_KEY, questionImageNumber);
   setCurrentProblemNumber(questionImageNumber);
-  questionImage.src = `${QUESTION_DIR}/${randomImage}`;
+  questionImage.src = `${QUESTION_DIR}/Q${questionImageNumber}.jpg`;
 
   bindOneShotButtonClick(playMovieBtn, () => {
     setAnswerStartTime(Date.now());
@@ -1652,6 +1662,7 @@ function initResultPage() {
 
 initIndexPage();
 initIdPage();
+initPlayPage();
 initQuestionPage();
 initResultPage();
 initCorrectPage();
