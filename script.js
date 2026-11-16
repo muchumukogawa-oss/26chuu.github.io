@@ -29,7 +29,10 @@ function getQuestionLogState() {
       candidate_colors: [],
       cancelled_colors: [],
       event_history: [],
-      evaluation: ''
+      evaluation: '',
+      evaluation1: '',
+      evaluation2: '',
+      evaluation3: ''
     };
   }
 
@@ -43,7 +46,10 @@ function getQuestionLogState() {
       candidate_colors: [],
       cancelled_colors: [],
       event_history: [],
-      evaluation: ''
+      evaluation: '',
+      evaluation1: '',
+      evaluation2: '',
+      evaluation3: ''
     };
   }
 }
@@ -102,6 +108,11 @@ function getSelectedRatingValue() {
   return document.querySelector('input[name="situation-rating"]:checked')?.value ?? '';
 }
 
+// 評価1の選択値を取得する。
+function getSelectedEmotionMatchRatingValue() {
+  return document.querySelector('input[name="emotion-match-rating"]:checked')?.value ?? '';
+}
+
 // カラーコードを意味カタログの番号に変換する。
 function getMeaningNumberForColor(color, area) {
   if (!color || meaningCatalogForLogging.length === 0) return color;
@@ -145,7 +156,8 @@ function buildQuestionLogEntry(extra = {}) {
     timestamp: toJstIsoString(),
     evaluation: evaluationValue,
     evaluation1: extra.evaluation1 ?? state.evaluation1 ?? '',
-    evaluation2: extra.evaluation2 ?? state.evaluation2 ?? ''
+    evaluation2: extra.evaluation2 ?? state.evaluation2 ?? '',
+    evaluation3: extra.evaluation3 ?? state.evaluation3 ?? ''
   };
 }
 
@@ -669,6 +681,7 @@ function initResultPage() {
   const reviewNextBtn = document.getElementById('reviewNextBtn');
   const nextQuestionStatus = document.getElementById('nextQuestionStatus');
   const ratingInputs = document.querySelectorAll('input[name="situation-rating"]');
+  const emotionMatchRatingInputs = document.querySelectorAll('input[name="emotion-match-rating"]');
 
   const updateReviewNextButton = () => {
     const hasSelection = Array.from(ratingInputs).some((input) => input.checked);
@@ -685,6 +698,13 @@ function initResultPage() {
     ratingInputs.forEach((input) => {
       input.addEventListener('change', updateReviewNextButton);
     });
+    emotionMatchRatingInputs.forEach((input) => {
+      input.addEventListener('change', () => {
+        const state = getQuestionLogState();
+        state.evaluation1 = getSelectedEmotionMatchRatingValue();
+        saveQuestionLogState(state);
+      });
+    });
 
     reviewNextBtn.setAttribute('aria-label', '次へ');
     reviewNextBtn.addEventListener('click', async (event) => {
@@ -692,7 +712,7 @@ function initResultPage() {
       if (reviewNextBtn.disabled) return;
 
       const evaluation = getSelectedRatingValue();
-      const evaluationField = isCorrectPage ? 'evaluation2' : 'evaluation1';
+      const evaluationField = isCorrectPage ? 'evaluation3' : 'evaluation2';
       addQuestionEvent('review_next', {
         color: getSelectedColor() || '',
         [evaluationField]: evaluation
@@ -700,12 +720,16 @@ function initResultPage() {
 
       if (!isCorrectPage) {
         const state = getQuestionLogState();
-        state.evaluation1 = evaluation;
+        state.evaluation1 = getSelectedEmotionMatchRatingValue() || state.evaluation1 || '';
+        state.evaluation2 = evaluation;
         saveQuestionLogState(state);
         window.location.href = 'correct.html';
         return;
       }
 
+      const state = getQuestionLogState();
+      state.evaluation3 = evaluation;
+      saveQuestionLogState(state);
       reviewNextBtn.disabled = true;
       if (isCorrectPage && nextQuestionStatus) {
         nextQuestionStatus.hidden = false;
@@ -713,9 +737,9 @@ function initResultPage() {
       }
       try {
         await flushQuestionLog({
-          evaluation,
-          evaluation1: getQuestionLogState().evaluation1 ?? '',
-          evaluation2: evaluation
+          evaluation1: state.evaluation1 ?? '',
+          evaluation2: state.evaluation2 ?? '',
+          evaluation3: evaluation
         });
       } catch (error) {
         console.error('ログ送信に失敗しました:', error);

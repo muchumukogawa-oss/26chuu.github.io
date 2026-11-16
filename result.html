@@ -17,14 +17,26 @@
       </div>
       <div id="resultDisplay">
         <div id="selectedWord"></div>
+        <!-- 評価1 -->
+        <div class="rating-group emotion-match-rating" role="radiogroup" aria-label="評価1の選択">
+          <h2 style="text-align: center; margin: 0; width: 100%">評価①</h2>
+          <p style="margin: 0 0 8px; text-align: center; width: 100%">
+            考えていた感情語と表示された感情語が一致していましたか？
+          </p>
+          <label><input type="radio" name="emotion-match-rating" value="一致していた" />一致していた</label>
+          <label><input type="radio" name="emotion-match-rating" value="似た意味だった" />似た意味だった</label>
+          <label>
+            <input type="radio" name="emotion-match-rating" value="一致していなかった" />一致していなかった
+          </label>
+        </div>
         <div id="photo">
           <img id="main" alt="語彙の意味" />
         </div>
       </div>
-      <!-- 評価1 -->
-      <div class="rating-group" role="radiogroup" aria-label="評価1の選択">
-        <h2 style="text-align: center; margin: 0; width: 100%">評価①</h2>
-        <p style="margin: 0 0 8px; text-align: center; width: 100%">色と感情語が合っていましたか？</p>
+      <!-- 評価2 -->
+      <div class="rating-group" role="radiogroup" aria-label="評価2の選択">
+        <h2 style="text-align: center; margin: 0; width: 100%">評価②</h2>
+        <p style="margin: 0 0 8px; text-align: center; width: 100%">表示された色と感情語が一致していましたか？</p>
         <div class="rating-scale-labels">
           <span>合っていない</span>
           <span>合っている</span>

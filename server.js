@@ -1,8 +1,30 @@
 const port = Number(Deno.env.get('PORT') || '3000');
 const rootDir = Deno.cwd();
 const csvPath = `${rootDir}/demo_v2.csv`;
-const legacyCsvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価\n';
-const csvHeader = 'ID,問題番号,選択した色,候補色,キャンセル色,解答時間,イベント履歴,評価1,評価2\n';
+const csvColumns = ['ID', '問題番号', '選択した色', '候補色', 'キャンセル色', '解答時間', '評価1', '評価2', '評価3', 'イベント履歴'];
+const csvHeader = `${csvColumns.join(',')}\n`;
+
+function parseCsvRow(line) {
+  const values = [];
+  let value = '';
+  let inQuotes = false;
+  for (let index = 0; index < line.length; index += 1) {
+    const character = line[index];
+    if (character === '"' && inQuotes && line[index + 1] === '"') {
+      value += '"';
+      index += 1;
+    } else if (character === '"') {
+      inQuotes = !inQuotes;
+    } else if (character === ',' && !inQuotes) {
+      values.push(value);
+      value = '';
+    } else {
+      value += character;
+    }
+  }
+  values.push(value);
+  return values;
+}
 
 function ensureCsvFile() {
   try {
@@ -15,8 +37,20 @@ function ensureCsvFile() {
   const existing = Deno.readTextFileSync(csvPath, { encoding: 'utf-8' });
   if (!existing.trim()) {
     Deno.writeTextFileSync(csvPath, csvHeader, { encoding: 'utf-8' });
-  } else if (existing.startsWith(legacyCsvHeader)) {
-    Deno.writeTextFileSync(csvPath, `${csvHeader}${existing.slice(legacyCsvHeader.length)}`, { encoding: 'utf-8' });
+  } else if (!existing.startsWith(csvHeader)) {
+    const lines = existing.trimEnd().split(/\r?\n/);
+    const existingColumns = parseCsvRow(lines[0]).map((column) => column === '評価' ? '評価1' : column);
+    const migratedRows = lines.slice(1).map((line) => {
+      const row = parseCsvRow(line);
+      const values = csvColumns.map((column) => {
+        const sourceIndex = existingColumns.indexOf(column);
+        return sourceIndex >= 0 ? row[sourceIndex] ?? '' : '';
+      });
+      return values.map(escapeCsvValue).join(',');
+    });
+    Deno.writeTextFileSync(csvPath, `${csvHeader}${migratedRows.join('\n')}${migratedRows.length ? '\n' : ''}`, {
+      encoding: 'utf-8'
+    });
   }
 }
 
@@ -36,6 +70,7 @@ function normalizeEntry(entry) {
     : (entry.event_history ?? '[]');
   const evaluation1 = entry.evaluation1 ?? entry.evaluation ?? entry['評価1'] ?? entry['評価'] ?? '';
   const evaluation2 = entry.evaluation2 ?? entry['評価2'] ?? '';
+  const evaluation3 = entry.evaluation3 ?? entry['評価3'] ?? '';
 
   return {
     ID: personName,
@@ -46,7 +81,8 @@ function normalizeEntry(entry) {
     解答時間: answerTime,
     イベント履歴: eventHistory,
     評価1: evaluation1,
-    評価2: evaluation2
+    評価2: evaluation2,
+    評価3: evaluation3
   };
 }
 
@@ -63,9 +99,10 @@ function buildCsvRow(entry) {
     entry['候補色'],
     entry['キャンセル色'],
     entry['解答時間'],
-    entry['イベント履歴'],
     entry['評価1'],
-    entry['評価2']
+    entry['評価2'],
+    entry['評価3'],
+    entry['イベント履歴']
   ];
   return values.map((value) => escapeCsvValue(value)).join(',');
 }

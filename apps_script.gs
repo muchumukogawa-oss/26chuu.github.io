@@ -17,16 +17,41 @@ function doPost(e) {
     }
 
     const sheet = spreadsheet.getSheetByName('回答ログ') || spreadsheet.insertSheet('回答ログ');
+    const headers = [
+      'ID',
+      '問題番号',
+      '選択した色',
+      '候補色',
+      'キャンセル色',
+      '解答時間',
+      '評価1',
+      '評価2',
+      '評価3',
+      'イベント履歴'
+    ];
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['ID', '問題番号', '選択した色', '候補色', 'キャンセル色', '解答時間', 'イベント履歴', '評価1', '評価2']);
+      sheet.appendRow(headers);
     } else {
-      const headers = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), 8)).getValues()[0];
-      if (headers[7] === '評価') {
-        sheet.getRange(1, 8).setValue('評価1');
+      const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), headers.length)).getValues()[0];
+      const existingRows = sheet.getLastRow() > 1
+        ? sheet.getRange(2, 1, sheet.getLastRow() - 1, existingHeaders.length).getValues()
+        : [];
+      const columnAliases = { 評価: '評価1' };
+      if (headers.some((header, index) => {
+        const currentHeader = columnAliases[existingHeaders[index]] || existingHeaders[index];
+        return currentHeader !== header;
+      })) {
+        const reorderedRows = existingRows.map((row) =>
+          headers.map((header) => {
+            const sourceIndex = existingHeaders.findIndex((value) => (columnAliases[value] || value) === header);
+            return sourceIndex >= 0 ? row[sourceIndex] : '';
+          })
+        );
+        if (reorderedRows.length > 0) {
+          sheet.getRange(2, 1, reorderedRows.length, headers.length).setValues(reorderedRows);
+        }
       }
-      if (headers[8] !== '評価2') {
-        sheet.getRange(1, 9).setValue('評価2');
-      }
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     }
 
     sheet.appendRow([
@@ -36,19 +61,18 @@ function doPost(e) {
       JSON.stringify(entry.candidate_colors ?? []),
       JSON.stringify(entry.cancelled_colors ?? []),
       entry.answer_time_sec ?? '',
-      JSON.stringify(entry.event_history ?? []),
       entry.evaluation1 ?? entry.evaluation ?? '',
-      entry.evaluation2 ?? ''
+      entry.evaluation2 ?? '',
+      entry.evaluation3 ?? '',
+      JSON.stringify(entry.event_history ?? [])
     ]);
 
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: true }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
     console.error(error);
-    return ContentService
-      .createTextOutput(JSON.stringify({ ok: false, error: error.message }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: error.message })).setMimeType(
+      ContentService.MimeType.JSON
+    );
   } finally {
     if (lockAcquired) {
       lock.releaseLock();

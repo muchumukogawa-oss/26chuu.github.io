@@ -839,6 +839,20 @@ body.play-page .next {
   box-sizing: border-box;
 }
 
+.emotion-match-rating > label {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+}
+
+.emotion-match-rating input[type='radio'] {
+  flex: 0 0 auto;
+  margin: 0 8px 0 0;
+}
+
 .rating-options {
   display: flex;
   flex-direction: row;
