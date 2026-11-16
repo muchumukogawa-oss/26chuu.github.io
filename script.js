@@ -705,6 +705,7 @@ function initResultPage() {
         const state = getQuestionLogState();
         state.evaluation1 = getSelectedEmotionMatchRatingValue();
         saveQuestionLogState(state);
+        addQuestionEvent('evaluation1_select', { evaluation1: state.evaluation1 });
         updateReviewNextButton();
       });
     });
