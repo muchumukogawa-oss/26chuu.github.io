@@ -31,27 +31,6 @@ function doPost(e) {
     ];
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(headers);
-    } else {
-      const existingHeaders = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), headers.length)).getValues()[0];
-      const existingRows = sheet.getLastRow() > 1
-        ? sheet.getRange(2, 1, sheet.getLastRow() - 1, existingHeaders.length).getValues()
-        : [];
-      const columnAliases = { 評価: '評価1' };
-      if (headers.some((header, index) => {
-        const currentHeader = columnAliases[existingHeaders[index]] || existingHeaders[index];
-        return currentHeader !== header;
-      })) {
-        const reorderedRows = existingRows.map((row) =>
-          headers.map((header) => {
-            const sourceIndex = existingHeaders.findIndex((value) => (columnAliases[value] || value) === header);
-            return sourceIndex >= 0 ? row[sourceIndex] : '';
-          })
-        );
-        if (reorderedRows.length > 0) {
-          sheet.getRange(2, 1, reorderedRows.length, headers.length).setValues(reorderedRows);
-        }
-      }
-      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
     }
 
     sheet.appendRow([
@@ -61,7 +40,7 @@ function doPost(e) {
       JSON.stringify(entry.candidate_colors ?? []),
       JSON.stringify(entry.cancelled_colors ?? []),
       entry.answer_time_sec ?? '',
-      entry.evaluation1 ?? entry.evaluation ?? '',
+      entry.evaluation1 ?? '',
       entry.evaluation2 ?? '',
       entry.evaluation3 ?? '',
       JSON.stringify(entry.event_history ?? [])

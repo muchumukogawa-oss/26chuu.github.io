@@ -684,7 +684,9 @@ function initResultPage() {
   const emotionMatchRatingInputs = document.querySelectorAll('input[name="emotion-match-rating"]');
 
   const updateReviewNextButton = () => {
-    const hasSelection = Array.from(ratingInputs).some((input) => input.checked);
+    const hasRatingSelection = Array.from(ratingInputs).some((input) => input.checked);
+    const hasEmotionMatchSelection = Array.from(emotionMatchRatingInputs).some((input) => input.checked);
+    const hasSelection = hasRatingSelection && (!isResultPage || hasEmotionMatchSelection);
     if (!reviewNextBtn) return;
 
     reviewNextBtn.disabled = !hasSelection;
@@ -703,6 +705,7 @@ function initResultPage() {
         const state = getQuestionLogState();
         state.evaluation1 = getSelectedEmotionMatchRatingValue();
         saveQuestionLogState(state);
+        updateReviewNextButton();
       });
     });
 
