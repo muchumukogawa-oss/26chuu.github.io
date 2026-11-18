@@ -243,7 +243,7 @@ const QUESTION_PATTERN_NUMBERS = {
   C: '012,006,007,009,103,107,108,109,200,206,207,208,303,306,307,308',
   D: '012,013,014,015,103,113,114,115,200,212,213,214,303,312,313,314',
   E: '012,008,016,018,103,116,117,118,200,215,216,217,303,315,317,318',
-  F: '321,321,321,321,321,321,321,321,321,321,321,321,3321,321,321,321'
+  F: '321,321,321,321,321,321,321,321,321,321,321,321,321,321,321,321'
 }; //1周目問題リスト
 
 // スタート画面のボタン処理を初期化する。
@@ -422,11 +422,12 @@ function initQuestionPage() {
   } catch {
     questionOrder = null;
   }
+  // --- 仮の変更: 重複を許可する（後で必ず削除） ---
   const hasValidOrder =
     Array.isArray(questionOrder) &&
     questionOrder.length === questionNumbers.length &&
-    new Set(questionOrder).size === questionNumbers.length &&
     questionOrder.every((number) => questionNumbers.includes(number));
+  // --- 仮の変更ここまで ---
   if (!hasValidOrder) {
     window.location.replace('play.html');
     return;
