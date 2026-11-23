@@ -422,12 +422,11 @@ function initQuestionPage() {
   } catch {
     questionOrder = null;
   }
-  // --- 仮の変更: 重複を許可する（後で必ず削除） ---
   const hasValidOrder =
     Array.isArray(questionOrder) &&
     questionOrder.length === questionNumbers.length &&
+    new Set(questionOrder).size === questionNumbers.length &&
     questionOrder.every((number) => questionNumbers.includes(number));
-  // --- 仮の変更ここまで ---
   if (!hasValidOrder) {
     window.location.replace('play.html');
     return;
