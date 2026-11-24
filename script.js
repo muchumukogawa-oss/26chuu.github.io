@@ -447,7 +447,9 @@ function initQuestionPage() {
   const hasValidOrder =
     Array.isArray(questionOrder) &&
     questionOrder.length === questionNumbers.length &&
+    // 問題重複を許可する場合以下、コメントアウト
     new Set(questionOrder).size === questionNumbers.length &&
+    // ここまで
     questionOrder.every((number) => questionNumbers.includes(number));
   if (!hasValidOrder) {
     window.location.replace('play.html');
